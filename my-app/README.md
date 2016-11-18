@@ -24,8 +24,7 @@ $ npm start
 $ npm run build
 ```
 
-更多说明请参考 [http://ui.baifendian.com/scaffolding](http://ui.baifendian.com/scaffolding)
 
 ---
 
-Powered by [百分点前端脚手架](http://ui.baifendian.com/scaffolding)
+
