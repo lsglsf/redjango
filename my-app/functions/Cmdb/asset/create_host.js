@@ -184,6 +184,12 @@ class Create_asset extends Component{
         <FormItem label="端口" required name="port" help="5个字符以内">
           <FormInput />
         </FormItem>
+        <FormItem label="用户名" required name="username" help="5个字符以内">
+          <FormInput />
+        </FormItem>
+        <FormItem label="密码" required name="password" help="5个字符以内">
+          <FormInput type='password'/>
+        </FormItem>
         {/*<FormItem label="所属主机组" name="group">
           <FormSelect>
             <Option>请选择</Option>

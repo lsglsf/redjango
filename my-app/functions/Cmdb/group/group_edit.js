@@ -24,6 +24,7 @@ class Put_group extends Component{
       formData: {
         brand: 0,
         type: 'group_update',
+        newarray:[],
       },
       sourceData: [],
       targetData: [],
@@ -36,6 +37,7 @@ class Put_group extends Component{
     let _this=this
     let id = this.props.item['id']
     let formData=this.state.formData
+    let newarray = new Array()
     formData['id']=this.props.item['id']
     formData['name']=this.props.item['name']
     formData['desc']=this.props.item['comment']
@@ -47,6 +49,10 @@ class Put_group extends Component{
       success(data) {
         let newData=(data['data']['tdata'])
         _this.setState({sourceData:data['data']['sdata'],targetData:data['data']['tdata'],newData})
+        for (var i in data['data']['tdata']){
+          newarray.push(data['data']['tdata'][i]['id'])
+        }
+        formData['newarray']=newarray
       }
     })
     this.setState({formData})
@@ -55,7 +61,7 @@ class Put_group extends Component{
 
   handleSuccess(res) {
     this.handleclose()
-    //this.props.getdata()
+    this.props.getdata()
     if (res['status']==true){
       message.success('更新成功!')
     }else{

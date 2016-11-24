@@ -46,6 +46,13 @@ export default render((
           })
         }} />
       </Route>
+      <Route path="Service">
+        <Route path="register" getComponent={(location, cb) => {
+          require.ensure([], require => {
+          cb(null, require('./functions/service/register').default)
+          })
+        }} />
+      </Route>
       <Route path="login" getComponent={(location, cb) => {
         require.ensure([], require => {
           cb(null, require('./functions/Login').default)

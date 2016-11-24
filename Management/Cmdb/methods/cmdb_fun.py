@@ -10,10 +10,8 @@ from django.http import HttpResponse
 from django.template import loader, Context, RequestContext
 from django.http import Http404
 from rest_framework.views import APIView
-from common import Mysql_op
 from Cmdb.models import AssetGroup,Asset,ASSET_ENV,ASSET_STATUS,ASSET_TYPE
 import logging
-Assetobj=Mysql_op(AssetGroup)
 
 Cmdb_log = logging.getLogger("Cmdb_log")
 
@@ -111,6 +109,7 @@ def group_update(request):
         except:
             delete_d.append(data)
     try:
+        AssetGroup.objects.filter(id=request.POST.get('id')).update(name=request.POST.get('name'),comment=request.POST.get('desc'))
         if len(ddata)>0:
             for ddata_id in ddata:
                 Asset.objects.get(id=ddata_id).group.add(AssetGroup.objects.get(id=request.POST.get('id')))
@@ -119,7 +118,11 @@ def group_update(request):
                 Asset.objects.get(id=delete_id).group.remove(AssetGroup.objects.get(id=request.POST.get('id')))
         ret['status'] = True
     except Exception as e:
-        ret['status'] = e[1]
+        print e
+        try:
+            ret['status'] = e[1]
+        except:
+            ret['status'] = e
         s = traceback.format_exc()
         Cmdb_log.error('{0}'.format(s))
     return ret
@@ -159,7 +162,6 @@ def assetpost(request):
     try:
         #assetgroup=AssetGroup.objects.get(id=request.POST.get('group'))
         print request.POST
-
         ip=request.POST.get('ip')
         insert_asset=Asset.objects.create(ip=ip,
                                           other_ip=request.POST.get('other_ip'),
@@ -170,9 +172,11 @@ def assetpost(request):
                                           system_version=request.POST.get('sys_version'),
                                           status=request.POST.get('host_status'),
                                           asset_type=request.POST.get('host_type'),
-                                          env=request.POST.get('run_env')
+                                          env=request.POST.get('run_env'),
+                                          comment=request.POST.get('desc'),
+                                          username=request.POST.get('username'),
+                                          password=request.POST.get('password'),
                                           )
-
         insert_asset.save()
         if json.loads(request.POST.get('group')):
             for group_id in json.loads(request.POST.get('group')):
@@ -184,6 +188,61 @@ def assetpost(request):
         Cmdb_log.error('{0}-{1}'.format('asset插入数据',s))
     return ret
 
+def asset_update(request):
+    ret={}
+    try:
+        group_id = request.POST.get('group_id',None)
+        Asset.objects.filter(id=request.POST.get('id')).update(
+            ip=request.POST.get('ip'),
+            other_ip=request.POST.get('other_ip'),
+            hostname=request.POST.get('name'),
+            port=request.POST.get('port'),
+            # group=AssetGroup.objects.filter(name=request.POST.get('group')),
+            username=request.POST.get('username'),
+            password=request.POST.get('password'),
+            system_type=request.POST.get('sys_name'),
+            system_version=request.POST.get('sys_version'),
+            status=request.POST.get('host_status'),
+            asset_type=request.POST.get('host_type'),
+            env=request.POST.get('run_env'),
+            comment=request.POST.get('desc',None)
+        )
+        asset_id=request.POST.get('id')
+        group_list=[ i.id for i in Asset.objects.get(id=asset_id).group.all()]
+        delnete_d=[]
+        if group_id:
+            if len(json.loads(group_id)) == 0:
+                if group_list:
+                    asset_data = Asset.objects.get(id=asset_id)
+                    for delete_id in group_list:
+                        asset_data.group.remove(AssetGroup.objects.get(id=delete_id))
+            else:
+                group_id=json.loads(group_id)
+                for data in group_list:
+                    try:
+                        group_id.index(data)
+                        group_id.remove(data)
+                    except:
+                        delnete_d.append(data)
+                try:
+                    if len(group_id) > 0:
+                        for ddata_id in group_id:
+                            Asset.objects.get(id=asset_id).group.add(AssetGroup.objects.get(id=ddata_id))
+                            AssetGroup.objects.filter(id=asset_id)
+                    if delnete_d:
+                        asset_data=Asset.objects.get(id=asset_id)
+                        for delete_id in delnete_d:
+                            asset_data.group.remove(AssetGroup.objects.get(id=delete_id))
+                except Exception as e:
+                    s = traceback.format_exc()
+                    Cmdb_log.error('{0}-{1}'.format('asset数据修改', s))
+        ret['status']=True
+    except:
+        s = traceback.format_exc()
+        Cmdb_log.error('{0}-{1}'.format('asset数据修改', s))
+        ret['status']="数据异常"
+    return ret
+
 def assetget(request):
     ret={}
     #print Asset.status.denominator()
@@ -193,7 +252,6 @@ def assetget(request):
     assetdata = Asset.objects.all()
     ret['data'] = []
     for gasset in assetdata:
-  #      print dict(list(ASSET_TYPE))[gasset.asset_type]
         sys={}
         sys['id']=gasset.id
         sys['hostname']=gasset.hostname
@@ -211,6 +269,7 @@ def assetget(request):
         sys['system_version_id']=gasset.system_version
         sys['host_status_id']=gasset.status
         sys['run_env_id'] =gasset.env
+        sys['host_type_id']=gasset.asset_type
         sys['desc']=gasset.comment
         ret['data'].append(sys)
     return ret
@@ -247,6 +306,7 @@ Methods = {
         "assetpost":assetpost,
         "groupdelete":group_delete,
         "assetdelete":asset_delete,
+        "assetupdate":asset_update,
     },
     "PUT":{
     }

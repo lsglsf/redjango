@@ -16,25 +16,4 @@ def packageResponse(result):
     response["Access-Control-Allow-Methods"] = "POST,GET,PUT, DELETE"
     return response
 
-class Mysql_op(object):
-    def __init__(self,Table,type=None,*args,**kwargs):
-        self.Table = Table
-        self.args = args
-        self.kwargs = kwargs
-        self.type = type
-        pass
-
-    def data_insert(self,*args,**kwargs):
-        print self.Table
-        print self.kwargs
-        print self.args
-        print kwargs
-        print args[1],args[0]
-        self.Table.objects.create(name='aa',comment='bb')
-        pass
-
-    def data_select(self,**kwargs):
-        print kwargs
-        print self.Table.objects.all()
-
 

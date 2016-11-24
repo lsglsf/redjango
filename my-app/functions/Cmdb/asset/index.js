@@ -16,6 +16,8 @@ import xhr from 'bfd/xhr'
 import TextOverflow from 'bfd/TextOverflow'
 import {Put_asset} from './asset_edit'
 
+
+
 class FixedTableDemo extends Component {
   constructor(props) {
     super()
@@ -34,7 +36,7 @@ class FixedTableDemo extends Component {
         order: true,
         //width: '100px',
         render: (text, item) => {
-          return <a href="javascript:void(0);" onClick={this.handleClick.bind(this, item)}>{text}</a>
+          return <a href="javascript:void(0);" onClick={this.handletest.bind(this, item)}>{text}</a>
         },
         key: 'hostname'
       }, {
@@ -118,7 +120,20 @@ class FixedTableDemo extends Component {
               <h6>主机编辑</h6>
             </ModalHeader>
             <ModalBody className="create_cmdb_group">
-              <Put_asset item={this.state.item} modal={this.refs.modal}/>
+              <Put_asset item={this.state.item} modal={this.refs.modal} getdata={::this.getdata}/>
+            </ModalBody>
+          </Modal>
+        </div>
+        <div>
+          <Modal ref="test" className="create_cmdb_group">
+            <ModalHeader className="create_cmdb_group" >
+              <h6>主机编1辑</h6>
+            </ModalHeader>
+            <ModalBody className="create_cmdb_group">
+                                <div id="iFrame" style={{}} ref="iFrame">
+                    <iframe name="iFrame" width="760" height="1000" src="http://127.0.0.1:9527/" scrolling="auto "
+                            frameborder="0" style={{height: "588px"}}></iframe>
+                  </div>
             </ModalBody>
           </Modal>
         </div>
@@ -154,6 +169,10 @@ class FixedTableDemo extends Component {
 
   handleOpen(){
     this.refs.modal.open()
+  }
+
+  handletest(item, event){
+    this.refs.test.open()
   }
 
   handleCheckboxSelect(selectedRows) {

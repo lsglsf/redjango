@@ -46,6 +46,7 @@ class Put_asset extends Component{
   //  }
     console.log(this.props.item)
     let formData=this.state.formData
+    formData['id']=this.props.item['id']
     formData['name']=this.props.item['hostname']
     formData['ip']=this.props.item['ip']    
     formData['other_ip']=this.props.item['other_ip'] 
@@ -56,6 +57,7 @@ class Put_asset extends Component{
     formData['host_status']=this.props.item['host_status_id']
     formData['host_type']=this.props.item['host_type_id']
     formData['desc']=this.props.item['desc']
+    //formData['group_id']=this.props.item['group_id']
     this.setState({group_list:this.props.item['group_id']})
    // console.log(this.props.item['group_id'].toString())
 
@@ -82,6 +84,13 @@ class Put_asset extends Component{
   handleclose(){
     this.props.modal.close()
   }
+
+  handselect(values){
+    //console.log('........values',values)
+    let formData = this.state.formData
+    formData['group_id'] = values
+    this.setState({formData})
+  }
   
   render() {
     const { formData } = this.state
@@ -93,7 +102,7 @@ class Put_asset extends Component{
     }):<span></span>
     return (
       <Form
-        action="/v1/cmdb/list/assetpost/"
+        action="/v1/cmdb/list/assetupdate/"
         data={formData}
         onChange={formData => this.update('set', { formData })}
         rules={this.rules}
@@ -118,7 +127,7 @@ class Put_asset extends Component{
           </FormSelect>
         </FormItem>*/}
         <FormItem label="所属主机组" name="group1">
-		    <MultipleSelect defaultValues={this.state.group_list} onChange={values => console.log(values)}>
+		    <MultipleSelect defaultValues={this.state.group_list} onChange={::this.handselect}>
 		      {nav}
 		    </MultipleSelect>
         </FormItem>

@@ -5,4 +5,5 @@ import rests
 
 urlpatterns = [
     url(r'^list/(?P<fun>\S*)/$',rests.Cmdb.as_view(),name="Cmdb"),
+   # usr(r'^')
 ]

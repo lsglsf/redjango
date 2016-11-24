@@ -31,6 +31,9 @@ class Body extends Component {
                   <NavItem href="Cmdb/asset" title="主机资产"/>
                   <NavItem href="Cmdb/idc" title="机房" />
                 </NavItem>
+                <NavItem href="Service" icon="th" title="服务管理" >
+                  <NavItem href="Service/register" title="服务注册" />
+                </NavItem>   
               </NavItem>
             </Nav>
           </LayoutSidebar>

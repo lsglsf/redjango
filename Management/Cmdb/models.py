@@ -87,6 +87,7 @@ class Asset(models.Model):
         return self.ip
 
 
+
 class AssetRecord(models.Model):
     asset = models.ForeignKey(Asset)
     username = models.CharField(max_length=30, null=True)

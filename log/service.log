@@ -1,0 +1,713 @@
+[ERROR 2016-11-19 09:27:29,448 @ 2368] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 134, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 102, in group_update
+    ddata=json.loads(request.POST.get('newarray'))
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[ERROR 2016-11-19 09:30:08,970 @ 26840] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 134, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 102, in group_update
+    ddata=json.loads(request.POST.get('newarray',[]))
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[ERROR 2016-11-19 09:30:43,753 @ 11880] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 134, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 102, in group_update
+    ddata=json.loads(request.POST.get('newarray',None))
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[ERROR 2016-11-19 09:31:09,391 @ 21308] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 134, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 123, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+[ERROR 2016-11-19 09:31:22,144 @ 21308] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 134, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 123, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+[ERROR 2016-11-19 09:31:50,973 @ 22504] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 135, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 124, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+[ERROR 2016-11-19 09:32:34,618 @ 19624] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 135, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 124, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+[ERROR 2016-11-19 09:33:49,915 @ 21384] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:18:08,982 @ 6952] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:18:25,980 @ 6952] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:18:28,275 @ 6952] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:18:30,923 @ 6952] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:18:34,153 @ 6952] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-19 10:19:23,802 @ 14960] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-19 10:19:38,806 @ 14960] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:34:29,825 @ 27300] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 140, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 102, in group_update
+    ddata=json.loads(request.POST.get('newarray'))
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[ERROR 2016-11-19 10:34:58,655 @ 27300] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 12, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: AttributeError("'AssetGroup' object has no attribute 'update'",) is not JSON serializable
+[ERROR 2016-11-19 10:36:54,194 @ 9308] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 140, in group_post
+    ret=globals()[request.POST.get('type')](request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 102, in group_update
+    ddata=json.loads(request.POST.get('newarray'))
+  File "C:\Python27\lib\json\__init__.py", line 339, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python27\lib\json\decoder.py", line 364, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[ERROR 2016-11-19 11:15:42,801 @ 11024] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/assetpost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 186, in assetpost
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+[ERROR 2016-11-19 14:23:24,176 @ 9676] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-22 10:58:00,253 @ 9676] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 10:21:40,322 @ 7936] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 10:35:42,640 @ 8188] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 10:43:34,006 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:03:02,487 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:03:42,270 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:03:46,026 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:04:05,433 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:04:12,539 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:04:38,523 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:04:41,062 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:04:58,108 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:06:13,578 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 15:43:43,147 @ 1264] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 24, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 77, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-24 17:32:42,897 @ 19564] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 26, in post
+    ret = Methods.get('POST').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-24 17:32:48,286 @ 19564] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-24 17:35:16,772 @ 20032] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+TypeError: 'NoneType' object is not callable

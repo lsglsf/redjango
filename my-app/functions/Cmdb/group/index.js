@@ -182,7 +182,7 @@ class FixedTableDemo extends Component {
               <h6>主机组编辑</h6>
             </ModalHeader>
             <ModalBody className="create_cmdb_group">
-              <Put_group item={this.state.item} modal={this.refs.modal_p} sourceData={this.state.sourceData} targetData={this.state.targetData} newData={this.state.newData}/>
+              <Put_group item={this.state.item} modal={this.refs.modal_p} sourceData={this.state.sourceData} targetData={this.state.targetData} newData={this.state.newData} getdata={::this.getdata} />
             </ModalBody>
           </Modal>
         </div>

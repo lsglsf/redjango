@@ -19,8 +19,6 @@ from methods.common import packageResponse
 
 class Cmdb(APIView):
     def get(self,request,fun,format=None):
-        print 'test'
-        print fun
         ret = Methods.get('GET').get(fun)(request)
         return packageResponse(ret)
 

@@ -1,0 +1,35 @@
+[ERROR 2016-11-19 09:33:49,914 @ 21384] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:18:08,982 @ 6952] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:18:25,980 @ 6952] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:18:28,275 @ 6952] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:18:30,923 @ 6952] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:19:38,806 @ 14960] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:129) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 125, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
+[ERROR 2016-11-19 10:34:58,655 @ 27300] (D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py/group_update:131) - Traceback (most recent call last):
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 127, in group_update
+    ret['status'] = e[1]
+IndexError: tuple index out of range
+
