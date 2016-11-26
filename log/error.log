@@ -867,3 +867,144 @@ Traceback (most recent call last):
   File "D:\work\redjango\Management\service\rests.py", line 28, in post
     ret = Methods.get('POST').get(fun)(request)
 TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-24 18:41:10,398 @ 20532] - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:51:35,299 @ 21772] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-25 13:51:58,690 @ 21772] - Internal Server Error: /v1/cmdb/list/typelist/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:52:08,926 @ 21772] - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:52:19,358 @ 21772] - Internal Server Error: /v1/cmdb/list/typelist/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:52:33,974 @ 21772] - Internal Server Error: /v1/cmdb/list/type_list、/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:52:39,065 @ 21772] - Internal Server Error: /v1/cmdb/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 13:53:31,854 @ 13880] - Internal Server Error: /v1/cmdb/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+TypeError: 'NoneType' object is not callable
+[ERROR 2016-11-25 15:19:20,874 @ 29836] - Internal Server Error: /v1/service/list/query/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 52, in query_host
+    sys['host']=map((lambda x:x.name),service.Asset_service.all())
+  File "D:\work\redjango\Management\service\service.py", line 52, in <lambda>
+    sys['host']=map((lambda x:x.name),service.Asset_service.all())
+AttributeError: 'Asset' object has no attribute 'name'

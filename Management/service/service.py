@@ -28,14 +28,36 @@ def register(request):
         pass
     return  ret
 
+def type_list(request):
+    ret={}
+    list_data=list(set([i.name_type for i in Register.objects.all()]))
+    ret['data']=list_data
+    print list_data
+    return ret
 
-
-
-
+def query_host(request):
+    ret={}
+    print request.GET.get('name')
+    service_list=Register.objects.filter(name_type=request.GET.get('name'))
+    ret['data']=[]
+    for service in service_list:
+        sys = {}
+        sys['name_type']=service.name_type
+        sys['service_name']=service.service_name
+        sys['service_restart']=service.service_restart
+        sys['path_config']=service.path_config
+        sys['path_root']=service.path_root
+        sys['path_project']=service.path_project
+        sys['desc']=service.desc
+        sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
+        ret['data'].append(sys)
+    return ret
 
 
 Methods = {
     "GET": {
+        "type_list":type_list,
+        "query":query_host
     },
     "POST": {
         "register":register,

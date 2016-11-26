@@ -14,7 +14,10 @@ import FixedTable from 'bfd/FixedTable'
 import xhr from 'bfd/xhr'
 import { Collapse } from 'antd'
 import {CreateModal} from './create_delete'
+import TextOverflow from 'bfd/TextOverflow'
+import {Base_version} from './version'
 
+/*
 class FixedTableDemo extends Component {
   constructor(props) {
     super()
@@ -110,7 +113,7 @@ class FixedTableDemo extends Component {
   handleOrder(name, sort) {
     console.log(name, sort)
   }
-}
+}*/
 
 
 class FixedTableDemo1 extends Component {
@@ -118,50 +121,93 @@ class FixedTableDemo1 extends Component {
     super()
     this.state = {
     	column: [{
-        title: '序号',
-        key: 'sequence',
-       // width:'50px'
-      },{
         primary: true,
         title: 'ID',
         key: 'id',
         hide: true
       }, {
-        title: '主机组名',
+        title: '服务名称',
         order: true,
         //width: '100px',
         render: (text, item) => {
           return <a href="javascript:void(0);" onClick={this.handleClick.bind(this, item)}>{text}</a>
         },
-        key: 'name'
+        key: 'service_name'
       }, {
-        title: '数量',
-        key: 'age',
+        title: '配置文件路径',
+        key: 'path_config',
       //  order: 'desc'
       }, {
-        title: '创建时间',
-        key: 'country',
+        title: '程序路径',
+        key: 'path_root',
         //width: '20%',
         //render: (text, item) => {
        //   return item.country + "/" + item.area
        // }
       }, {
-        title: '备注',
-        key: 'comment',
+        title: '项目路径',
+        key: 'path_project',
         //order: 'asc'
+      },  {
+        title: '关联主机',
+        key: 'host',
+        render:(text,item)=>{
+          let ff=function function_name(text) {
+            let group_name=''
+            for (var i in text){
+              group_name=group_name+text[i]+' '
+            }
+            return group_name
+          }
+          return (<TextOverflow>
+                   <p style={{width: '50px'}}>{ff(text)}</p>
+                  </TextOverflow>)
+        },
       }, {
+        title: '描述',
+        key: 'desc',
+        //order: 'asc'
+      },{
         title: '操作',
         render: (item, component) => {
-          return <a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)}>编辑</a>
+          return (
+          		<div>
+          		  <a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)} style={{float:'left'}}>编辑<span>|</span></a>
+          		  <Base_version/>
+          		 </div>
+          	)
         },
-        key: 'operation' //注：operation 指定为操作选项和数据库内字段毫无关联，其他key 都必须与数据库内一致
+        key: 'operation'
       }],
-      data: []
+      data: [],
+      type:[],
+      count:0,
+      vardata:{}
     }
   }
 
-   callback(key) {
-	  console.log(key);
+
+  query_name(id_id){
+  	return this.state.type[id_id]
+  }
+
+  callback(key) {
+	  console.log(key,'key111111');
+	  let _this=this
+	  let vardata=this.state.vardata
+	  let key_id=this.query_name(key[key.length-1])
+	  if (this.state.count<key.length){
+	  	xhr({
+	      type: 'GET',
+	      url: `/v1/service/list/query/?name=${key_id}`,
+	      success(data) {
+	        console.log(data['data'])
+	        vardata[key[key.length-1]]=data['data']
+	       	_this.setState({vardata})
+	      }
+	    })
+	  }
+	  this.setState({count:key.length})
    }
 
   handleClick(item, event) {
@@ -170,9 +216,9 @@ class FixedTableDemo1 extends Component {
     console.log(item)
   }
 
-  handleCheckboxSelect(selectedRows) {
+  /*handleCheckboxSelect(selectedRows) {
     console.log('rows:', selectedRows)
-  }
+  }*/
 
   handleRowClick(row) {
     console.log('rowclick', row)
@@ -182,34 +228,43 @@ class FixedTableDemo1 extends Component {
     console.log(name, sort)
   }
 
+  componentWillMount(){
+    let _this=this
+    xhr({
+      type: 'GET',
+      url: '/v1/service/list/type_list/',
+      success(data) {
+       // console.log(data['data'])
+        _this.setState({type:data['data']})
+      }
+    })
+  }
+
+
   render() {
-  	const text = `
-		crm主机
-		mysql
-		oss
-	`;
   	const Panel = Collapse.Panel
+  	let nav = this.state.type ? this.state.type.map((item,str)=>{
+  	  console.log(item,str,'tes111111111')
+  	  console.log(this.state.vardata[str],'str..........111')
+      return (
+        <Panel header={item} key={str}>
+	      	<FixedTable 
+	          height={500}
+	          data={this.state.vardata[str]}
+	          column={this.state.column}
+	          onRowClick={::this.handleRowClick}
+	          onOrder={::this.handleOrder}
+	          //onCheckboxSelect={::this.handleCheckboxSelect}
+	        />
+	    </Panel>
+        )
+    }):<span></span>
     return (
       <div>
         <div><h6>主机组详细信息列表</h6></div>
         <div><CreateModal /></div>
-	  <Collapse defaultActiveKey={['']} onChange={::this.callback}>
-	    <Panel header="生产环境" key="1">
-	      	<FixedTable 
-	          height={500}
-	          data={this.state.data}
-	          column={this.state.column}
-	          onRowClick={::this.handleRowClick}
-	          onOrder={::this.handleOrder}
-	          onCheckboxSelect={::this.handleCheckboxSelect}
-	        />
-	    </Panel>
-	    <Panel header="uat环境" key="2">
-	      <p>{text}</p>
-	    </Panel>
-	    <Panel header="vip环境" key="3">
-	      <p>{text}</p>
-	    </Panel>
+	  <Collapse defaultActiveKey={[]} onChange={::this.callback}>
+	    {nav}
 	  </Collapse>
       </div>
     )
