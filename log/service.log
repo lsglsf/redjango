@@ -852,3 +852,393 @@ Traceback (most recent call last):
   File "D:\work\redjango\Management\service\service.py", line 52, in <lambda>
     sys['host']=map((lambda x:x.name),service.Asset_service.all())
 AttributeError: 'Asset' object has no attribute 'name'
+[ERROR 2016-11-29 10:57:12,997 @ 10100] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-30 08:57:20,042 @ 30404] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 13, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+ValueError: Circular reference detected
+[ERROR 2016-11-30 08:58:09,296 @ 30404] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 13, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+ValueError: Circular reference detected
+[ERROR 2016-11-30 09:33:17,928 @ 34356] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 13, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry '\xe7\x94\x9f\xe4\xba\xa7\xe7\x8e\xaf\xe5\xa2\x83' for key 'name_type'") is not JSON serializable
+[ERROR 2016-11-30 09:34:10,411 @ 34356] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 13, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry '\xe7\x94\x9f\xe4\xba\xa7\xe7\x8e\xaf\xe5\xa2\x83' for key 'name_type'") is not JSON serializable
+[ERROR 2016-11-30 09:49:00,053 @ 34288] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 35, in type_list
+    list_data=list(set([i.name_type for i in Register.objects.all()]))
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 162, in __iter__
+    self._fetch_all()
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 965, in _fetch_all
+    self._result_cache = list(self.iterator())
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 238, in iterator
+    results = compiler.execute_sql()
+  File "C:\Python27\lib\site-packages\django\db\models\sql\compiler.py", line 840, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Python27\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "C:\Python27\lib\site-packages\django\db\backends\utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "C:\Python27\lib\site-packages\django\db\utils.py", line 98, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "C:\Python27\lib\site-packages\django\db\backends\utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "C:\Python27\lib\site-packages\django\db\backends\mysql\base.py", line 124, in execute
+    return self.cursor.execute(query, args)
+  File "C:\Python27\lib\site-packages\MySQLdb\cursors.py", line 174, in execute
+    self.errorhandler(self, exc, value)
+  File "C:\Python27\lib\site-packages\MySQLdb\connections.py", line 36, in defaulterrorhandler
+    raise errorclass, errorvalue
+ProgrammingError: (1146, "Table 'cmdb.service_register' doesn't exist")
+[ERROR 2016-11-30 10:20:13,989 @ 35076] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-30 10:32:43,138 @ 35076] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-11-30 15:39:31,920 @ 18476] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 13, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry 'crm' for key 'service_name'") is not JSON serializable
+[ERROR 2016-11-30 15:41:53,220 @ 18576] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 69, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-11-30 15:42:01,246 @ 18576] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 69, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-11-30 15:42:05,250 @ 18576] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 69, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-11-30 16:47:19,855 @ 37100] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 80, in file_dir
+    print path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 65, in path_replace
+    ret[i]='e'
+TypeError: unhashable type: 'dict'
+[ERROR 2016-11-30 16:48:50,957 @ 36436] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 80, in file_dir
+    print path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 65, in path_replace
+    ret[i]='e'
+TypeError: unhashable type: 'dict'
+[ERROR 2016-11-30 16:49:39,984 @ 17648] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 80, in file_dir
+    print path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 66, in path_replace
+    ret[i]='e'
+TypeError: unhashable type: 'dict'
+[ERROR 2016-11-30 16:50:32,917 @ 35208] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 80, in file_dir
+    print path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 67, in path_replace
+    ret[i]='e'
+TypeError: unhashable type: 'dict'
+[ERROR 2016-11-30 16:54:53,424 @ 11908] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 80, in file_dir
+    print path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 67, in path_replace
+    file_list['type']='e'
+TypeError: list indices must be integers, not str
+[ERROR 2016-11-30 17:25:27,933 @ 35908] (C:\Python27\lib\site-packages\django\core\handlers\base.py/handle_uncaught_exception:256) - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 69, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.

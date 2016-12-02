@@ -170,10 +170,11 @@ class FixedTableDemo1 extends Component {
       },{
         title: '操作',
         render: (item, component) => {
+        	console.log(item,component,'111')
           return (
           		<div>
           		  <a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)} style={{float:'left'}}>编辑<span>|</span></a>
-          		  <Base_version/>
+          		  <Base_version item={item} host={this.state.host}/>
           		 </div>
           	)
         },
@@ -182,7 +183,8 @@ class FixedTableDemo1 extends Component {
       data: [],
       type:[],
       count:0,
-      vardata:{}
+      vardata:{},
+      host:[],
     }
   }
 
@@ -203,7 +205,7 @@ class FixedTableDemo1 extends Component {
 	      success(data) {
 	        console.log(data['data'])
 	        vardata[key[key.length-1]]=data['data']
-	       	_this.setState({vardata})
+	       	_this.setState({vardata,host:data['host']})
 	      }
 	    })
 	  }
@@ -244,8 +246,6 @@ class FixedTableDemo1 extends Component {
   render() {
   	const Panel = Collapse.Panel
   	let nav = this.state.type ? this.state.type.map((item,str)=>{
-  	  console.log(item,str,'tes111111111')
-  	  console.log(this.state.vardata[str],'str..........111')
       return (
         <Panel header={item} key={str}>
 	      	<FixedTable 

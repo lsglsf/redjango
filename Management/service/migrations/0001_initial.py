@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='Register',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name_type', models.CharField(unique=True, max_length=80, verbose_name='\u4f7f\u7528\u73af\u5883')),
-                ('service_name', models.CharField(max_length=50, null=True, verbose_name='\u670d\u52a1\u540d\u79f0', blank=True)),
+                ('name_type', models.CharField(max_length=80, verbose_name='\u4f7f\u7528\u73af\u5883')),
+                ('service_name', models.CharField(max_length=50, unique=True, null=True, verbose_name='\u670d\u52a1\u540d\u79f0')),
                 ('service_start', models.CharField(max_length=100, null=True, verbose_name='\u542f\u52a8\u670d\u52a1', blank=True)),
                 ('service_stop', models.CharField(max_length=100, null=True, verbose_name='\u505c\u6b62\u670d\u52a1', blank=True)),
                 ('service_restart', models.CharField(max_length=100, null=True, verbose_name='\u91cd\u542f\u670d\u52a1', blank=True)),

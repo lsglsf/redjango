@@ -2,7 +2,8 @@ import json
 import traceback
 from models import Register
 from Cmdb.models import Asset
-
+from Cmdb.methods.common import File_operation,path_replace
+import os
 import logging
 
 Cmdb_log = logging.getLogger("Cmdb_log")
@@ -24,15 +25,18 @@ def register(request):
             for i in json.loads(data_host):
                 rela_asset_group = Register.objects.get(id=inst.id).Asset_service.add( Asset.objects.get(id=i['id']))
         ret['status']=True
-    except:
-        pass
+    except Exception as e:
+        print e
+        ret['status'] = e
     return  ret
 
 def type_list(request):
     ret={}
-    list_data=list(set([i.name_type for i in Register.objects.all()]))
-    ret['data']=list_data
-    print list_data
+    try:
+        list_data=list(set([i.name_type for i in Register.objects.all()]))
+        ret['data']=list_data
+    except:
+        print list_data
     return ret
 
 def query_host(request):
@@ -40,6 +44,7 @@ def query_host(request):
     print request.GET.get('name')
     service_list=Register.objects.filter(name_type=request.GET.get('name'))
     ret['data']=[]
+    ret['host']=[]
     for service in service_list:
         sys = {}
         sys['name_type']=service.name_type
@@ -51,6 +56,42 @@ def query_host(request):
         sys['desc']=service.desc
         sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
         ret['data'].append(sys)
+        ret['host']=ret['host']+sys['host']
+    print ret
+    return ret
+
+def file_dir(request):
+    ret={}
+    #print json.loads(request.POST.get('path_list'))
+    print request.POST
+    per_host=request.POST.get('per_host')
+    host=json.loads(request.POST.get('host'))
+    print Asset.objects.get(hostname=per_host).register_set.all()
+    per_host_d={}
+    host_d={}
+    for i in Asset.objects.get(hostname=per_host).register_set.all():
+        #per_host_d['path_project']=os.path.abspath(i.path_project)
+        per_host_d['path_project']=i.path_project
+
+    print host
+    for i in host:
+        print Asset.objects.get(hostname=i).register_set.all()
+        for i in Asset.objects.get(hostname=i).register_set.all():
+            #host_d['path_project']=os.path.abspath(i.path_project)
+            host_d['path_project']=i.path_project
+    path_project=path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
+    #print json.loads(request.POST.get('path_list'))
+    ret['data']=[]
+    for i in path_project['s']:
+        ssh1=File_operation(host='192.168.44.129',port=22,username='root',password='redhat')
+        ssh=ssh1.connect()
+        path_status=File_operation.file_status(ssh,i['path'])
+        ssh.close()
+        i['type']=path_status
+        ret['data'].append(i)
+   # for i in path_project['d']:
+
+    print ret
     return ret
 
 
@@ -61,6 +102,7 @@ Methods = {
     },
     "POST": {
         "register":register,
+        "file_dir":file_dir,
     },
     "PUT":{
     }
