@@ -1,5 +1,5 @@
-import { Modal, ModalHeader, ModalBody } from 'bfd/Modal'
-import Button from 'bfd/Button'
+//import { Modal, ModalHeader, ModalBody } from 'bfd/Modal'
+//import Button from 'bfd/Button'
 import React, { Component } from 'react'
 import './index.less'
 import update from 'react-update'
@@ -9,9 +9,10 @@ import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
-import { Select, Option as Options } from 'bfd/Select'
+//import { Select, Option as Options } from 'bfd/Select'
 import { Row, Col } from 'bfd/Layout'
-
+import { Menu, Dropdown,Icon,Popconfirm } from 'antd';
+import { Modal, Button } from 'antd';
 
 class File_sync extends Component{
   constructor(props) {
@@ -59,10 +60,6 @@ class File_sync extends Component{
 
   handleclose(){
     this.props.modal.close()
-  }
-
-  test(test){
-  //  console.log(test,'test1111111111')
   }
 
   add_path(){
@@ -140,13 +137,21 @@ class File_sync extends Component{
       color1 = 'red'
     }
     return(
-        <FormItem label="" name={str} key={str} labelWidth='0px'>
+        <div>
+   
           <span style={{height:'20px',lineHeight:'20px',color:color1}}>{item['path']}</span>
-          <FormSelect style={{left:'50px',float:'right'}} className="Select_heig" onChange={::this.handselect.bind(this,str)}>
+          {/*<FormSelect style={{left:'50px',float:'right'}} className="Select_heig" onChange={::this.handselect.bind(this,str)}>
             <Option >同步</Option>
             <Option value={1}>删除</Option>
-          </FormSelect>
-        </FormItem>
+          </FormSelect>*/}
+          <span style={{float:'right'}}>
+          <select>
+            <option >同步</option>
+            <option value={1}>删除</option>
+          </select>
+          </span>
+
+        </div>
         )
     }):<span></span>
     let host=this.props.host? this.props.host.map((item,str)=>{
@@ -161,18 +166,15 @@ class File_sync extends Component{
         type='GET'
         onChange={formData => this.update('set', { formData })}
         rules={this.rules}
+        labelWidth={'200px'}
         onSuccess={::this.handleSuccess}
       >
-      	<FormItem label="发布主机" required name="name" help="">
-          <Select searchable onChange={::this.pre_host}>
-            <Options>请选择</Options>
-            {host}
-          </Select>
-          <span onClick={::this.add_path}>添加</span>
-          <span onClick={::this.detection_path}>检测</span>
+      	<FormItem label="添加同步文件或者目录" name="name" help="" style={{height:'17px',lineHeight:'30px'}}>
+          <a href='#'><span onClick={::this.add_path}>添加</span></a>
+          <a href='#'><span onClick={::this.detection_path}>检测</span></a>
         </FormItem>
         {
-          this.state.add_Path ?  <FormItem label="添加目录" name="desc" help=""><FormTextarea style={{width:"400px",height:"150px"}} onChange={::this.test} /></FormItem>: <div></div>
+          this.state.add_Path ?  <FormItem label="添加目录" name="desc" help=""><FormTextarea style={{width:"400px",height:"150px"}}  /></FormItem>: <div></div>
         }
         {nav}
       </Form>
@@ -293,6 +295,8 @@ class Base_version extends Component {
     	fun:'',
       current:0,
       select_host:[],
+      loading: false,
+      visible: false,
     }
   }
 
@@ -307,14 +311,15 @@ class Base_version extends Component {
   handletitle(){
   	return {
   		'version':'版本更新',
-  		'detele':'删除主机组',
+  		'detele':'删除服务',
   	}
   }
 
   handlefun(){
   	return {
-  		'version':<Version_update item={this.props.item} _this={this}/>,
-  		'detele':<File_sync rows={this.props.rows} modal={this.refs.modal} />
+  		'version1':<Version_update item={this.props.item} _this={this}/>,
+  		'detele':<File_sync rows={this.props.rows} modal={this.refs.modal} />,
+      'version': <File_sync select_host={this.state.select_host} host={this.props.host}/>
   	}
   }
 
@@ -351,14 +356,81 @@ class Base_version extends Component {
     }
   }
 
+  handleButtonClick(e) {
+    message.info('Click on left button.');
+    console.log('click left button', e);
+  }
+
+  handleMenuClick(e) {
+    console.log('click', e.key);
+    console.log(this.handletitle())
+    if (e.key != 'delete'){
+      let title=this.handletitle()[e.key]
+      let fun = this.handlefun()[e.key]
+      this.setState({title,fun})
+      this.showModal()
+
+    }
+  }
+
+  confirm() {
+    let id=this.props.item['id']
+    const coll_id=this.props.item['coll_id']
+    let _this=this
+    xhr({
+      type: 'POST',
+      url: '/v1/service/list/delete_server/',
+      data: {id:id},
+      success(data) {
+        console.log(data)
+        if (data['status']){
+          message.success('操作成功')}
+          _this.props.callback_get(coll_id)
+        }
+    })
+  }
+
+  showModal() {
+    this.setState({
+      visible: true,
+    });
+  }
+
+  handleOk() {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({ loading: false, visible: false });
+    }, 3000);
+  }
+
+  handleCancel() {
+    this.setState({ visible: false });
+  }
+
   render() {
     console.log(this.props.item,'111')
+    const menu = (
+    <Menu onClick={::this.handleMenuClick}>
+      <Menu.Item key="delete">
+        <Popconfirm title="确认删除？"  onConfirm={::this.confirm}  okText="Yes" cancelText="No">
+        <a href="#">删除</a>
+      </Popconfirm>
+      </Menu.Item>
+      <Menu.Item key="2">编辑</Menu.Item>
+      <Menu.Item key="version">版本发布</Menu.Item>
+    </Menu>
+    );
 
     return (
-      <div style={{'marginBottom':'15px',float:'left'}}>
-       { /*<Button onClick={::this.handleOpen.bind(this,'create')} >添加服务</Button>*/}
-        <a href = "javascript:void(0);" onClick={::this.handleOpen.bind(this,'version')}>发布版本</a>
-        <Modal ref="modal" className="create_cmdb_group">
+      <div >
+       { /*<Button onClick={::this.handleOpen.bind(this,'create')} >添加服务</Button>
+        <a href = "javascript:void(0);" onClick={::this.handleOpen.bind(this,'version')}>发布版本</a>*/}
+        <Dropdown overlay={menu} trigger={['click']}>
+          <a className="ant-dropdown-link" href="#" style={{fontSize:14}}>
+            更多操作<Icon type="down" />
+          </a>
+        </Dropdown>
+        {/*<Modal ref="modal" className="create_cmdb_group">
           <ModalHeader className="create_cmdb_group" >
             <h6>{this.state.title}</h6>
           </ModalHeader>
@@ -369,6 +441,23 @@ class Base_version extends Component {
             <Button style={{float:"right"}} onClick={::this.next}>下一步</Button>
           </div>
           </ModalBody>
+        </Modal>*/}
+        <Modal
+          visible={this.state.visible}
+          title={this.state.title}
+          onOk={::this.handleOk}
+          onCancel={::this.handleCancel}
+          maskClosable={false}
+          width={'800px'}
+          //closable={false}
+          footer={[
+            <Button key="back" type="ghost" size="large" onClick={::this.handleCancel}>取消</Button>,
+            <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={::this.handleOk}>
+              确定
+            </Button>,
+          ]}
+        >
+        {this.state.fun}
         </Modal>
       </div>
     )

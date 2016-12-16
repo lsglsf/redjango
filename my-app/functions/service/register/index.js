@@ -7,7 +7,7 @@ import DatePicker from 'bfd/DatePicker'
 import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
 import DataTable from 'bfd/DataTable'
-import { Table, Icon } from 'antd/lib/Table'
+//import { Table, Icon as Icons } from 'antd/lib/Table'
 import { Modal, ModalHeader, ModalBody } from 'bfd/Modal'
 import Button from 'bfd/Button'
 import FixedTable from 'bfd/FixedTable'
@@ -16,6 +16,10 @@ import { Collapse } from 'antd'
 import {CreateModal} from './create_delete'
 import TextOverflow from 'bfd/TextOverflow'
 import {Base_version} from './version'
+import { Select,Menu, Dropdown,Icon} from 'antd';
+const Options = Select.Option;
+
+
 
 /*
 class FixedTableDemo extends Component {
@@ -140,10 +144,6 @@ class FixedTableDemo1 extends Component {
       }, {
         title: '程序路径',
         key: 'path_root',
-        //width: '20%',
-        //render: (text, item) => {
-       //   return item.country + "/" + item.area
-       // }
       }, {
         title: '项目路径',
         key: 'path_project',
@@ -169,13 +169,14 @@ class FixedTableDemo1 extends Component {
         //order: 'asc'
       },{
         title: '操作',
+        width: '100px',
         render: (item, component) => {
-        	console.log(item,component,'111')
           return (
           		<div>
-          		  <a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)} style={{float:'left'}}>编辑<span>|</span></a>
-          		  <Base_version item={item} host={this.state.host}/>
-          		 </div>
+          		    {/*<a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)} style={{float:'left'}}>编辑<span>|</span></a>
+          		    <Base_version item={item} host={this.state.host}/>*/}
+                  <Base_version item={item} callback_get={::this.callback_get} />
+              </div>
           	)
         },
         key: 'operation'
@@ -185,12 +186,32 @@ class FixedTableDemo1 extends Component {
       count:0,
       vardata:{},
       host:[],
+      Table_list:[]
     }
   }
 
 
   query_name(id_id){
   	return this.state.type[id_id]
+  }
+
+
+  callback_get(value){
+    let key_id=this.query_name(value)
+    let _this=this
+    let vardata = this.state.vardata
+    xhr({
+      type: 'GET',
+      url: `/v1/service/list/query/?name=${key_id}`,
+      success(data) {
+        let data_list=data['data']
+        for (let i in data_list){
+          data_list[i]['coll_id']=value
+        }
+        vardata[value]=data_list
+        _this.setState({vardata})
+      }
+    })
   }
 
   callback(key) {
@@ -204,12 +225,16 @@ class FixedTableDemo1 extends Component {
 	      url: `/v1/service/list/query/?name=${key_id}`,
 	      success(data) {
 	        console.log(data['data'])
-	        vardata[key[key.length-1]]=data['data']
+          let data_list=data['data']
+          for (let i in data_list){
+            data_list[i]['coll_id']=key[key.length-1]
+          }
+	        vardata[key[key.length-1]]=data_list
 	       	_this.setState({vardata,host:data['host']})
 	      }
 	    })
 	  }
-	  this.setState({count:key.length})
+	  this.setState({count:key.length,Table_list:key})
    }
 
   handleClick(item, event) {
@@ -242,6 +267,16 @@ class FixedTableDemo1 extends Component {
     })
   }
 
+  handleButtonClick(e) {
+    message.info('Click on left button.');
+    console.log('click left button', e);
+  }
+
+  handleMenuClick(e) {
+    message.info('Click on menu item.');
+    console.log('click', e);
+  }
+
 
   render() {
   	const Panel = Collapse.Panel
@@ -262,18 +297,14 @@ class FixedTableDemo1 extends Component {
     return (
       <div>
         <div><h6>主机组详细信息列表</h6></div>
-        <div><CreateModal /></div>
-	  <Collapse defaultActiveKey={[]} onChange={::this.callback}>
-	    {nav}
-	  </Collapse>
+        <div><CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list}/></div>
+	      <Collapse defaultActiveKey={[]} onChange={::this.callback}>
+	        {nav}
+	      </Collapse>
       </div>
     )
   }
 }
-
-
-
-
 
 
 export default FixedTableDemo1

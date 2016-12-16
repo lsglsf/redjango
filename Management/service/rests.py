@@ -34,6 +34,10 @@ class Service(APIView):
         ret = Methods.get('PUT').get(fun)(request)
         return packageResponse(ret)
 
+    def delete(self,request,fun,format=None):
+        print fun
+        ret = Methods.get('DELETE').get(fun)(request)
+        return packageResponse(ret)
 
 
 

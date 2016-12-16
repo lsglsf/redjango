@@ -5,7 +5,7 @@ from Cmdb.models import Asset
 # Create your models here.
 
 class Register(models.Model):
-    name_type = models.CharField(max_length=80, blank=False,verbose_name=u'使用环境')
+    name_type = models.CharField(max_length=80, blank=True,verbose_name=u'使用环境')
     service_name = models.CharField(max_length=50, blank=False, null=True,verbose_name=u'服务名称')
     service_start = models.CharField(max_length=100, blank=True, null=True,verbose_name=u'启动服务')
     service_stop = models.CharField(max_length=100, blank=True, null=True,verbose_name=u'停止服务')

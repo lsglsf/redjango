@@ -1,7 +1,7 @@
 import json
 import traceback
 from models import Register
-from Cmdb.models import Asset
+from Cmdb.models import Asset,AssetGroup
 from Cmdb.methods.common import File_operation,path_replace
 import os
 import logging
@@ -12,7 +12,7 @@ def register(request):
     print request.POST
     try:
         inst=Register.objects.create(
-            name_type=request.POST.get('name'),
+           # name_type=request.POST.get('name'),
             service_name=request.POST.get('service_name'),
             service_restart=request.POST.get('service_restart'),
             path_config=request.POST.get('path_config'),
@@ -23,7 +23,7 @@ def register(request):
         data_host=request.POST.get('targetData')
         if data_host:
             for i in json.loads(data_host):
-                rela_asset_group = Register.objects.get(id=inst.id).Asset_service.add( Asset.objects.get(id=i['id']))
+                rela_asset_group = Register.objects.get(id=inst.id).Asset_service.add( Asset.objects.get(id=i))
         ret['status']=True
     except Exception as e:
         print e
@@ -33,7 +33,10 @@ def register(request):
 def type_list(request):
     ret={}
     try:
-        list_data=list(set([i.name_type for i in Register.objects.all()]))
+        #list_data=list(set([i.name_type for i in Register.objects.all()]))
+        #ret['data']=list_data
+        list_data=[ i.name for i in AssetGroup.objects.all()]
+        print list_data
         ret['data']=list_data
     except:
         print list_data
@@ -42,9 +45,31 @@ def type_list(request):
 def query_host(request):
     ret={}
     print request.GET.get('name')
-    service_list=Register.objects.filter(name_type=request.GET.get('name'))
+    assetgroup=AssetGroup.objects.get(name=request.GET.get('name')).asset_set.all()
     ret['data']=[]
     ret['host']=[]
+    for host in assetgroup:
+#        print i
+        print host.register_set.all()
+        for service in host.register_set.all():
+            sys = {}
+           # sys['name_type'] = service.name_type
+            sys['id'] = service.id
+            sys['service_name'] = service.service_name
+            sys['service_restart'] = service.service_restart
+            sys['path_config'] = service.path_config
+            sys['path_root'] = service.path_root
+            sys['path_project'] = service.path_project
+            sys['desc'] = service.desc
+            sys['host']= host.hostname
+            # sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
+            ret['data'].append(sys)
+  #      ret['host'].append(host.hostname)
+ #           ret['host'] = ret['host'] + sys['host']
+    print ret
+    return ret
+'''
+    service_list=Register.objects.filter(name_type=request.GET.get('name'))
     for service in service_list:
         sys = {}
         sys['name_type']=service.name_type
@@ -54,10 +79,17 @@ def query_host(request):
         sys['path_root']=service.path_root
         sys['path_project']=service.path_project
         sys['desc']=service.desc
-        sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
+        #sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
         ret['data'].append(sys)
-        ret['host']=ret['host']+sys['host']
-    print ret
+        ret['host']=ret['host']+sys['host']'''
+
+
+def delete_server(request):
+    ret={}
+    print request.POST.get('id',None)
+    if request.POST.get('id',None) != None:
+        Register.objects.get(id=request.POST.get('id')).delete()
+        ret['status']=True
     return ret
 
 def file_dir(request):
@@ -103,7 +135,11 @@ Methods = {
     "POST": {
         "register":register,
         "file_dir":file_dir,
+        "delete_server":delete_server,
     },
     "PUT":{
+    },
+    "DELETE":{
+        "delete_server":delete_server,
     }
 }
