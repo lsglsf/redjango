@@ -4321,3 +4321,533 @@ Traceback (most recent call last):
   File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
     self.model._meta.object_name
 DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-12-19 10:07:34,127 @ 11136] - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 101, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-12-19 10:09:10,766 @ 11136] - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 101, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-12-19 10:09:24,055 @ 11136] - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 101, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[ERROR 2016-12-19 11:08:44,237 @ 45148] - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 101, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[INFO 2016-12-19 14:22:22,316 @ 7192] - got message u'hello'
+[INFO 2016-12-19 14:23:21,970 @ 7192] - got message u'hello'
+[INFO 2016-12-19 14:25:24,095 @ 46000] - got message u'hello'
+[INFO 2016-12-19 14:26:17,082 @ 46000] - got message u'hello'
+[INFO 2016-12-19 14:27:11,377 @ 46000] - got message u'hello'
+[INFO 2016-12-19 14:28:23,526 @ 46000] - got message u'hello'
+[INFO 2016-12-19 14:30:05,447 @ 36892] - got message u'hello'
+[INFO 2016-12-19 14:30:45,348 @ 36892] - got message u'hello'
+[INFO 2016-12-19 14:30:58,207 @ 45828] - got message u'hello'
+[INFO 2016-12-19 14:37:17,361 @ 44492] - got message u'hello'
+[INFO 2016-12-19 14:38:14,711 @ 19928] - got message u'hello'
+[INFO 2016-12-19 14:39:46,405 @ 15588] - got message u'hello'
+[INFO 2016-12-19 14:41:44,253 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:46:49,894 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:47:05,700 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:47:25,461 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:47:29,759 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:47:39,523 @ 992] - got message u'hello'
+[INFO 2016-12-19 14:53:38,953 @ 62064] - got message u'hello'
+[INFO 2016-12-19 14:57:03,747 @ 62064] - got message u'hello'
+[INFO 2016-12-19 14:58:01,365 @ 62064] - got message u'hello'
+[INFO 2016-12-19 15:34:02,756 @ 62064] - got message u'hello'
+[INFO 2016-12-19 15:34:38,482 @ 15488] - got message u'hello'
+[INFO 2016-12-19 15:35:26,881 @ 12228] - got message u'hello'
+[INFO 2016-12-19 15:37:06,249 @ 12228] - got message u'hello'
+[INFO 2016-12-19 15:39:52,825 @ 10564] - got message u'hello'
+[INFO 2016-12-19 15:56:13,016 @ 60360] - got message u'hello'
+[INFO 2016-12-19 15:56:18,990 @ 60360] - got message u'hello'
+[ERROR 2016-12-19 15:57:19,940 @ 60360] - Internal Server Error: /v1/service/list/file_dir/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 101, in file_dir
+    print Asset.objects.get(hostname=per_host).register_set.all()
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: Asset matching query does not exist.
+[INFO 2016-12-19 16:43:57,648 @ 46864] - got message u'hello'
+[INFO 2016-12-19 16:45:10,342 @ 15244] - got message u'hello'
+[INFO 2016-12-19 16:48:45,654 @ 15244] - got message u'hello'
+[INFO 2016-12-19 16:49:15,697 @ 15244] - got message u'hello'
+[INFO 2016-12-19 16:49:15,697 @ 15244] - got message u'hello1'
+[INFO 2016-12-19 16:55:50,109 @ 15244] - got message u'test11111'
+[INFO 2016-12-19 16:55:56,007 @ 15244] - got message u'test11111'
+[INFO 2016-12-19 17:12:30,940 @ 15244] - got message u'{"aa":"bb"}'
+[INFO 2016-12-19 17:21:23,042 @ 15244] - got message u'[{"path":"/root/benet/","delete":false,"type":"none"},{"path":"/aaa/benet","delete":"true","type":"none"}]'
+[INFO 2016-12-19 17:23:53,071 @ 15244] - got message u'[]'
+[INFO 2016-12-19 17:23:59,296 @ 15244] - got message u'[{"path":"/root/benet/","delete":false,"type":"none"},{"path":"/aaa/benet","delete":"true","type":"none"}]'
+[INFO 2016-12-19 17:24:04,661 @ 15244] - got message u'[]'
+[INFO 2016-12-20 09:12:17,371 @ 15244] - got message u'[{"path":"/root/benet","delete":false,"type":"none"}]'
+[INFO 2016-12-20 09:20:49,530 @ 15244] - got message u'[{"path":"/root/benet/","delete":false,"type":"none"},{"path":"/aaa/benet","delete":"true","type":"none"}]'
+[INFO 2016-12-20 09:27:21,243 @ 15244] - got message u'[{"path":"/root/benet/","delete":false,"type":"none"},{"path":"/sdfsa","delete":false,"type":"none"}]'
+[INFO 2016-12-20 09:27:57,467 @ 15244] - got message u'{"data":[{"path":"/root/benet/","delete":false,"type":"none"},{"path":"/asdfsa","delete":false,"type":"none"}],"pf":"init"}'
+[INFO 2016-12-20 14:07:40,145 @ 64176] - connection established from: 71286288
+[INFO 2016-12-20 14:08:55,381 @ 14568] - connection established from: 71724560
+[INFO 2016-12-20 14:09:49,464 @ 44976] - connection established from: 69714496
+[INFO 2016-12-20 14:30:22,954 @ 44908] - connection established from: 98875656
+[INFO 2016-12-20 14:49:47,499 @ 44908] - connection established from: 99140776
+[INFO 2016-12-20 14:50:43,536 @ 66408] - connection established from: 71093720
+[INFO 2016-12-20 14:51:39,678 @ 11928] - connection established from: 70868440
+[INFO 2016-12-20 14:58:54,891 @ 61516] - connection established from: 91425032
+[INFO 2016-12-20 15:00:21,154 @ 22824] - connection established from: 93786688
+[INFO 2016-12-20 15:01:05,315 @ 51912] - connection established from: 70373104
+[INFO 2016-12-20 15:06:09,279 @ 56044] - connection established from: 93971008
+[INFO 2016-12-20 15:06:58,012 @ 15828] - connection established from: 70897392
+[INFO 2016-12-20 15:10:46,230 @ 57604] - connection established from: 69610968
+[INFO 2016-12-20 15:15:17,499 @ 19948] - connection established from: 95361288
+[INFO 2016-12-20 15:28:28,579 @ 51348] - connection established from: 95353096
+[INFO 2016-12-20 15:34:40,415 @ 51348] - connection established from: 95783288
+[INFO 2016-12-20 15:35:10,769 @ 40692] - connection established from: 71290608
+[INFO 2016-12-20 15:36:37,855 @ 40980] - connection established from: 69520856
+[INFO 2016-12-20 15:37:06,381 @ 40980] - connection established from: 69821832
+[INFO 2016-12-20 15:47:17,022 @ 14928] - connection established from: 69783280
+[INFO 2016-12-20 15:47:22,951 @ 14928] - connection established from: 70084088
+[INFO 2016-12-20 15:47:34,910 @ 14928] - connection established from: 70085264
+[INFO 2016-12-20 15:47:44,901 @ 14928] - connection established from: 70218136
+[INFO 2016-12-20 15:56:31,252 @ 34024] - connection established from: 72797936
+[INFO 2016-12-20 15:56:38,049 @ 34024] - connection established from: 73099472
+[INFO 2016-12-20 15:56:41,519 @ 34024] - connection established from: 73099864
+[INFO 2016-12-20 15:57:15,782 @ 44292] - connection established from: 70700504
+[INFO 2016-12-20 15:57:22,776 @ 44292] - connection established from: 71001648
+[INFO 2016-12-20 15:57:33,114 @ 44292] - connection established from: 71002208
+[INFO 2016-12-20 15:57:44,137 @ 44292] - connection established from: 71135640
+[INFO 2016-12-20 15:57:54,290 @ 44292] - connection established from: 71136704
+[INFO 2016-12-20 16:02:06,404 @ 63372] - connection established from: 70419120
+[INFO 2016-12-20 16:11:17,842 @ 52572] - connection established from: 71400472
+[INFO 2016-12-20 16:11:22,887 @ 52572] - connection established from: 71693984
+[INFO 2016-12-20 16:23:31,714 @ 11444] - connection established from: 71347000
+[INFO 2016-12-20 16:26:46,835 @ 11444] - connection established from: 100138176
+[ERROR 2016-12-20 16:34:18,954 @ 26592] - Internal Server Error: /v1/service/list/query/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[INFO 2016-12-20 16:43:02,936 @ 14688] - connection established from: 69778512
+[INFO 2016-12-20 16:45:18,052 @ 14688] - connection established from: 101601576
+[INFO 2016-12-20 16:47:16,785 @ 14688] - connection established from: 101337128
+[INFO 2016-12-20 16:48:45,030 @ 14688] - connection established from: 101718392
+[INFO 2016-12-20 16:48:46,497 @ 14688] - connection established from: 101601576
+[INFO 2016-12-20 16:53:15,969 @ 33640] - connection established from: 94691960
+[INFO 2016-12-20 16:53:17,983 @ 33640] - connection established from: 94744872
+[INFO 2016-12-20 17:08:52,267 @ 33640] - connection established from: 95031816
+[INFO 2016-12-20 17:09:05,358 @ 33640] - connection established from: 95034560
+[INFO 2016-12-20 17:09:27,246 @ 33640] - connection established from: 95077656
+[INFO 2016-12-20 17:10:45,674 @ 33640] - connection established from: 95109528
+[INFO 2016-12-20 17:10:55,907 @ 33640] - connection established from: 95110480
+[INFO 2016-12-20 17:12:53,273 @ 33640] - connection established from: 95109920
+[INFO 2016-12-20 17:19:55,484 @ 65944] - connection established from: 69885008
+[INFO 2016-12-20 17:19:59,752 @ 65944] - connection established from: 70153944
+[INFO 2016-12-20 17:20:04,848 @ 65944] - connection established from: 70153496
+[INFO 2016-12-20 17:41:53,476 @ 65944] - connection established from: 98349968
+[INFO 2016-12-20 17:42:15,703 @ 65944] - connection established from: 98350584
+[INFO 2016-12-20 17:46:02,471 @ 65944] - connection established from: 98444456
+[INFO 2016-12-20 18:20:57,016 @ 65944] - connection established from: 98349184
+[INFO 2016-12-20 18:21:01,151 @ 65944] - connection established from: 98443392
+[INFO 2016-12-20 18:21:25,313 @ 65944] - connection established from: 98443728
+[INFO 2016-12-20 18:23:06,950 @ 65944] - connection established from: 98743072
+[INFO 2016-12-20 18:23:10,946 @ 65944] - connection established from: 98745256
+[INFO 2016-12-20 18:25:12,167 @ 65944] - connection established from: 98443392
+[INFO 2016-12-20 18:25:15,311 @ 65944] - connection established from: 98349688
+[INFO 2016-12-20 18:26:34,986 @ 65944] - connection established from: 98716080
+[INFO 2016-12-20 18:26:40,710 @ 65944] - connection established from: 98349296
+[INFO 2016-12-20 18:27:35,684 @ 65944] - connection established from: 98745368
+[INFO 2016-12-20 18:27:37,434 @ 65944] - connection established from: 98399008
+[INFO 2016-12-20 18:29:18,357 @ 65944] - connection established from: 98400520
+[INFO 2016-12-20 18:29:21,375 @ 65944] - connection established from: 98400912
+[INFO 2016-12-20 20:08:18,483 @ 65944] - connection established from: 98432336
+[INFO 2016-12-20 20:16:15,378 @ 65944] - connection established from: 98667880
+[INFO 2016-12-20 20:16:46,700 @ 65944] - connection established from: 98372352
+[INFO 2016-12-20 20:17:27,338 @ 65944] - connection established from: 98371120
+[INFO 2016-12-20 20:17:29,775 @ 65944] - connection established from: 98438616
+[INFO 2016-12-20 20:24:04,141 @ 65944] - connection established from: 98432896
+[INFO 2016-12-20 20:42:32,677 @ 65944] - connection established from: 98372968
+[INFO 2016-12-20 20:43:20,503 @ 65944] - connection established from: 99339680
+[INFO 2016-12-20 21:34:00,381 @ 16264] - connection established from: 71060560
+[INFO 2016-12-20 21:34:03,502 @ 16264] - connection established from: 71324672
+[INFO 2016-12-20 21:35:52,595 @ 16264] - connection established from: 98996856
+[INFO 2016-12-20 21:35:54,951 @ 16264] - connection established from: 99076920
+[INFO 2016-12-20 21:40:12,655 @ 16264] - connection established from: 99077984
+[INFO 2016-12-20 21:40:15,138 @ 16264] - connection established from: 99075240
+[INFO 2016-12-20 21:40:18,950 @ 16264] - connection established from: 98999544
+[INFO 2016-12-20 21:40:24,933 @ 16264] - connection established from: 99109800
+[INFO 2016-12-20 21:41:24,292 @ 16264] - connection established from: 99201768
+[INFO 2016-12-20 21:41:25,944 @ 16264] - connection established from: 99204176
+[INFO 2016-12-20 21:42:03,953 @ 16264] - connection established from: 99183920
+[INFO 2016-12-20 21:42:05,563 @ 16264] - connection established from: 99201432
+[INFO 2016-12-21 13:50:22,644 @ 16264] - connection established from: 99849328
+[INFO 2016-12-21 13:55:44,694 @ 16264] - connection established from: 99850336
+[INFO 2016-12-21 13:56:06,467 @ 16264] - connection established from: 99851008
+[INFO 2016-12-21 13:56:11,944 @ 16264] - connection established from: 99869472
+[INFO 2016-12-21 13:56:30,930 @ 16264] - connection established from: 99870088
+[INFO 2016-12-21 13:56:39,226 @ 16264] - connection established from: 99871040
+[INFO 2016-12-21 14:00:38,418 @ 16264] - connection established from: 99922776
+[INFO 2016-12-21 14:00:42,548 @ 16264] - connection established from: 99923168
+[INFO 2016-12-21 14:00:44,420 @ 16264] - connection established from: 99924568
+[INFO 2016-12-21 14:00:46,227 @ 16264] - connection established from: 99107280
+[INFO 2016-12-21 14:11:59,075 @ 70680] - connection established from: 71981936
+[INFO 2016-12-21 14:12:09,446 @ 70680] - connection established from: 72246160
+[INFO 2016-12-21 14:12:14,035 @ 70680] - connection established from: 72247448
+[INFO 2016-12-21 14:14:17,756 @ 70680] - connection established from: 72248120
+[INFO 2016-12-21 14:18:15,121 @ 70680] - connection established from: 72369096
+[INFO 2016-12-21 14:23:43,586 @ 70680] - connection established from: 72369488
+[INFO 2016-12-21 14:24:04,394 @ 70680] - connection established from: 72370552
+[INFO 2016-12-21 14:38:53,198 @ 70680] - connection established from: 72371224
+[INFO 2016-12-21 14:39:44,357 @ 70680] - connection established from: 72430760
+[INFO 2016-12-21 14:40:13,359 @ 70680] - connection established from: 72431152
+[INFO 2016-12-21 14:41:10,326 @ 70680] - connection established from: 72432216
+[INFO 2016-12-21 14:42:49,897 @ 70680] - connection established from: 75817312
+[INFO 2016-12-21 14:43:05,776 @ 70680] - connection established from: 101478976
+[INFO 2016-12-21 14:45:30,309 @ 70680] - connection established from: 101638776
+[INFO 2016-12-21 14:45:50,003 @ 70680] - connection established from: 101588608
+[INFO 2016-12-21 14:51:10,404 @ 70680] - connection established from: 101818832
+[INFO 2016-12-21 14:51:27,707 @ 70680] - connection established from: 101819840
+[INFO 2016-12-21 14:51:37,668 @ 70680] - connection established from: 101820512
+[INFO 2016-12-21 14:54:05,526 @ 70680] - connection established from: 101821576
+[INFO 2016-12-21 14:54:09,171 @ 70680] - connection established from: 101835496
+[INFO 2016-12-21 14:54:23,688 @ 70680] - connection established from: 101836448
+[INFO 2016-12-21 14:54:25,328 @ 70680] - connection established from: 101837512
+[INFO 2016-12-21 14:54:27,121 @ 70680] - connection established from: 101888464
+[INFO 2016-12-21 14:54:41,025 @ 70680] - connection established from: 101888856
+[INFO 2016-12-21 14:57:47,796 @ 70680] - connection established from: 101889696
+[INFO 2016-12-21 15:04:07,006 @ 70680] - connection established from: 101890648
+[INFO 2016-12-21 15:04:41,025 @ 70680] - connection established from: 101891712
+[INFO 2016-12-21 15:06:27,553 @ 70680] - connection established from: 101974872
+[INFO 2016-12-21 15:13:09,665 @ 70680] - connection established from: 101975936
+[INFO 2016-12-21 15:17:29,502 @ 70680] - connection established from: 101976888
+[INFO 2016-12-21 15:21:33,528 @ 70680] - connection established from: 101316760
+[INFO 2016-12-21 15:24:58,003 @ 70680] - connection established from: 101316984
+[INFO 2016-12-21 15:25:10,832 @ 70680] - connection established from: 101977560
+[INFO 2016-12-21 15:25:20,220 @ 70680] - connection established from: 105522400
+[INFO 2016-12-21 15:26:00,259 @ 70680] - connection established from: 105522792
+[INFO 2016-12-21 15:26:13,503 @ 70680] - connection established from: 105523856
+[INFO 2016-12-21 15:28:06,898 @ 70680] - connection established from: 105599384
+[INFO 2016-12-21 15:37:17,546 @ 70680] - connection established from: 105600336
+[INFO 2016-12-21 15:37:20,174 @ 70680] - connection established from: 105600952
+[INFO 2016-12-21 15:50:27,608 @ 70680] - connection established from: 105601904
+[INFO 2016-12-21 15:59:32,992 @ 75684] - connection established from: 71015504
+[INFO 2016-12-21 15:59:49,483 @ 75684] - connection established from: 71304192
+[INFO 2016-12-21 15:59:56,418 @ 75684] - connection established from: 71305368
+[INFO 2016-12-21 16:01:01,915 @ 77712] - connection established from: 69622640
+[INFO 2016-12-21 16:01:17,928 @ 77712] - connection established from: 69886864
+[INFO 2016-12-21 16:58:01,191 @ 77712] - connection established from: 69888152
+[INFO 2016-12-21 16:58:04,428 @ 77712] - connection established from: 69888712
+[ERROR 2016-12-21 17:02:22,683 @ 77712] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[INFO 2016-12-21 17:19:47,509 @ 77712] - connection established from: 101169080
+[INFO 2016-12-21 17:20:05,776 @ 77712] - connection established from: 100928592
+[INFO 2016-12-21 17:27:25,848 @ 81080] - connection established from: 70425456
+[INFO 2016-12-21 17:27:31,352 @ 81080] - connection established from: 70710160
+[INFO 2016-12-21 17:30:45,171 @ 80736] - connection established from: 71855128
+[INFO 2016-12-21 17:31:11,098 @ 80736] - connection established from: 72061896
+[INFO 2016-12-21 17:31:23,980 @ 80736] - connection established from: 72063072
+[INFO 2016-12-21 17:31:38,713 @ 80736] - connection established from: 72063408
+[INFO 2016-12-21 17:31:54,934 @ 80736] - connection established from: 72064920
+[INFO 2016-12-21 17:32:19,440 @ 80736] - connection established from: 72193360
+[INFO 2016-12-21 17:36:05,352 @ 80208] - connection established from: 71551856
+[INFO 2016-12-21 17:36:12,049 @ 80208] - connection established from: 71820176
+[INFO 2016-12-21 17:36:55,625 @ 80208] - connection established from: 71820568
+[INFO 2016-12-21 17:37:07,575 @ 80208] - connection established from: 71822584
+[INFO 2016-12-21 17:37:27,082 @ 80208] - connection established from: 71947096
+[INFO 2016-12-21 17:44:11,720 @ 80208] - connection established from: 99101608
+[INFO 2016-12-21 17:45:20,788 @ 80208] - connection established from: 99149472
+[INFO 2016-12-21 17:45:34,956 @ 80208] - connection established from: 99149808
+[INFO 2016-12-21 17:45:58,025 @ 80208] - connection established from: 99150816
+[ERROR 2016-12-21 18:12:18,414 @ 81184] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2016-12-21 18:12:22,831 @ 81184] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[INFO 2016-12-21 18:13:21,426 @ 78068] - connection established from: 93246072
+[INFO 2016-12-21 18:13:32,440 @ 78068] - connection established from: 93307904
+[ERROR 2016-12-22 13:57:53,444 @ 18052] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 42, in type_list
+    print list_data
+UnboundLocalError: local variable 'list_data' referenced before assignment
+[INFO 2016-12-22 14:05:54,779 @ 18052] - connection established from: 95179664
+[INFO 2016-12-22 14:06:25,836 @ 18052] - connection established from: 95179664
+[INFO 2016-12-22 14:09:10,694 @ 18052] - connection established from: 95179664
+[INFO 2016-12-22 14:09:28,378 @ 18052] - connection established from: 95179664
+[INFO 2016-12-22 14:38:04,469 @ 18120] - connection established from: 98369608
+[INFO 2016-12-22 14:38:58,006 @ 18120] - connection established from: 98369608
+[INFO 2016-12-22 14:39:12,744 @ 20320] - connection established from: 70404976
+[INFO 2016-12-22 14:40:09,928 @ 18472] - connection established from: 73014352
+[INFO 2016-12-22 14:41:02,812 @ 19636] - connection established from: 72793056
+[INFO 2016-12-22 14:41:39,180 @ 18972] - connection established from: 70626048
+[INFO 2016-12-22 14:43:40,986 @ 18972] - connection established from: 70626048
+[INFO 2016-12-22 14:45:44,834 @ 18972] - connection established from: 70626048
+[INFO 2016-12-22 14:46:06,733 @ 18972] - connection established from: 71656224
+[INFO 2016-12-22 14:46:42,092 @ 18972] - connection established from: 71656224
+[INFO 2016-12-22 14:47:01,808 @ 18972] - connection established from: 71656000
+[INFO 2016-12-22 14:47:03,216 @ 18972] - connection established from: 71656000
+[INFO 2016-12-22 14:49:10,470 @ 18972] - connection established from: 71655888
+[INFO 2016-12-22 14:49:12,282 @ 18972] - connection established from: 71655888
+[INFO 2016-12-22 14:49:55,878 @ 18972] - connection established from: 71655608
+[INFO 2016-12-22 14:50:07,102 @ 18972] - connection established from: 71655608
+[INFO 2016-12-22 14:52:38,828 @ 18972] - connection established from: 71655608
+[INFO 2016-12-22 15:00:25,917 @ 20452] - connection established from: 72248232
+[INFO 2016-12-22 15:00:34,904 @ 20452] - connection established from: 72483672
+[INFO 2016-12-22 15:00:42,467 @ 20452] - connection established from: 72248232
+[INFO 2016-12-22 15:00:49,454 @ 20452] - connection established from: 72483672
+[ERROR 2016-12-22 15:13:43,288 @ 20452] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-12-22 15:14:37,993 @ 20452] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-12-22 15:16:59,885 @ 20452] - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 19, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry 'crm' for key 'service_name'") is not JSON serializable
+[ERROR 2016-12-22 15:55:43,395 @ 20452] - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 19, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry 'crm' for key 'service_name'") is not JSON serializable
+[ERROR 2016-12-22 15:55:58,865 @ 18116] - Internal Server Error: /v1/service/list/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 29, in post
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 19, in packageResponse
+    json_status = json.dumps(json_status)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: IntegrityError(1062, "Duplicate entry 'crm' for key 'service_name'") is not JSON serializable
+[INFO 2016-12-22 18:06:34,851 @ 18116] - connection established from: 93534192
+[INFO 2016-12-22 18:08:24,196 @ 18116] - connection established from: 93735960

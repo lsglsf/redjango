@@ -1,9 +1,14 @@
 # coding:utf-8
 from django.http import HttpResponse
-import json
 from Cmdb.models import AssetGroup
 import paramiko
 import copy
+from tornado.ioloop import IOLoop
+from tornado import gen
+from tornado.tcpclient import TCPClient
+from tornado.options import options, define
+import os,ConfigParser
+import json
 
 def packageResponse(result):
     if len(result) == 0:
@@ -76,3 +81,42 @@ def path_replace(sourc,output,file_list):
     ret['d']=file_list
     print ret,'file_list'
     return ret
+
+class Connect_agent(object):
+
+    def __init__(self):
+        pass
+
+    def send_message(self):
+        stream = yield TCPClient().connect(options.host, options.port)
+        data = options.message
+        yield stream.write((data + b"\n").encode())
+        while True:
+            reply = yield stream.read_until(b"\n")
+            c = json.loads(reply)
+            if c['status']:
+                # print(c['s'])
+                if c['pf'] == 'read':
+                  #  read_date = read(c)
+                    read_date=True
+                    if read_date:
+                        c['fun'] = 'file_write'
+                        data = json.dumps(c)
+                        yield stream.write((data + b"\n").encode())
+                    else:
+                        break
+                elif c['pf'] == 'write':
+                   # write(c)
+                    break
+                elif c['pf'] == 'backup':
+                    try:
+                        print('\033[0;32m %s s:%s t:%s\033[0m ' % (c['data'], c['s'], c['d']))
+                    except KeyError:
+                        print ('\033[0;32m %s \033[0m ' % (c['data']))
+            else:
+                print (c)
+                break
+
+        def start(self):
+            options.parse_command_line()
+            IOLoop.current().run_sync(self.send_message)
