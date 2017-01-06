@@ -11,8 +11,11 @@ import router from './router'
 if (__DEV__) {
   xhr.baseUrl = 'http://127.0.0.1:8080'
 } else {
-  xhr.baseUrl = '/api/'
+ // xhr.baseUrl = '/api'
+  xhr.baseUrl=''
 }
+
+
 
 xhr.success = (res, option) => {
   if (typeof res !== 'object') {

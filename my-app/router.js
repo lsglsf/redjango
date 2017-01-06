@@ -10,11 +10,14 @@ import auth from 'public/auth'
 import App from './functions/App'
 
 // 用户登录验证
+
 function requireAuth(nextState, replaceState) {
   const path = nextState.location.pathname
   const loginPath = '/login'
+  //const loginPath='/overview/todos'
   if (!auth.loggedIn()) {
     path !== loginPath && replaceState({referrer: path}, '/login')
+    //path !== loginPath && replaceState({referrer: path}, '/overview/todos')
   }
 }
 

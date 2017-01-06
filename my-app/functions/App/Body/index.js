@@ -25,13 +25,13 @@ class Body extends Component {
           <LayoutSidebar>
             <Nav href="/" onItemClick={() => this.toggle(false)}>
               <IndexNavItem herf="overview/todos" icon="th" title="概况" />
-              <NavItem href="#" icon="th" title="主机信息" >
-                <NavItem href="Cmdb" icon="th" title="资产管理" >
+              <NavItem href="#" icon="inbox" title="主机信息" >
+                <NavItem href="Cmdb" icon="window-maximize" title="资产管理" >
                   <NavItem href="Cmdb/group" title="资产组" />
                   <NavItem href="Cmdb/asset" title="主机资产"/>
-                  <NavItem href="Cmdb/idc" title="机房" />
+                  {/*<NavItem href="Cmdb/idc" title="机房" />*/}
                 </NavItem>
-                <NavItem href="Service" icon="th" title="服务管理" >
+                <NavItem href="Service" icon="credit-card-alt" title="服务管理" >
                   <NavItem href="Service/register" title="服务注册" />
                 </NavItem>   
               </NavItem>

@@ -90,7 +90,7 @@ class Delete_asset extends Component{
         onSuccess={::this.handleSuccess}
       >
       	<h6>删除的主机是{this.state.detele_host}</h6>
-        <FormSubmit>保存</FormSubmit>
+        <FormSubmit>确定</FormSubmit>
       </Form>
     )
   }
@@ -103,8 +103,8 @@ class Create_asset extends Component{
     this.update = update.bind(this)
     this.rules = {
       name(v) {
-        if (!v) return '请填写用户群'
-        if (v.length > 5) return '用户群名称不能超过5个字符'
+        if (!v) return '不能为空'
+        //if (v.length > 5) return '用户群名称不能超过5个字符'
       },
     }
     this.state = {
@@ -140,7 +140,7 @@ class Create_asset extends Component{
     this.handleclose()
     this.props.getdata()
     if (res['status']==true){
-      message.success('删除成功！')
+      message.success('创建成功！')
     }else{
       message.danger(res['status'])
     }
@@ -172,22 +172,22 @@ class Create_asset extends Component{
         rules={this.rules}
         onSuccess={::this.handleSuccess}
       >
-        <FormItem label="主机名" required name="name" help="5个字符以内">
+        <FormItem label="主机名" required name="name" help="请输入主机名">
           <FormInput />
         </FormItem>
-        <FormItem label="主机IP" required name="ip" help="5个字符以内">
+        <FormItem label="主机IP" required name="ip" help="请输入IP地址">
           <FormInput />
         </FormItem>
-        <FormItem label="其他IP" required name="other_ip" help="5个字符以内">
+        <FormItem label="其他IP" required name="other_ip" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="端口" required name="port" help="5个字符以内">
+        <FormItem label="端口" required name="port" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="用户名" required name="username" help="5个字符以内">
+        <FormItem label="用户名" required name="username" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="密码" required name="password" help="5个字符以内">
+        <FormItem label="密码" required name="password" help="">
           <FormInput type='password'/>
         </FormItem>
         {/*<FormItem label="所属主机组" name="group">
@@ -201,10 +201,10 @@ class Create_asset extends Component{
             {nav}
           </MultipleSelect>
         </FormItem>
-        <FormItem label="系统类型" required name="sys_name" help="5个字符以内">
+        <FormItem label="系统类型" required name="sys_name" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="系统版本号" required name="sys_version" help="5个字符以内">
+        <FormItem label="系统版本号" required name="sys_version" help="">
           <FormInput />
         </FormItem>
         <FormItem label="主机类型" name="host_type">

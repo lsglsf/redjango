@@ -4851,3 +4851,725 @@ Traceback (most recent call last):
 TypeError: IntegrityError(1062, "Duplicate entry 'crm' for key 'service_name'") is not JSON serializable
 [INFO 2016-12-22 18:06:34,851 @ 18116] - connection established from: 93534192
 [INFO 2016-12-22 18:08:24,196 @ 18116] - connection established from: 93735960
+[ERROR 2016-12-27 17:32:44,690 @ 50692] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 42, in type_list
+    print list_data
+UnboundLocalError: local variable 'list_data' referenced before assignment
+[ERROR 2016-12-27 17:33:26,342 @ 50692] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 23, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 42, in type_list
+    print list_data
+UnboundLocalError: local variable 'list_data' referenced before assignment
+[ERROR 2016-12-27 18:03:03,907 @ 48140] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Cmdb\rests.py", line 22, in get
+    ret = Methods.get('GET').get(fun)(request)
+  File "D:\work\redjango\Management\Cmdb\methods\cmdb_fun.py", line 75, in group_get
+    ret['data']=globals()[request.GET.get('name')](group_id)
+KeyError: None
+[ERROR 2016-12-28 14:32:53,706 @ 67132] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2016-12-28 14:33:19,457 @ 67132] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2016-12-30 09:52:45,338 @ 128624] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[DEBUG 2016-12-30 09:57:01,130 @ 132060] - CREATE TABLE `django_migrations` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `app` varchar(255) NOT NULL, `name` varchar(255) NOT NULL, `applied` datetime NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:05,855 @ 132060] - CREATE TABLE `Cmdb_asset` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ip` varchar(32) NULL, `other_ip` varchar(255) NULL, `hostname` varchar(128) NOT NULL UNIQUE, `port` integer NULL, `username` varchar(16) NULL, `password` varchar(256) NULL, `use_default_auth` bool NOT NULL, `mac` varchar(20) NULL, `remote_ip` varchar(16) NULL, `brand` varchar(64) NULL, `cpu` varchar(64) NULL, `memory` varchar(128) NULL, `disk` varchar(1024) NULL, `system_type` varchar(32) NULL, `system_version` varchar(8) NULL, `system_arch` varchar(16) NULL, `cabinet` varchar(32) NULL, `position` integer NULL, `number` varchar(32) NULL, `status` integer NULL, `asset_type` integer NULL, `env` integer NULL, `sn` varchar(128) NULL, `date_added` datetime NULL, `is_active` bool NOT NULL, `comment` varchar(128) NULL); (params None)
+[DEBUG 2016-12-30 09:57:05,882 @ 132060] - CREATE TABLE `Cmdb_assetgroup` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` varchar(80) NOT NULL UNIQUE, `comment` varchar(160) NULL); (params None)
+[DEBUG 2016-12-30 09:57:05,888 @ 132060] - CREATE TABLE `Cmdb_assetrecord` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `username` varchar(30) NULL, `alert_time` datetime NOT NULL, `content` longtext NULL, `comment` longtext NULL, `asset_id` integer NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:05,917 @ 132060] - CREATE TABLE `Cmdb_idc` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` varchar(32) NOT NULL, `bandwidth` varchar(32) NULL, `linkman` varchar(16) NULL, `phone` varchar(32) NULL, `address` varchar(128) NULL, `network` longtext NULL, `date_added` date NULL, `operator` varchar(32) NULL, `comment` varchar(128) NULL); (params None)
+[DEBUG 2016-12-30 09:57:05,926 @ 132060] - CREATE TABLE `Cmdb_asset_group` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `asset_id` integer NOT NULL, `assetgroup_id` integer NOT NULL, UNIQUE (`asset_id`, `assetgroup_id`)); (params None)
+[DEBUG 2016-12-30 09:57:05,953 @ 132060] - ALTER TABLE `Cmdb_asset` ADD COLUMN `idc_id` integer NULL; (params [])
+[DEBUG 2016-12-30 09:57:05,970 @ 132060] - ALTER TABLE `Cmdb_asset` ALTER COLUMN `idc_id` DROP DEFAULT; (params [])
+[DEBUG 2016-12-30 09:57:05,971 @ 132060] - ALTER TABLE `Cmdb_assetrecord` ADD CONSTRAINT `Cmdb_assetrecord_asset_id_19e1e7bf_fk_Cmdb_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `Cmdb_asset` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:05,973 @ 132060] - CREATE INDEX `Cmdb_assetrecord_51c6d5db` ON `Cmdb_assetrecord` (`asset_id`); (params [])
+[DEBUG 2016-12-30 09:57:05,974 @ 132060] - ALTER TABLE `Cmdb_asset_group` ADD CONSTRAINT `Cmdb_asset_group_asset_id_34905f0_fk_Cmdb_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `Cmdb_asset` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:05,976 @ 132060] - ALTER TABLE `Cmdb_asset_group` ADD CONSTRAINT `Cmdb_asset_group_assetgroup_id_768ad676_fk_Cmdb_assetgroup_id` FOREIGN KEY (`assetgroup_id`) REFERENCES `Cmdb_assetgroup` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:05,979 @ 132060] - CREATE INDEX `Cmdb_asset_group_51c6d5db` ON `Cmdb_asset_group` (`asset_id`); (params [])
+[DEBUG 2016-12-30 09:57:05,980 @ 132060] - CREATE INDEX `Cmdb_asset_group_2f088294` ON `Cmdb_asset_group` (`assetgroup_id`); (params [])
+[DEBUG 2016-12-30 09:57:05,982 @ 132060] - CREATE INDEX `Cmdb_asset_0869e37a` ON `Cmdb_asset` (`idc_id`); (params [])
+[DEBUG 2016-12-30 09:57:05,983 @ 132060] - ALTER TABLE `Cmdb_asset` ADD CONSTRAINT `Cmdb_asset_idc_id_71aeb26e_fk_Cmdb_idc_id` FOREIGN KEY (`idc_id`) REFERENCES `Cmdb_idc` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,019 @ 132060] - CREATE TABLE `django_content_type` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` varchar(100) NOT NULL, `app_label` varchar(100) NOT NULL, `model` varchar(100) NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:06,039 @ 132060] - ALTER TABLE `django_content_type` ADD CONSTRAINT `django_content_type_app_label_3ec8c61c_uniq` UNIQUE (`app_label`, `model`); (params [])
+[DEBUG 2016-12-30 09:57:06,048 @ 132060] - CREATE TABLE `auth_permission` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` varchar(50) NOT NULL, `content_type_id` integer NOT NULL, `codename` varchar(100) NOT NULL, UNIQUE (`content_type_id`, `codename`)); (params None)
+[DEBUG 2016-12-30 09:57:06,063 @ 132060] - CREATE TABLE `auth_group` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `name` varchar(80) NOT NULL UNIQUE); (params None)
+[DEBUG 2016-12-30 09:57:06,068 @ 132060] - CREATE TABLE `auth_group_permissions` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `group_id` integer NOT NULL, `permission_id` integer NOT NULL, UNIQUE (`group_id`, `permission_id`)); (params None)
+[DEBUG 2016-12-30 09:57:06,078 @ 132060] - CREATE TABLE `auth_user` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `password` varchar(128) NOT NULL, `last_login` datetime NOT NULL, `is_superuser` bool NOT NULL, `username` varchar(30) NOT NULL UNIQUE, `first_name` varchar(30) NOT NULL, `last_name` varchar(30) NOT NULL, `email` varchar(75) NOT NULL, `is_staff` bool NOT NULL, `is_active` bool NOT NULL, `date_joined` datetime NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:06,079 @ 132060] - CREATE TABLE `auth_user_groups` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `user_id` integer NOT NULL, `group_id` integer NOT NULL, UNIQUE (`user_id`, `group_id`)); (params None)
+[DEBUG 2016-12-30 09:57:06,082 @ 132060] - CREATE TABLE `auth_user_user_permissions` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `user_id` integer NOT NULL, `permission_id` integer NOT NULL, UNIQUE (`user_id`, `permission_id`)); (params None)
+[DEBUG 2016-12-30 09:57:06,084 @ 132060] - ALTER TABLE `auth_permission` ADD CONSTRAINT `auth_permissi_content_type_id_51277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,085 @ 132060] - CREATE INDEX `auth_permission_417f1b1c` ON `auth_permission` (`content_type_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,088 @ 132060] - ALTER TABLE `auth_group_permissions` ADD CONSTRAINT `auth_group_permissions_group_id_58c48ba9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,089 @ 132060] - ALTER TABLE `auth_group_permissions` ADD CONSTRAINT `auth_group_permissi_permission_id_23962d04_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,092 @ 132060] - CREATE INDEX `auth_group_permissions_0e939a4f` ON `auth_group_permissions` (`group_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,092 @ 132060] - CREATE INDEX `auth_group_permissions_8373b171` ON `auth_group_permissions` (`permission_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,095 @ 132060] - ALTER TABLE `auth_user_groups` ADD CONSTRAINT `auth_user_groups_user_id_24702650_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,096 @ 132060] - ALTER TABLE `auth_user_groups` ADD CONSTRAINT `auth_user_groups_group_id_30a071c9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,098 @ 132060] - CREATE INDEX `auth_user_groups_e8701ad4` ON `auth_user_groups` (`user_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,099 @ 132060] - CREATE INDEX `auth_user_groups_0e939a4f` ON `auth_user_groups` (`group_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,101 @ 132060] - ALTER TABLE `auth_user_user_permissions` ADD CONSTRAINT `auth_user_user_permissions_user_id_7cd7acb6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,102 @ 132060] - ALTER TABLE `auth_user_user_permissions` ADD CONSTRAINT `auth_user_user_perm_permission_id_3d7071f0_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,105 @ 132060] - CREATE INDEX `auth_user_user_permissions_e8701ad4` ON `auth_user_user_permissions` (`user_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,105 @ 132060] - CREATE INDEX `auth_user_user_permissions_8373b171` ON `auth_user_user_permissions` (`permission_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,121 @ 132060] - CREATE TABLE `django_admin_log` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `action_time` datetime NOT NULL, `object_id` longtext NULL, `object_repr` varchar(200) NOT NULL, `action_flag` smallint UNSIGNED NOT NULL, `change_message` longtext NOT NULL, `content_type_id` integer NULL, `user_id` integer NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:06,124 @ 132060] - ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin__content_type_id_5151027a_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,125 @ 132060] - ALTER TABLE `django_admin_log` ADD CONSTRAINT `django_admin_log_user_id_1c5f563_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,127 @ 132060] - CREATE INDEX `django_admin_log_417f1b1c` ON `django_admin_log` (`content_type_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,130 @ 132060] - CREATE INDEX `django_admin_log_e8701ad4` ON `django_admin_log` (`user_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,168 @ 132060] - ALTER TABLE `django_content_type` MODIFY `name` varchar(100) NULL; (params [])
+[DEBUG 2016-12-30 09:57:06,181 @ 132060] - ALTER TABLE `django_content_type` DROP COLUMN `name` CASCADE; (params [])
+[DEBUG 2016-12-30 09:57:06,194 @ 132060] - ALTER TABLE `auth_permission` MODIFY `name` varchar(255) NOT NULL; (params [])
+[DEBUG 2016-12-30 09:57:06,209 @ 132060] - ALTER TABLE `auth_user` MODIFY `email` varchar(254) NOT NULL; (params [])
+[DEBUG 2016-12-30 09:57:06,236 @ 132060] - ALTER TABLE `auth_user` MODIFY `last_login` datetime NULL; (params [])
+[DEBUG 2016-12-30 09:57:06,255 @ 132060] - CREATE TABLE `service_register` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `service_name` varchar(50) NULL, `service_start` varchar(100) NULL, `service_stop` varchar(100) NULL, `service_restart` varchar(100) NULL, `path_config` varchar(150) NULL, `path_root` varchar(150) NULL, `path_project` varchar(150) NULL, `path_log` varchar(150) NULL, `desc` varchar(150) NULL); (params None)
+[DEBUG 2016-12-30 09:57:06,257 @ 132060] - CREATE TABLE `service_register_Asset_service` (`id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `register_id` integer NOT NULL, `asset_id` integer NOT NULL, UNIQUE (`register_id`, `asset_id`)); (params None)
+[DEBUG 2016-12-30 09:57:06,259 @ 132060] - ALTER TABLE `service_register_Asset_service` ADD CONSTRAINT `service_register_Ass_register_id_393b2379_fk_service_register_id` FOREIGN KEY (`register_id`) REFERENCES `service_register` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,262 @ 132060] - ALTER TABLE `service_register_Asset_service` ADD CONSTRAINT `service_register_Asset_servic_asset_id_3d1ea093_fk_Cmdb_asset_id` FOREIGN KEY (`asset_id`) REFERENCES `Cmdb_asset` (`id`); (params [])
+[DEBUG 2016-12-30 09:57:06,280 @ 132060] - CREATE INDEX `service_register_Asset_service_ae299483` ON `service_register_Asset_service` (`register_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,282 @ 132060] - CREATE INDEX `service_register_Asset_service_51c6d5db` ON `service_register_Asset_service` (`asset_id`); (params [])
+[DEBUG 2016-12-30 09:57:06,288 @ 132060] - CREATE TABLE `django_session` (`session_key` varchar(40) NOT NULL PRIMARY KEY, `session_data` longtext NOT NULL, `expire_date` datetime NOT NULL); (params None)
+[DEBUG 2016-12-30 09:57:06,290 @ 132060] - CREATE INDEX `django_session_de54fa62` ON `django_session` (`expire_date`); (params [])
+[ERROR 2016-12-30 09:57:36,565 @ 128624] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[INFO 2016-12-30 13:59:29,782 @ 123692] - connection established from: 70817160
+[INFO 2016-12-30 14:30:30,826 @ 123692] - connection established from: 103557608
+[INFO 2016-12-30 14:31:41,644 @ 123692] - connection established from: 103635096
+[INFO 2016-12-30 14:33:02,884 @ 123692] - connection established from: 103633360
+[INFO 2016-12-30 14:40:55,612 @ 123692] - connection established from: 103949816
+[INFO 2016-12-30 14:40:57,653 @ 123692] - connection established from: 103949816
+[INFO 2016-12-30 14:42:56,878 @ 123692] - connection established from: 103951832
+[INFO 2016-12-30 14:42:57,966 @ 123692] - connection established from: 103951832
+[INFO 2016-12-30 14:43:59,884 @ 102040] - connection established from: 69711240
+[INFO 2016-12-30 14:44:07,198 @ 102040] - connection established from: 69711240
+[INFO 2016-12-30 14:44:09,092 @ 102040] - connection established from: 69711240
+[INFO 2016-12-30 14:44:18,782 @ 102040] - connection established from: 69711240
+[ERROR 2016-12-30 14:56:23,229 @ 123472] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render_to_response('index.html',locals())
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 39, in render_to_response
+    content = loader.render_to_string(template_name, context, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: index.html
+[ERROR 2016-12-30 14:57:20,792 @ 129484] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render_to_response('index.html',locals())
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 39, in render_to_response
+    content = loader.render_to_string(template_name, context, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: index.html
+[ERROR 2016-12-30 15:07:24,555 @ 144716] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render_to_response('index.html',locals())
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 39, in render_to_response
+    content = loader.render_to_string(template_name, context, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 35, in get_template
+    return engine.get_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 30, in get_template
+    return Template(self.engine.get_template(template_name, dirs))
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 261, in compile_string
+    return parser.parse()
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 396, in invalid_block_tag
+    raise self.error(token, "Invalid block tag: '%s'" % command)
+TemplateSyntaxError: Invalid block tag: 'static'
+[ERROR 2016-12-30 15:08:46,803 @ 143324] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render_to_response('index.html',locals())
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 39, in render_to_response
+    content = loader.render_to_string(template_name, context, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 35, in get_template
+    return engine.get_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 30, in get_template
+    return Template(self.engine.get_template(template_name, dirs))
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 167, in get_template
+    template, origin = self.find_template(template_name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 141, in find_template
+    source, display_name = loader(name, dirs)
+  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 13, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "C:\Python27\lib\site-packages\django\template\loaders\base.py", line 23, in load_template
+    template = Template(source, origin, template_name, self.engine)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 191, in __init__
+    self.nodelist = engine.compile_string(template_string, origin)
+  File "C:\Python27\lib\site-packages\django\template\engine.py", line 261, in compile_string
+    return parser.parse()
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 340, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 396, in invalid_block_tag
+    raise self.error(token, "Invalid block tag: '%s'" % command)
+TemplateSyntaxError: Invalid block tag: 'static'
+[ERROR 2016-12-30 16:14:33,480 @ 122280] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render('index.html',{})
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: {}
+[ERROR 2016-12-30 16:14:39,131 @ 122280] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render('index.html',{})
+  File "C:\Python27\lib\site-packages\django\shortcuts.py", line 67, in render
+    template_name, context, request=request, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 98, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: {}
+[ERROR 2016-12-30 16:14:53,417 @ 87492] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 6, in index
+    return render('index.html')
+TypeError: render() takes at least 2 arguments (1 given)
+[ERROR 2016-12-30 17:12:10,348 @ 113272] - Internal Server Error: /Service/register
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:12:29,680 @ 113272] - Internal Server Error: /Service/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:12:41,877 @ 47332] - Internal Server Error: /Service/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:12:43,137 @ 47332] - Internal Server Error: /Service/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:12:44,581 @ 47332] - Internal Server Error: /Service/register/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:12:59,765 @ 47332] - Internal Server Error: /api/auth
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:23:05,424 @ 130268] - Internal Server Error: //Service/register
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:23:08,690 @ 130268] - Internal Server Error: /Service/register
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:28:09,331 @ 145068] - Internal Server Error: /Service/register
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:28:43,216 @ 145068] - Internal Server Error: /log
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:28:52,964 @ 145068] - Internal Server Error: /login
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:42:00,572 @ 130708] - Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\utils\decorators.py", line 110, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "D:\work\redjango\Management\Management\views.py", line 15, in index
+    user = json.dumps(user)
+  File "C:\Python27\lib\json\__init__.py", line 244, in dumps
+    return _default_encoder.encode(obj)
+  File "C:\Python27\lib\json\encoder.py", line 207, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Python27\lib\json\encoder.py", line 270, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Python27\lib\json\encoder.py", line 184, in default
+    raise TypeError(repr(o) + " is not JSON serializable")
+TypeError: <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x00000000057B7630>> is not JSON serializable
+[ERROR 2016-12-30 17:47:21,285 @ 87072] - Internal Server Error: //overview/todos
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[ERROR 2016-12-30 17:47:26,309 @ 87072] - Internal Server Error: /overview/todos
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 74, in process_request
+    if (not urlresolvers.is_valid_path(request.path_info, urlconf) and
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 646, in is_valid_path
+    resolve(path, urlconf)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 521, in resolve
+    return get_resolver(urlconf).resolve(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 367, in resolve
+    sub_match = pattern.resolve(new_path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 226, in resolve
+    match = self.regex.search(path)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 194, in regex
+    (regex, six.text_type(e)))
+ImproperlyConfigured: "^*$" is not a valid regular expression: nothing to repeat
+[INFO 2017-01-03 14:38:05,075 @ 13684] - connection established from: 98545960
+[INFO 2017-01-03 14:39:26,183 @ 13684] - connection established from: 98675568
+[INFO 2017-01-03 14:39:30,227 @ 13684] - connection established from: 98675568
+[INFO 2017-01-03 14:40:42,625 @ 13684] - connection established from: 98676240
+[INFO 2017-01-03 14:43:08,122 @ 13684] - connection established from: 98925984
+[INFO 2017-01-03 14:47:22,970 @ 13684] - connection established from: 98926488
+[INFO 2017-01-03 14:49:48,585 @ 13684] - connection established from: 98927000
+[INFO 2017-01-03 14:50:05,713 @ 13684] - connection established from: 98927000
+[INFO 2017-01-03 14:50:18,635 @ 13684] - connection established from: 98927000
+[INFO 2017-01-03 14:53:44,055 @ 13684] - connection established from: 98993880
+[INFO 2017-01-03 14:53:49,167 @ 13684] - connection established from: 98993880
+[INFO 2017-01-03 14:54:21,671 @ 13684] - connection established from: 98993880
+[INFO 2017-01-03 14:54:22,421 @ 13684] - connection established from: 98993880
+[INFO 2017-01-03 14:54:32,786 @ 13684] - connection established from: 98993880
+[INFO 2017-01-03 14:56:38,953 @ 13684] - connection established from: 98890360
+[INFO 2017-01-03 14:56:51,914 @ 13684] - connection established from: 98890360
+[INFO 2017-01-03 14:57:38,780 @ 13684] - connection established from: 98922736
+[INFO 2017-01-03 14:59:14,733 @ 13684] - connection established from: 98546464
+[INFO 2017-01-03 14:59:48,196 @ 13684] - connection established from: 98483896
+[INFO 2017-01-03 15:01:14,940 @ 13684] - connection established from: 98949720
+[INFO 2017-01-03 15:02:41,914 @ 13684] - connection established from: 98993712
+[INFO 2017-01-03 15:03:31,012 @ 13684] - connection established from: 98955104
+[INFO 2017-01-03 15:05:05,417 @ 13684] - connection established from: 98955104
+[INFO 2017-01-03 15:05:15,467 @ 13684] - connection established from: 98955104
+[INFO 2017-01-03 15:20:19,588 @ 19824] - connection established from: 97234560
+[INFO 2017-01-03 15:20:21,914 @ 19824] - connection established from: 97234560
+[INFO 2017-01-03 15:26:06,339 @ 19824] - connection established from: 97641696
+[INFO 2017-01-03 15:26:36,227 @ 19824] - connection established from: 97641696
+[INFO 2017-01-03 15:27:35,795 @ 23456] - connection established from: 90209864
+[INFO 2017-01-03 15:29:39,628 @ 23456] - connection established from: 90550680
+[INFO 2017-01-03 15:34:10,082 @ 23528] - connection established from: 71337912
+[ERROR 2017-01-04 10:01:12,296 @ 35756] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2017-01-04 10:01:16,582 @ 35756] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2017-01-04 10:01:41,207 @ 35756] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[INFO 2017-01-04 16:52:46,019 @ 50276] - connection established from: 102607728
+[INFO 2017-01-04 16:56:15,634 @ 50276] - connection established from: 102427952
+[INFO 2017-01-04 16:58:00,295 @ 50276] - connection established from: 102427952
+[ERROR 2017-01-05 11:12:19,667 @ 51708] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:20,680 @ 51708] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:23,509 @ 51708] - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:24,710 @ 51708] - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:25,266 @ 51708] - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:25,459 @ 51708] - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:25,648 @ 51708] - Internal Server Error: /v1/cmdb/list/grouppost/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:12:27,214 @ 51708] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[ERROR 2017-01-05 11:24:35,789 @ 62124] - Internal Server Error: /v1/cmdb/list/groupget/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\rest_framework\response.py", line 71, in rendered_content
+    ret = renderer.render(self.data, media_type, context)
+  File "C:\Python27\lib\site-packages\rest_framework\renderers.py", line 674, in render
+    template = loader.get_template(self.template)
+  File "C:\Python27\lib\site-packages\django\template\loader.py", line 46, in get_template
+    raise TemplateDoesNotExist(template_name)
+TemplateDoesNotExist: rest_framework/api.html
+[INFO 2017-01-06 15:28:55,292 @ 93476] - connection established from: 71354016
+[INFO 2017-01-06 15:29:09,658 @ 93476] - connection established from: 71354016
+[INFO 2017-01-06 15:29:11,664 @ 93476] - connection established from: 71354016
+[INFO 2017-01-06 15:29:24,151 @ 93476] - connection established from: 71355864
+[INFO 2017-01-06 15:29:31,049 @ 93476] - connection established from: 71355864
+[INFO 2017-01-06 15:38:13,211 @ 93476] - connection established from: 100795504
+[INFO 2017-01-06 15:38:22,283 @ 93476] - connection established from: 100795504
+[INFO 2017-01-06 15:39:13,828 @ 93476] - connection established from: 101425392
+[INFO 2017-01-06 15:39:15,747 @ 93476] - connection established from: 101425392
+[INFO 2017-01-06 15:40:29,217 @ 93476] - connection established from: 101363552
+[INFO 2017-01-06 15:42:12,701 @ 93476] - connection established from: 101460512
+[INFO 2017-01-06 15:43:59,694 @ 93476] - connection established from: 101512584

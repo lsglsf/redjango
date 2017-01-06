@@ -10,7 +10,7 @@ class Header extends Component {
   handleLogout(e) {
     e.preventDefault()
     xhr({
-      url: 'auth/logout',
+      url: '/logout',
       success: () => {
         auth.destroy()
         this.props.history.pushState({

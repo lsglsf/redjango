@@ -323,19 +323,22 @@ class Create_server extends Component{
               {children}
           </Select>
         </FormItem>
-        <FormItem label="服务名称" required name="service_name" help="5个字符以内">
+        <FormItem label="服务名称" required name="service_name" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="服务命令" required name="service_restart" help="5个字符以内">
+        <FormItem label="重启服务" required name="service_restart" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="配置路径" required name="path_config" help="5个字符以内">
+        <FormItem label="配置路径" required name="path_config" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="程序路径" required name="path_root" help="5个字符以内">
+        <FormItem label="程序路径" required name="path_root" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="项目路径" required name="path_project" help="5个字符以内">
+        <FormItem label="项目路径" required name="path_project" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="日志路径" required name="log_path" help="">
           <FormInput />
         </FormItem>
         <FormItem label="描述" name="desc" help="500个字符以内">

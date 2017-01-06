@@ -19,6 +19,7 @@ def register(request):
             path_root=request.POST.get('path_root'),
             path_project=request.POST.get('path_project'),
             desc=request.POST.get('desc',None),
+            path_log=request.POST.get('log_path')
         )
         data_host=request.POST.get('targetData')
         if data_host:
@@ -62,6 +63,8 @@ def query_host(request):
             sys['path_project'] = service.path_project
             sys['desc'] = service.desc
             sys['host']= host.hostname
+            sys['path_log']= service.path_log
+            sys['ip'] = host.ip
             # sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
             ret['data'].append(sys)
   #      ret['host'].append(host.hostname)

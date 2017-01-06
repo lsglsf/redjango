@@ -9,6 +9,7 @@ import tornado.wsgi
 from tornado.options import options, define, parse_command_line
 import tornado.websocket
 import logging
+from tornado.iostream import StreamClosedError
 import uuid
 import tornado.escape
 from tornado import gen
@@ -19,6 +20,7 @@ import json
 from tornado.ioloop import IOLoop
 import tornado.iostream
 import socket
+from handlers import Webservice_execute
 
 
 define('port', type=int, default=8080)
@@ -74,23 +76,38 @@ class Connect_agent(object):
     @gen.coroutine
     def send_message2(self):
         print self.host,self.port
-        stream = yield TCPClient().connect(self.host, self.port)
-        self.stream = stream
-        if self.data['fun'] == "fun_file":
-            yield stream.write((json.dumps(self.data) + "\n").encode())
-            print self.data,'data'
-            reply = yield stream.read_until(b"\n")
-            print reply,'adsfs'
-            self.object_w.write_message(reply)
-        elif self.data['fun'] == "file_write":
-            yield stream.write((json.dumps(self.data) + "\n").encode())
-            while True:
+        try:
+            stream = yield TCPClient().connect(self.host, self.port)
+            self.stream = stream
+            if self.data['fun'] == "fun_file":
+                yield stream.write((json.dumps(self.data) + "\n").encode())
+                print self.data,'data'
                 reply = yield stream.read_until(b"\n")
+                print reply,'adsfs'
                 self.object_w.write_message(reply)
-                if json.loads(reply)['pf'] == 'write':
-                    self.object_w.close()
-                    break
-        stream.close()
+            elif self.data['fun'] == "file_write":
+                yield stream.write((json.dumps(self.data) + "\n").encode())
+                while True:
+                    reply = yield stream.read_until(b"\n")
+                    self.object_w.write_message(reply)
+                    if json.loads(reply)['pf'] == 'write':
+                        self.object_w.close()
+                        break
+            stream.close()
+        except StreamClosedError:
+            print 'aaa'
+            ret = {}
+            ret['status'] = 'stop'
+            ret['data'] = '连接客户端失败'
+            self.object_w.write_message(ret)
+            self.object_w.close()
+        except Exception as e:
+            print 'bbb'
+            ret = {}
+            ret['status'] = 'stop'
+            ret['data'] = '连接客户端异常'
+            self.object_w.write_message(ret)
+            self.object_w.close()
   #      del stream
 
 #    @classmethod
@@ -113,9 +130,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         return self.waiters_d.get(self._id(), None)
 
     def put_client(self):
-        connect = Connect_agent('192.168.44.130','9888',self,self._id())
-        print connect
-        self.waiters_d[self._id()] = connect
+        self.waiters_d[self._id()] = None
 
     def remove_client(self):
         bridge = self.get_client()
@@ -154,23 +169,32 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
        # websocket_id=self._id()
        # webid_d=self.waiters_d.get(websocket_id,None)
         print message
-        bridge = self.get_client()
-        client_data=json.loads(message)
-        print client_data['pf']
-        if self._is_init_data(client_data):
-            print 'test'
-            if self._check_init_param(client_data['data']):
-                print 'aaaaa'
-           #     bridge.connect_message(client_data['data'])
-                bridge.start(client_data)
-           #     self.io_loop.start()
-                logging.info('connection established from: %s' % self._id())
+        print self.get_cookie('user')
+        if self.get_cookie('user') == None:
+            bridge = self.get_client()
+            client_data=json.loads(message)
+            print client_data['pf']
+            if self._is_init_data(client_data):
+                print 'test'
+                if self._check_init_param(client_data['data']):
+                    print 'aaaaa'
+               #     bridge.connect_message(client_data['data'])
+                    if bridge == None:
+                        connect = Connect_agent(client_data['ip'], '9888', self, self._id())
+                        self.waiters_d[self._id()] = connect
+                        connect.start(client_data)
+                    else:
+                        bridge.start(client_data)
+               #     self.io_loop.start()
+                    logging.info('connection established from: %s' % self._id())
+                else:
+                    self.remove_client()
+                    logging.warning('init param invalid: %s' % client_data.data)
             else:
-                self.remove_client()
-                logging.warning('init param invalid: %s' % client_data.data)
+                if bridge:
+                    bridge.callback_fun(client_data)
         else:
-            if bridge:
-                bridge.callback_fun(client_data)
+            self.close()
 
 def main():
     parse_command_line()
@@ -180,12 +204,15 @@ def main():
     )
 
     settings = dict(
-        debug=True
+        debug=True,
+        template_path=os.path.join(os.path.dirname(__file__), "templates"),
+        static_path=os.path.join(os.path.dirname(__file__), "static"),
     )
 
     tornado_app=tornado.web.Application(
         [
             (r"/v1/sync_file/", ChatSocketHandler),
+            (r"/v1/service_execute/",Webservice_execute),
             ('.*',tornado.web.FallbackHandler,dict(fallback=wsgi_app))
         ],**settings
     )

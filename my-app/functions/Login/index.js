@@ -28,6 +28,7 @@ class Login extends Component {
     const passState = this.props.location.state
     const referrer = passState && passState.referrer
     this.props.history.push(referrer || '/')
+    console.log(this.props.history)
   }
 
   handleRemember(e) {
@@ -36,18 +37,20 @@ class Login extends Component {
 
   render() {
     const { user } = this.state
+    console.log(this.props.history)
     return (
       <div className="login">
         <Form 
-          action="auth"
+          action="/login"
           onSuccess={::this.handleSuccess} 
           defaultData={user} 
           labelWidth={0} 
           rules={this.rules}
         >
-          <div className="login__logo">
+          {/*<div className="login__logo">
+          <div>
             SYSTEM NAME
-          </div>
+          </div>*/}
           <FormItem name="username">
             <FormInput placeholder="用户名" />
           </FormItem>

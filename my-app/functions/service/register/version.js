@@ -1,5 +1,5 @@
 //import { Modal, ModalHeader, ModalBody } from 'bfd/Modal'
-//import Button from 'bfd/Button'
+import Button  from 'bfd/Button'
 import React, { Component } from 'react'
 import './index.less'
 import update from 'react-update'
@@ -10,9 +10,14 @@ import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
 //import { Select, Option as Options } from 'bfd/Select'
-import { Row, Col } from 'bfd/Layout'
+//import { Row, Col } from 'bfd/Layout'
 import { Menu, Dropdown,Icon,Popconfirm } from 'antd';
-import { Modal, Button } from 'antd';
+import { Modal, Button as Buttons, Alert } from 'antd';
+import CodeMirror from 'react-codemirror'
+import "../../../node_modules/codemirror/lib/codemirror.css";
+import OPEN from '../../data_request/request.js'
+import { Row, Col } from 'antd'
+import Tree from 'bfd/Tree'
 
 class File_sync extends Component{
   constructor(props) {
@@ -51,6 +56,7 @@ class File_sync extends Component{
    // console.log(this.props.select_host,'sdfsfdsafsa')
    // console.log(this.props.host,'11')
   // this.handsocket()
+  console.log(this.props.item,'item')
   
   }
 
@@ -66,6 +72,7 @@ class File_sync extends Component{
 
   handleclose(){
     this.props.modal.close()
+
   }
 
   add_path(){
@@ -111,7 +118,7 @@ class File_sync extends Component{
       }
     })*/
     let path_list=this.state.path_list
-    let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':'111','app':'crm_host1'}
+    let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.props.item['ip'],'app':this.props.item['service_name'],ip:this.props.item['ip']}
     this.ws_websokct(path_dict)
     //let ws=this.state.ws
     //ws.send()
@@ -149,43 +156,49 @@ class File_sync extends Component{
     sync_data['fun']='file_write'
     sync_data['pf']='init'
     sync_data['data']='aaa'
+    sync_data['ip']=this.props.item['ip']
     this.ws_websokct(sync_data)
   }
 
+  write_close(){
+    this.state.ws.close()
+    this.props._this.setState({visible:false})
+  }
+
   handsocket(){
+   // let ws_baseUrl='ws://192.168.44.130:8080/v1/sync_file/'
+    //let ws_baseUrl='wss://cmdb.winbons.com/v1/sync_file/'
+    let ws_baseUrl='ws://127.0.0.1:8080/v1/sync_file/'
+    //let ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
     let _this=this
     console.log('socketsdfsa')
-    let ws=new WebSocket("ws://127.0.0.1:8080/v1/sync_file/");
-    //ws.send('111')
+    //let ws=new WebSocket("ws://127.0.0.1:8080/v1/sync_file/");
+    let ws=new WebSocket(ws_baseUrl);
     ws.onopen = function()
     {
       console.log("open");
-     // ws.send("hello");
-     // ws.send("hello1");
-     // console.log('sdfsdaf');
      _this.setState({ws})
 
     };
     ws.onmessage = function(evt)
     {
-     // console.log('test1111')
-      //console.log(evt.data)
-     // console.log(JSON.parse(evt.data)['pf'])
       let return_json=JSON.parse(evt.data)
+      if (return_json['status'] != "stop"){
       if (return_json['pf'] == 'read'){
         _this.setState({sync_data:JSON.parse(evt.data),path_list:''})
       }else if (return_json['pf'] == 'backup'){
         let backup = _this.state.backup
         backup.push(return_json['data'])
         _this.setState({sync_data:'',backup})
-        console.log(_this.state.backup,'2222')
       }else if (return_json['pf']=='write') {
         let result_data = _this.state.result_data
         result_data['update']=return_json['update']
         result_data['delete']=return_json['delete']
         _this.setState({result_data})
-        console.log(_this.state.backup,'11112')
       }
+    }else{
+      message.danger(return_json['data'])
+    }
     };
     ws.onclose = function(evt)
     {
@@ -198,7 +211,6 @@ class File_sync extends Component{
       console.log('error',evt)
       console.log("WebSocketError!");
     };
-   // ws.send("hello1");
     return ws
   }
 
@@ -206,7 +218,6 @@ class File_sync extends Component{
   render() {
     const { formData } = this.state
     let nav=this.state.path_list ? this.state.path_list.map((item,str)=>{
-      //console.log(item,str,'111111111')
     let color1='none'
     if (item['type']=='none'){
        color1='black'
@@ -239,7 +250,7 @@ class File_sync extends Component{
     }):<span></span>
 
     let source_file=this.state.sync_data['s'] ? this.state.sync_data['s'].map((item,str)=>{
-    console.log(item,str,'1111111111')
+    //console.log(item,str,'1111111111')
     let color1='none'
     if (item['type']=='none'){
        color1='black'
@@ -265,7 +276,7 @@ class File_sync extends Component{
     }):<span></span>
 
     let target_file=this.state.sync_data['d'] ? this.state.sync_data['s'].map((item,str)=>{
-    console.log(item,str,'1111111111')
+  //  console.log(item,str,'1111111111')
     let color1='none'
     if (item['type']=='none'){
        color1='black'
@@ -279,7 +290,7 @@ class File_sync extends Component{
       color1 = 'red'
     }
       return(
-        <div key={str}>
+        <div key={str} >
           <span style={{height:'20px',lineHeight:'20px',color:color1}}>{item['path']}</span>
           <span style={{float:'right'}}>
           <select onChange={::this.handselect.bind(this,str)} >
@@ -325,22 +336,27 @@ class File_sync extends Component{
           <a href='#' style={{marginRight:'20px'}}><span onClick={::this.add_path}>添加</span></a>
           <a href='#' ><span onClick={::this.detection_path} >检测</span></a>
         </FormItem>
-        {
-          this.state.add_Path ? <FormItem label="添加目录" name="desc" help=""><FormTextarea style={{width:"400px",height:"150px"}}/></FormItem>: <div></div>
-        }
-        {nav}
-        {this.state.sync_data ?
-          <div>
-            <h4>{this.state.sync_data['s_host']}</h4>
-            {source_file}
-            <h4>{this.state.sync_data['t_host']}</h4>
-            {target_file}
-            <Button onClick={::this.write_file}>确定</Button>
-          </div>
-        :<span></span>
-        }
-        {backup}
-        {update}
+        <div style={{maxHeight:'500',overflow:'auto'}}>
+          {
+            this.state.add_Path ? <FormItem label="添加目录" name="desc" help=""><FormTextarea style={{width:"700px",height:"150px"}}/></FormItem>: <div></div>
+          }
+          {nav}
+          {this.state.sync_data ?
+            <div>
+              <h4>{this.state.sync_data['s_host']}</h4>
+              {source_file}
+              <h4>{this.state.sync_data['t_host']}</h4>
+              {target_file}
+              <div style={{paddingTop:'20px'}}>
+                <Button onClick={::this.write_close} type='minor' >取消</Button>
+                <Button onClick={::this.write_file} type='minor' style={{marginLeft:'632px'}} >同步</Button>
+              </div>
+            </div>
+          :<span></span>
+          }
+          {backup}
+          {update}
+        </div>
       </Form>
     )
   }
@@ -449,6 +465,154 @@ class Version_update extends Component{
 }
 
 
+class Execute extends Component{
+  constructor(props) {
+    super()
+    this.update = update.bind(this)
+    this.state = {
+      formData: {
+        brand: 0,
+        type: 'group_create',
+      },
+      sourceData: [],
+      targetData: [],
+      newData:[],
+      record_source:[],
+      select_host:[],
+      ws_data:[]
+    }
+  }
+
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      ws_data:nextProps.ws_data
+    });
+  }
+
+  handleSuccess(res) {
+    this.handleclose()
+    this.props.getdata()
+    if (res['status']==true){
+      message.success('创建成功！')
+    }else{
+      message.danger(res['status'])
+    }
+  }
+
+
+  handleclose(){
+    this.props.modal.close()
+  }
+
+  host_select(var11){
+    console.log('Selecthost',this.props.item)
+    this.props._this.setState({select_host:var11})
+  }
+
+  data_return(){
+
+  }
+
+  render() {
+    let options = {
+      lineNumbers: true,
+      mode: "javascript",
+    };
+   // console.log(this.state.ws_data,'likesIncreasing this.props.')
+    let data=(()=>{
+      let return_data=''
+      //let reverse_ws_data1=''
+      //reverse_ws_data1=this.state.ws_data
+      //let reverse_ws_data1 = JSON.parse(JSON.stringify(this.state.ws_data)) //复制object
+      let reverse_ws_data1 = this.state.ws_data.slice()
+      let reverse_ws_data=reverse_ws_data1.reverse()
+      for (let i in reverse_ws_data){
+       // console.log(i,reverse_ws_data[i],'sdfsaf')
+        if (i==0){
+          return_data=reverse_ws_data[i]['data']
+        }else{
+        return_data=return_data+'\n'+reverse_ws_data[i]['data']
+      }
+      }
+      //console.log(return_data,'return_data')
+      return return_data
+    })
+   // console.log(this.props.ws_data,'this.props.')
+  //  console.log(this.props._this.state.ws_data,'thi')
+    return (
+      <div >
+      {/*<Alert
+        message="Warning"
+        description="重启会影响服务正常使用"
+        type="warning"
+        showIcon
+      />*/}
+        <CodeMirror value={data()} options={options} />
+        <CheckboxGroup block onChange={::this.host_select}>
+        </CheckboxGroup>
+      </div>
+    )
+  }
+}
+
+
+
+class Configuration extends Component{
+  constructor(props) {
+    super()
+    this.update = update.bind(this)
+    this.state = {
+      ws_data:[]
+    }
+  }
+
+  handleclose(){
+    this.props.modal.close()
+  }
+
+  host_select(var11){
+    console.log('Selecthost',this.props.item)
+    this.props._this.setState({select_host:var11})
+  }
+
+  render() {
+    let options = {
+      lineNumbers: true,
+      mode: "javascript",
+    };
+    const data = [{
+    name: '数据工厂',
+    open: true,
+    children: [{
+      name: 'kafka'
+    }, {
+      name: 'HBase'
+    }]
+  }, {
+    name: '配置中心',
+  }]
+  const data1=[{'name': 'x86_64', 'children': [{'name': '6', 'children': [{'name': 'timedhosts.txt'}, {'name': 'epel', 'children': [{'name': 'repomd.xml'}, {'name': '1abf8ad074d04c21c4e54d2b0165954bfd5e26bdd6863e074a8250b07dc188a7-comps-el6.xml.bz2'}, {'name': 'metalink.xml'}, {'name': 'packages', 'children': []}, {'name': 'gen', 'children': [{'name': 'updateinfo.xml'}, {'name': 'groups.xml'}]}, {'name': 'cachecookie'}, {'name': '7a519433841cd4bfb2ac43140c50728ded8bf1c1fc146a6d749486d49cf00003-primary.sqlite'}, {'name': '5ff12c0a68e591317e7bb033bb382d2057f6e071b89aca946b7b69654c7ced3b-filelists.sqlite'}]}, {'name': '.gpgkeyschecked.yum'}, {'name': 'extras', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'repomd.xml'}, {'name': 'repomdMCSFOGtmp.xml'}, {'name': 'packages', 'children': []}, {'name': 'cachecookie'}, {'name': 'e73313d62b3dd97e37a5dd52b5a977d0b59cb0af69c2743585d5cbe7adaa1e83-primary.sqlite'}, {'name': 'a12ccd4c45ca18ed3807a728184d156b02494e0fa95ff8e6ffe04e95eae4c35b-filelists.sqlite'}, {'name': 'repomdmr3dVYtmp.xml'}]}, {'name': 'base', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'ad3a307dfd95da4d7a7aad136162378d18ead7271010822806902dfa3edb55f2-primary.sqlite'}, {'name': 'repomd.xml'}, {'name': 'packages', 'children': []}, {'name': 'gen', 'children': [{'name': 'groups.xml'}]}, {'name': 'f5e6850a0bf3c54efdeb148eb43838211e0b85b88b3ff22fd692de217cd05971-other.sqlite'}, {'name': 'd40e4f77deb2ac96da4b6452742f8ab2408c4cf985f7a24421bd62b5b7670f68-filelists.sqlite'}, {'name': 'cachecookie'}, {'name': 'aa8289f99bf8aedf9426be9da6339eed4db430a72d9740b4a502cb1ec150aff8-c6-x86_64-comps.xml.gz'}]}, {'name': 'updates', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'repomd.xml'}, {'name': 'packages', 'children': []}, {'name': '7cb67c2e28ad6318ef1b584d9cbae1f9b503699b7117047885d402a2aad38c7e-other.sqlite.bz2'}, {'name': 'cachecookie'}, {'name': '66bfdd7b388052a6eadfcd095bc323c5334d7834d3036514a8d09b690f5ef8d9-primary.sqlite'}, {'name': 'b3e9ff6064d803076fca80b8e28e12e9722a403866a9507eb0f5eec621acc6cb-filelists.sqlite'}, {'name': '0235c8302d4c88d990370c129c9e7fe30f7632a8e524a1314f32e162a690bc4c-other.sqlite'}]}]}]}]
+
+
+    return (
+      <div >
+        <Row>
+          <Col span={6}>
+            <Tree defaultData={data1} getIcon={data => data.open ? 'folder-open' : 'folder'} />
+          </Col>
+          <Col span={18}>
+            <CodeMirror value={'sdfsfdsfs'} options={options} />
+          </Col>
+        </Row>
+      </div>
+    )
+  }
+}
+
+
+
+
 
 class Base_version extends Component {
 	constructor(props) {
@@ -461,6 +625,10 @@ class Base_version extends Component {
       select_host:[],
       loading: false,
       visible: false,
+      ws:false,
+      ws_data:[],
+     // ws_data:'',
+      models:true
     }
   }
 
@@ -476,6 +644,8 @@ class Base_version extends Component {
   	return {
   		'version':'版本更新',
   		'detele':'删除服务',
+      'execute':'重启服务日志',
+      'configuration ':'修改配置文件'
   	}
   }
 
@@ -483,7 +653,9 @@ class Base_version extends Component {
   	return {
   		'version1':<Version_update item={this.props.item} _this={this}/>,
   		'detele':<File_sync rows={this.props.rows} modal={this.refs.modal} />,
-      'version': <File_sync select_host={this.state.select_host} host={this.props.host}/>
+      'version': <File_sync select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this}/>,
+      'execute':<Execute ws_data={this.state.ws_data} _this={this} />,
+      'configuration':<Configuration/>
   	}
   }
 
@@ -528,12 +700,11 @@ class Base_version extends Component {
   handleMenuClick(e) {
     console.log('click', e.key);
     console.log(this.handletitle())
-    if (e.key != 'delete'){
+    if (e.key != 'delete' && e.key != 'execute1'){
       let title=this.handletitle()[e.key]
       let fun = this.handlefun()[e.key]
       this.setState({title,fun})
       this.showModal()
-
     }
   }
 
@@ -554,6 +725,41 @@ class Base_version extends Component {
     })
   }
 
+  restart(){
+    //console.log('aaaa',this.props.item)
+    let data_ws={'host':this.props.item['host'],'cmd':this.props.item['service_restart'],'app':'start','path':this.props.item['path_log'],ip:this.props.item['ip']}
+    OPEN.service_execute(this,this.callback,data_ws)
+
+   // OPEN.service_execute()
+  }
+
+  callback(_this,data){
+   console.log(_this,data,'callback')
+   /// _this.state.ws.close()
+   if (JSON.parse(data)['status']!="stop"){
+   let ws_data = _this.state.ws_data
+     ws_data.push(JSON.parse(data))
+     //ws_data = JSON.parse(data)
+      _this.setState({ws_data})
+      //console.log(_this.state.ws_data,'this.state.')
+     // for (let i in _this.state.ws_data ){
+      //  console.log(_this.state.ws_data[i]['count'])
+     // }
+      _this.setState({title:_this.handletitle()['execute'],fun:_this.handlefun()['execute']})
+      if (_this.state.models){
+        _this.setState({models:false})
+        _this.showModal()
+      }
+
+  }else{
+      console.log('sdfsafas')
+      message.danger(JSON.parse(data)['data'])
+      _this.handleCancel()
+
+    }
+
+  }
+
   showModal() {
     this.setState({
       visible: true,
@@ -569,19 +775,29 @@ class Base_version extends Component {
 
   handleCancel() {
     this.setState({ visible: false });
+    if (this.state.ws){
+      this.state.ws.close()
+      this.setState({models:true})
+  }
   }
 
   render() {
-    console.log(this.props.item,'111')
+   // console.log(this.props.item,'111')
+   // console.log(xhr.baseUrl)
     const menu = (
     <Menu onClick={::this.handleMenuClick}>
       <Menu.Item key="delete">
-        <Popconfirm title="确认删除？"  onConfirm={::this.confirm}  okText="Yes" cancelText="No">
-        <a href="#">删除</a>
-      </Popconfirm>
+        <Popconfirm title="确认删除？" onConfirm={::this.confirm} okText="Yes" cancelText="No">
+          <a href="#">删除</a>
+        </Popconfirm>
       </Menu.Item>
-      <Menu.Item key="2">编辑</Menu.Item>
-      <Menu.Item key="3">执行命令</Menu.Item>
+      {/*<Menu.Item key="2">编辑</Menu.Item>*/}
+      <Menu.Item key="configuration">配置文件</Menu.Item>
+      <Menu.Item key="execute1">
+        <Popconfirm title='确认重启？' onConfirm={::this.restart} okText="Yes" cancelText="No">
+          <a href="#">重启服务</a>
+        </Popconfirm>
+      </Menu.Item>
       <Menu.Item key="version">版本发布</Menu.Item>
     </Menu>
     );
@@ -616,8 +832,7 @@ class Base_version extends Component {
           width={'800px'}
           //closable={false}
           footer={[
-            <Button key="back" type="ghost" size="large" onClick={::this.handleCancel}>关闭</Button>,
-
+            <Buttons key="back" type="ghost" size="large" onClick={::this.handleCancel}>关闭</Buttons>,
           ]}
         >
         {this.state.fun}

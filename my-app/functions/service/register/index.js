@@ -148,7 +148,26 @@ class FixedTableDemo1 extends Component {
         title: '项目路径',
         key: 'path_project',
         //order: 'asc'
-      },  {
+      },
+      {
+        title:"重启命令",
+        key:"service_restart",
+        render:(text,item)=>{
+          return (<TextOverflow>
+            <p style={{width: '80px'}}>{text}</p>
+          </TextOverflow>)
+        }
+      }, 
+      {
+        title:"日志文件",
+        key:"path_log",
+        render:(text,item)=>{
+          return (<TextOverflow>
+            <p style={{width: '80px'}}>{text}</p>
+          </TextOverflow>)
+        }
+      },
+      {
         title: '关联主机',
         key: 'host',
         render:(text,item)=>{
@@ -167,6 +186,11 @@ class FixedTableDemo1 extends Component {
         title: '描述',
         key: 'desc',
         //order: 'asc'
+        render:(text,item)=>{
+          return (<TextOverflow>
+            <p style={{width: '80px'}}>{text}</p>
+          </TextOverflow>)
+        }
       },{
         title: '操作',
         width: '100px',
@@ -280,7 +304,8 @@ class FixedTableDemo1 extends Component {
 
   render() {
   	const Panel = Collapse.Panel
-  	let nav = this.state.type ? this.state.type.map((item,str)=>{
+  	//let nav = this.state.type ? this.state.type.map((item,str)=>{
+    let nav = this.state.vardata ? this.state.type.map((item,str)=>{
       return (
         <Panel header={item} key={str}>
 	      	<FixedTable 
@@ -296,9 +321,9 @@ class FixedTableDemo1 extends Component {
     }):<span></span>
     return (
       <div>
-        <div><h6>主机组详细信息列表</h6></div>
+        <div><h5>主机组服务详细信息列表</h5></div>
         <div><CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list}/></div>
-	      <Collapse defaultActiveKey={[]} onChange={::this.callback}>
+	      <Collapse onChange={::this.callback}>
 	        {nav}
 	      </Collapse>
       </div>

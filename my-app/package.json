@@ -9,10 +9,12 @@
     "antd": "^2.4.2",
     "babel-plugin-transform-runtime": "^6.12.0",
     "bfd-ui": "^1.0.0",
+    "echarts": "^3.3.2",
     "fastclick": "^1.0.6",
     "normalize.css": "^4.2.0",
     "pace-progress": "^1.0.2",
     "react": "^0.14.7",
+    "react-codemirror": "^0.3.0",
     "react-dom": "^0.14.7",
     "react-router": "^1.0.2",
     "react-update": "^0.3.8"
