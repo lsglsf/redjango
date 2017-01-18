@@ -4,7 +4,7 @@ import Input from 'bfd/Input'
 import Button from 'bfd/Button'
 import List from './List'
 import './index.less'
-import echarts from 'echarts'
+import echarts3 from 'echarts'
 
 
 class Todos extends Component {
@@ -22,7 +22,7 @@ class Todos extends Component {
   }
 
   componentDidMount(){
-    var myChart = echarts.init(document.getElementById('main'));
+    var myChart = echarts3.init(document.getElementById('main'));
   myChart.setOption({
   title : {
         text: '项目主机数',
@@ -33,6 +33,7 @@ class Todos extends Component {
         trigger: 'item',
         formatter: "{a} <br/>{b} : {c} ({d}%)"
     },
+    color:['#8fc31f','#f35833','#00ccff','#ffcc00'],
     legend: {
         orient : 'vertical',
         x : 'left',

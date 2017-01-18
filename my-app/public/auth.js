@@ -45,7 +45,7 @@ const auth = {
 
   register(user) {
     xhr.header = {
-       // "X-CSRFToken": getCookie('csrftoken')
+     // "X-CSRFToken": getCookie('csrftoken')
     } 
     auth.user = user
     // 用户信息（基本信息、权限等存放 localStorage，减少前后端通信）

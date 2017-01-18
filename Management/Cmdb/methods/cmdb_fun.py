@@ -11,6 +11,7 @@ from django.template import loader, Context, RequestContext
 from django.http import Http404
 from rest_framework.views import APIView
 from Cmdb.models import AssetGroup,Asset,ASSET_ENV,ASSET_STATUS,ASSET_TYPE
+from common import CRYPTOR
 import logging
 
 Cmdb_log = logging.getLogger("Cmdb_log")
@@ -163,6 +164,7 @@ def assetpost(request):
         #assetgroup=AssetGroup.objects.get(id=request.POST.get('group'))
         print request.POST
         ip=request.POST.get('ip')
+        password=CRYPTOR.encrypt(request.POST.get('password'))
         insert_asset=Asset.objects.create(ip=ip,
                                           other_ip=request.POST.get('other_ip'),
                                           hostname=request.POST.get('name'),
@@ -175,7 +177,7 @@ def assetpost(request):
                                           env=request.POST.get('run_env'),
                                           comment=request.POST.get('desc'),
                                           username=request.POST.get('username'),
-                                          password=request.POST.get('password'),
+                                          password=password,
                                           )
         insert_asset.save()
         if json.loads(request.POST.get('group')):
@@ -183,8 +185,9 @@ def assetpost(request):
                 rela_asset_group=Asset.objects.get(id=insert_asset.id).group.add(AssetGroup.objects.get(id=group_id))
         ret['status'] = True
     except Exception as e:
-        ret['status'] = e[1]
+        ret['status'] = "添加失败"
         s=traceback.format_exc()
+        print s
         Cmdb_log.error('{0}-{1}'.format('asset插入数据',s))
     return ret
 

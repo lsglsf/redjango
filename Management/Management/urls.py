@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^v1/service/',include('service.url')),
     url(r'^login', views.login),
     url(r'^logout', views.logout),
-    url(r'$',views.index),
+    url(r'$',views.login),
    # url(r'^*',views.index),
 ]

@@ -4,7 +4,6 @@ import { Layout, LayoutSidebar, LayoutContent } from 'public/Layout'
 import './index.less'
 
 class Body extends Component {
-
   constructor() {
     super()
     this.state = {
@@ -33,7 +32,10 @@ class Body extends Component {
                 </NavItem>
                 <NavItem href="Service" icon="credit-card-alt" title="服务管理" >
                   <NavItem href="Service/register" title="服务注册" />
-                </NavItem>   
+                </NavItem>
+                <NavItem href="automation" icon="credit-card-alt" title="远程管理" >
+                  <NavItem href="Service/register" title="远程命令执行" />
+                </NavItem>     
               </NavItem>
             </Nav>
           </LayoutSidebar>

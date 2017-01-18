@@ -14,10 +14,21 @@ import xhr from 'bfd/xhr'
 import { Menu, Dropdown,Icon,Popconfirm } from 'antd';
 import { Modal, Button as Buttons, Alert } from 'antd';
 import CodeMirror from 'react-codemirror'
+import codeMirror from 'codemirror'
 import "../../../node_modules/codemirror/lib/codemirror.css";
+import "../../../node_modules/codemirror/theme/ambiance.css";
+import "../../../node_modules/codemirror/theme/blackboard.css";
+import "../../../node_modules/codemirror/mode/javascript/javascript.js";
+import "../../../node_modules/codemirror/mode/python/python.js";
+import "../../../node_modules/codemirror/mode/ttcn-cfg/ttcn-cfg.js";
 import OPEN from '../../data_request/request.js'
 import { Row, Col } from 'antd'
 import Tree from 'bfd/Tree'
+import ReactDOM from 'react-dom'
+import { Spin} from 'antd';
+
+
+
 
 class File_sync extends Component{
   constructor(props) {
@@ -166,9 +177,9 @@ class File_sync extends Component{
   }
 
   handsocket(){
-   // let ws_baseUrl='ws://192.168.44.130:8080/v1/sync_file/'
+    let ws_baseUrl='ws://192.168.44.130:8080/v1/sync_file/'
     //let ws_baseUrl='wss://cmdb.winbons.com/v1/sync_file/'
-    let ws_baseUrl='ws://127.0.0.1:8080/v1/sync_file/'
+    //let ws_baseUrl='ws://127.0.0.1:8080/v1/sync_file/'
     //let ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
     let _this=this
     console.log('socketsdfsa')
@@ -275,7 +286,7 @@ class File_sync extends Component{
         </div>)
     }):<span></span>
 
-    let target_file=this.state.sync_data['d'] ? this.state.sync_data['s'].map((item,str)=>{
+    let target_file=this.state.sync_data['d'] ? this.state.sync_data['d'].map((item,str)=>{
   //  console.log(item,str,'1111111111')
     let color1='none'
     if (item['type']=='none'){
@@ -517,7 +528,8 @@ class Execute extends Component{
   render() {
     let options = {
       lineNumbers: true,
-      mode: "javascript",
+      mode: "text",
+      theme: "blackboard"
     };
    // console.log(this.state.ws_data,'likesIncreasing this.props.')
     let data=(()=>{
@@ -563,7 +575,30 @@ class Configuration extends Component{
     super()
     this.update = update.bind(this)
     this.state = {
-      ws_data:[]
+      ws_data:[],
+      data:[],
+      read_data:'',
+      loading:false,
+    }
+  }
+
+  componentWillMount(){
+  //  console.log(this.props.item,'11111item')
+    this.setState({loading:true})
+    OPEN.path_list(this,this.props.item,this.Callback)
+  }
+
+  Callback(_this,data){
+    //console.log(data['status'],data['data_d']['data'])
+    //console.log(JSON.parse(data['data_d'])['data'],'test1111111')
+    if (data['status'] != "stop"){
+      _this.setState({
+        data:JSON.parse(data['data_d'])['data'],
+        loading:false
+        //data:data1
+      })
+    }else{
+      message.danger(data['data_d'],5)
     }
   }
 
@@ -576,41 +611,106 @@ class Configuration extends Component{
     this.props._this.setState({select_host:var11})
   }
 
+  red_callback(_this,data){
+    if (data['msg']==undefined){
+      let data_f=data['stdout_lines'].join('\n')
+      _this.refs.input_read.setState({data:data_f,loading:false})
+    }else{
+      message.danger(data['msg'],10)
+    }
+  }
+
+  handfun(data,event){
+   // console.log(ReactDOM.findDOMNode(this.refs.input_read).childNodes[1].defaultValue="adfsaf")
+   // console.log(ReactDOM.findDOMNode(this.refs.input_read).childNodes)
+    if (data['children'] == undefined){
+      let path=new Array()
+      let data_object={}
+     // console.log('sdfsafdf111111')
+      for (let i in event){
+        //console.log(event[i]['name'])
+        path.push(event[i]['name'])
+      }
+      data_object['ip']=this.props.item['ip']
+      data_object['path']=path
+      this.refs.input_read.setState({loading:true})
+      OPEN.path_read(this,data_object,this.red_callback)
+    }
+  }
+
   render() {
     let options = {
       lineNumbers: true,
-      mode: "javascript",
+      mode: 'text/x-ttcn-cfg',
+      readOnly: false,
+      theme: 'blackboard',
+     height: '800px'
     };
-    const data = [{
-    name: '数据工厂',
-    open: true,
-    children: [{
-      name: 'kafka'
-    }, {
-      name: 'HBase'
-    }]
-  }, {
-    name: '配置中心',
-  }]
-  const data1=[{'name': 'x86_64', 'children': [{'name': '6', 'children': [{'name': 'timedhosts.txt'}, {'name': 'epel', 'children': [{'name': 'repomd.xml'}, {'name': '1abf8ad074d04c21c4e54d2b0165954bfd5e26bdd6863e074a8250b07dc188a7-comps-el6.xml.bz2'}, {'name': 'metalink.xml'}, {'name': 'packages', 'children': []}, {'name': 'gen', 'children': [{'name': 'updateinfo.xml'}, {'name': 'groups.xml'}]}, {'name': 'cachecookie'}, {'name': '7a519433841cd4bfb2ac43140c50728ded8bf1c1fc146a6d749486d49cf00003-primary.sqlite'}, {'name': '5ff12c0a68e591317e7bb033bb382d2057f6e071b89aca946b7b69654c7ced3b-filelists.sqlite'}]}, {'name': '.gpgkeyschecked.yum'}, {'name': 'extras', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'repomd.xml'}, {'name': 'repomdMCSFOGtmp.xml'}, {'name': 'packages', 'children': []}, {'name': 'cachecookie'}, {'name': 'e73313d62b3dd97e37a5dd52b5a977d0b59cb0af69c2743585d5cbe7adaa1e83-primary.sqlite'}, {'name': 'a12ccd4c45ca18ed3807a728184d156b02494e0fa95ff8e6ffe04e95eae4c35b-filelists.sqlite'}, {'name': 'repomdmr3dVYtmp.xml'}]}, {'name': 'base', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'ad3a307dfd95da4d7a7aad136162378d18ead7271010822806902dfa3edb55f2-primary.sqlite'}, {'name': 'repomd.xml'}, {'name': 'packages', 'children': []}, {'name': 'gen', 'children': [{'name': 'groups.xml'}]}, {'name': 'f5e6850a0bf3c54efdeb148eb43838211e0b85b88b3ff22fd692de217cd05971-other.sqlite'}, {'name': 'd40e4f77deb2ac96da4b6452742f8ab2408c4cf985f7a24421bd62b5b7670f68-filelists.sqlite'}, {'name': 'cachecookie'}, {'name': 'aa8289f99bf8aedf9426be9da6339eed4db430a72d9740b4a502cb1ec150aff8-c6-x86_64-comps.xml.gz'}]}, {'name': 'updates', 'children': [{'name': 'mirrorlist.txt'}, {'name': 'repomd.xml'}, {'name': 'packages', 'children': []}, {'name': '7cb67c2e28ad6318ef1b584d9cbae1f9b503699b7117047885d402a2aad38c7e-other.sqlite.bz2'}, {'name': 'cachecookie'}, {'name': '66bfdd7b388052a6eadfcd095bc323c5334d7834d3036514a8d09b690f5ef8d9-primary.sqlite'}, {'name': 'b3e9ff6064d803076fca80b8e28e12e9722a403866a9507eb0f5eec621acc6cb-filelists.sqlite'}, {'name': '0235c8302d4c88d990370c129c9e7fe30f7632a8e524a1314f32e162a690bc4c-other.sqlite'}]}]}]}]
-
 
     return (
       <div >
+
         <Row>
-          <Col span={6}>
-            <Tree defaultData={data1} getIcon={data => data.open ? 'folder-open' : 'folder'} />
+          <Col span={6} className="input_lef_s">
+            <Spin spinning={this.state.loading} style={{height:'500px'}}>
+              <Tree defaultData={this.state.data} data={this.state.data} getIcon={data => data.open ? 'folder-open' : 'folder'} onSelect={::this.handfun} />
+            </Spin>
           </Col>
           <Col span={18}>
-            <CodeMirror value={'sdfsfdsfs'} options={options} />
+            {/*<CodeMirror value={'import os \n aaa'} className="input_codemirror" options={options} ref="input_read"/>*/}
+            <File_show item={'\n'} ref="input_read"/>
           </Col>
         </Row>
+
       </div>
     )
   }
 }
 
+class File_show extends Component{
+  constructor(props) {
+    super()
+    this.update = update.bind(this)
+    this.state = {
+      data:'',
+      loading: false
+    }
+  }
 
+  componentWillMount(){
+  //  console.log(this.props.item,'11111item')
+    //OPEN.path_list(this,this.props.item,this.Callback)
+  }
+
+  host_select(var11){
+    console.log('Selecthost',this.props.item)
+    this.props._this.setState({select_host:var11})
+  }
+
+  red_callback(_this,data){
+    console.log(data['stdout_lines'],'red_callback')
+    _this.setState({read_data:data['stdout_lines'][0]})
+  }
+
+
+  render() {
+    let options = {
+      lineNumbers: true,
+      mode: 'text/x-ttcn-cfg',
+      readOnly: false,
+      theme: 'blackboard',
+     height: '800px'
+    };
+
+    return (
+      <div >
+        <Spin spinning={this.state.loading}>
+          <CodeMirror value={this.state.data} className="input_codemirror" options={options} ref="input_read"/>
+        </Spin>
+      </div>
+    )
+  }
+}
 
 
 
@@ -645,7 +745,7 @@ class Base_version extends Component {
   		'version':'版本更新',
   		'detele':'删除服务',
       'execute':'重启服务日志',
-      'configuration ':'修改配置文件'
+      'configuration':'配置文件'
   	}
   }
 
@@ -655,7 +755,7 @@ class Base_version extends Component {
   		'detele':<File_sync rows={this.props.rows} modal={this.refs.modal} />,
       'version': <File_sync select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this}/>,
       'execute':<Execute ws_data={this.state.ws_data} _this={this} />,
-      'configuration':<Configuration/>
+      'configuration':<Configuration item={this.props.item}/>
   	}
   }
 
@@ -734,7 +834,7 @@ class Base_version extends Component {
   }
 
   callback(_this,data){
-   console.log(_this,data,'callback')
+   //console.log(_this,data,'callback')
    /// _this.state.ws.close()
    if (JSON.parse(data)['status']!="stop"){
    let ws_data = _this.state.ws_data
@@ -782,8 +882,6 @@ class Base_version extends Component {
   }
 
   render() {
-   // console.log(this.props.item,'111')
-   // console.log(xhr.baseUrl)
     const menu = (
     <Menu onClick={::this.handleMenuClick}>
       <Menu.Item key="delete">
@@ -803,6 +901,7 @@ class Base_version extends Component {
     );
 
     return (
+
       <div >
        { /*<Button onClick={::this.handleOpen.bind(this,'create')} >添加服务</Button>
         <a href = "javascript:void(0);" onClick={::this.handleOpen.bind(this,'version')}>发布版本</a>*/}
@@ -835,7 +934,7 @@ class Base_version extends Component {
             <Buttons key="back" type="ghost" size="large" onClick={::this.handleCancel}>关闭</Buttons>,
           ]}
         >
-        {this.state.fun}
+          {this.state.fun}
         </Modal>
       </div>
     )

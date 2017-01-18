@@ -3,21 +3,30 @@ import message from 'bfd-ui/lib/message'
 import {notification} from 'antd';
 import xhr from 'bfd/xhr'
 
-const ws_baseUrl='ws://127.0.0.1:8080'
+//const ws_baseUrl='ws://127.0.0.1:8080'
 //const ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
-//let ws_baseUrl='wss://cmdb.winbons.com/v1/sync_file/'
-//const ws_baseUrl='ws://192.168.44.130:8080'
+//let ws_baseUrl='wss://cmdb.winbons.com'
+const ws_baseUrl='ws://192.168.44.130:8080'
 
 var Datarequest = {
   UrlList() {
     return {
       'service_execute': '/v1/service_execute/',
+      'path_list':'/v1/path_list/',
+      'path_read':'/v1/service/list/path_list/',
     }
   },
   service_execute(_this,fun,data){
     console.log(data)
     let url=ws_baseUrl+this.UrlList()['service_execute']
     this.handsocket(_this,url,fun,data)
+  },
+  path_list(_this,data,fun){
+    console.log(data,'data')
+    this.xhrPostData(_this,this.UrlList()['path_list'],data,'None',fun)
+  },
+  path_read(_this,data,fun){
+    this.xhrPostData(_this,this.UrlList()['path_read'],data,'None',fun)
   },
   xhrPostData(_this, url, data_select, host_status, fun) {
     let self = this
@@ -29,7 +38,7 @@ var Datarequest = {
           data: data_select
         },
         success: (retu_data) => {
-          fun(_this, retu_data, host_status, url, self)
+          fun(_this, retu_data)
       },
       error:() => {
         message.danger('API异常！')
@@ -46,7 +55,7 @@ var Datarequest = {
     })
   },
   handsocket(_this,url,fun,data){
-    console.log('socketsdfsa')
+    //console.log('socketsdfsa')
     let ws=new WebSocket(url);
     ws.onopen = function()
     {

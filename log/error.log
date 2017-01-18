@@ -5573,3 +5573,238 @@ TemplateDoesNotExist: rest_framework/api.html
 [INFO 2017-01-06 15:40:29,217 @ 93476] - connection established from: 101363552
 [INFO 2017-01-06 15:42:12,701 @ 93476] - connection established from: 101460512
 [INFO 2017-01-06 15:43:59,694 @ 93476] - connection established from: 101512584
+[INFO 2017-01-09 18:12:35,928 @ 39784] - connection established from: 92291592
+[INFO 2017-01-09 18:12:40,374 @ 39784] - connection established from: 92291592
+[INFO 2017-01-09 18:13:52,878 @ 69780] - connection established from: 70162304
+[INFO 2017-01-09 18:13:55,209 @ 69780] - connection established from: 70162304
+[INFO 2017-01-09 18:16:05,575 @ 69780] - connection established from: 70161800
+[INFO 2017-01-09 18:17:22,239 @ 69780] - connection established from: 101148600
+[INFO 2017-01-09 18:17:29,463 @ 69780] - connection established from: 101148600
+[INFO 2017-01-09 18:17:40,720 @ 69780] - connection established from: 101149328
+[INFO 2017-01-09 18:17:57,433 @ 69780] - connection established from: 101201736
+[INFO 2017-01-09 18:17:59,559 @ 69780] - connection established from: 101201736
+[ERROR 2017-01-10 16:15:33,328 @ 8072] - Internal Server Error: /v1/service/list/path_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 24, in get
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 16, in packageResponse
+    if len(result) == 0:
+TypeError: object of type 'NoneType' has no len()
+[ERROR 2017-01-10 16:16:45,487 @ 4312] - Internal Server Error: /v1/service/list/path_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 24, in get
+    return packageResponse(ret)
+  File "D:\work\redjango\Management\Cmdb\methods\common.py", line 16, in packageResponse
+    if len(result) == 0:
+TypeError: object of type 'HttpResponse' has no len()
+[ERROR 2017-01-10 16:59:10,750 @ 6056] - Internal Server Error: /v1/service/list/path_list
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 84, in process_request
+    "settings.") % (new_url[0], new_url[1]))
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8080/v1/service/list/path_list/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[ERROR 2017-01-10 17:02:38,528 @ 9352] - Internal Server Error: /v1/service/list/path_list
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 108, in get_response
+    response = middleware_method(request)
+  File "C:\Python27\lib\site-packages\django\middleware\common.py", line 84, in process_request
+    "settings.") % (new_url[0], new_url[1]))
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8080/v1/service/list/path_list/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[ERROR 2017-01-10 17:24:28,546 @ 10772] - Internal Server Error: /v1/service/list/path_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 28, in post
+    ret = Methods.get('POST').get(fun)(request)
+  File "D:\work\redjango\Management\service\service.py", line 136, in path_list
+    print json.loads(request.POST.get('data'))[0]['ip']
+KeyError: 0
+[ERROR 2017-01-10 17:56:16,994 @ 13168] - Future exception was never retrieved: StreamClosedError: Stream is closed
+[ERROR 2017-01-10 18:01:16,756 @ 13040] - Future exception was never retrieved: StreamClosedError: Stream is closed
+[ERROR 2017-01-10 18:09:32,326 @ 9488] - Future exception was never retrieved: StreamClosedError: Stream is closed
+[ERROR 2017-01-10 18:11:11,002 @ 13444] - Future exception was never retrieved: StreamClosedError: Stream is closed
+[ERROR 2017-01-10 18:25:36,434 @ 15248] - Future exception was never retrieved: StreamClosedError: Stream is closed
+[ERROR 2017-01-11 14:38:29,905 @ 27468] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\Management\urls.py", line 23, in <module>
+    url(r'^v1/service/',include('service.url')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\service\url.py", line 4, in <module>
+    import rests
+  File "D:\work\redjango\Management\service\rests.py", line 17, in <module>
+    from service import Methods
+  File "D:\work\redjango\Management\service\service.py", line 9, in <module>
+    from Cmdb.methods.common import Connect_agent
+ImportError: cannot import name Connect_agent
+[ERROR 2017-01-11 14:39:09,430 @ 27468] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\Management\urls.py", line 23, in <module>
+    url(r'^v1/service/',include('service.url')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\service\url.py", line 4, in <module>
+    import rests
+  File "D:\work\redjango\Management\service\rests.py", line 17, in <module>
+    from service import Methods
+  File "D:\work\redjango\Management\service\service.py", line 9, in <module>
+    from Cmdb.methods.common import Connect_agent
+ImportError: cannot import name Connect_agent
+[ERROR 2017-01-11 14:39:11,756 @ 27468] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\Management\urls.py", line 23, in <module>
+    url(r'^v1/service/',include('service.url')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\service\url.py", line 4, in <module>
+    import rests
+  File "D:\work\redjango\Management\service\rests.py", line 17, in <module>
+    from service import Methods
+  File "D:\work\redjango\Management\service\service.py", line 9, in <module>
+    from Cmdb.methods.common import Connect_agent
+ImportError: cannot import name Connect_agent
+[ERROR 2017-01-11 14:39:12,828 @ 27468] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\Management\urls.py", line 23, in <module>
+    url(r'^v1/service/',include('service.url')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\service\url.py", line 4, in <module>
+    import rests
+  File "D:\work\redjango\Management\service\rests.py", line 17, in <module>
+    from service import Methods
+  File "D:\work\redjango\Management\service\service.py", line 9, in <module>
+    from Cmdb.methods.common import Connect_agent
+ImportError: cannot import name Connect_agent
+[ERROR 2017-01-11 14:39:13,921 @ 27468] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 119, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 365, in resolve
+    for pattern in self.url_patterns:
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 401, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "C:\Python27\lib\site-packages\django\core\urlresolvers.py", line 395, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\Management\urls.py", line 23, in <module>
+    url(r'^v1/service/',include('service.url')),
+  File "C:\Python27\lib\site-packages\django\conf\urls\__init__.py", line 33, in include
+    urlconf_module = import_module(urlconf_module)
+  File "C:\Python27\lib\importlib\__init__.py", line 37, in import_module
+    __import__(name)
+  File "D:\work\redjango\Management\service\url.py", line 4, in <module>
+    import rests
+  File "D:\work\redjango\Management\service\rests.py", line 17, in <module>
+    from service import Methods
+  File "D:\work\redjango\Management\service\service.py", line 9, in <module>
+    from Cmdb.methods.common import Connect_agent
+ImportError: cannot import name Connect_agent
+[ERROR 2017-01-11 17:59:41,413 @ 38152] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument
+[ERROR 2017-01-11 17:59:50,960 @ 38152] - Internal Server Error: /v1/service/list/type_list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Python27\lib\site-packages\django\views\decorators\csrf.py", line 58, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 466, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Python27\lib\site-packages\rest_framework\views.py", line 463, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\work\redjango\Management\service\rests.py", line 22, in get
+    print fun
+IOError: [Errno 22] Invalid argument

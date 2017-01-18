@@ -20,11 +20,15 @@ import json
 from tornado.ioloop import IOLoop
 import tornado.iostream
 import socket
-from handlers import Webservice_execute
+#print os.path.dirname(os.path.abspath(__file__))
+#sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
+from handlers import Webservice_execute,PathlistHandler
 
 
 define('port', type=int, default=8080)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
+
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
 
 class Application(tornado.web.Application):
     def __init__(self,callback):
@@ -213,6 +217,7 @@ def main():
         [
             (r"/v1/sync_file/", ChatSocketHandler),
             (r"/v1/service_execute/",Webservice_execute),
+            (r"/v1/path_list/", PathlistHandler),
             ('.*',tornado.web.FallbackHandler,dict(fallback=wsgi_app))
         ],**settings
     )

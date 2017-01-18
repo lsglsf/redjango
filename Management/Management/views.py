@@ -29,7 +29,7 @@ def login(request):
     if request.method == "POST":
         print 'sdfsa'
     return packageResponse(ret)
-'''
+
 
 @csrf_exempt
 @ensure_csrf_cookie
@@ -54,4 +54,30 @@ def login(request):
 
 def logout(request):
      ret={'data':'logout'}
+     return packageResponse(ret)
+'''
+
+@csrf_exempt
+@ensure_csrf_cookie
+def login(request):
+    ret={}
+    if request.method == "POST":
+        if request.POST.get('username') is not None and  request.POST.get('password'):
+            user = auth.authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
+            if user is not None:
+                 if user.is_active:
+                     auth.login(request,user)
+                     ret['name']=request.user.username
+        return packageResponse(ret)
+    else:
+        user=request.user.username
+        response = render_to_response('index.html', {'name':user})
+        if user:
+            response.set_cookie("user","0FAC6FBASDS3213AX")
+        return response
+
+
+def logout(request):
+     ret={'data':'logout'}
+     auth.logout(request)
      return packageResponse(ret)
