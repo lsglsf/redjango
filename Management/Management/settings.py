@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'Cmdb',
     'service',
+    'Automation',
 )
 
 MIDDLEWARE_CLASSES = (

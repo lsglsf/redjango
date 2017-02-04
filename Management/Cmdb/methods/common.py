@@ -323,4 +323,4 @@ class PyCrypt(object):
             pass
             #raise ServerError('Decrypt password error, TYpe error.')
         return plain_text.rstrip('\0')
-CRYPTOR = PyCrypt('*')
+CRYPTOR = PyCrypt('weishikejihuaban')

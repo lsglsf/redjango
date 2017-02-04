@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^v1/cmdb/',include('Cmdb.url')),
     url(r'^v1/service/',include('service.url')),
+    url(r'^v1/automation/',include('Automation.url')),
     url(r'^login', views.login),
     url(r'^logout', views.logout),
     url(r'$',views.login),
