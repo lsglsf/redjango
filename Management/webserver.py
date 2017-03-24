@@ -23,43 +23,44 @@ import socket
 #print os.path.dirname(os.path.abspath(__file__))
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
-from handlers import Webservice_execute,PathlistHandler
+from handlers import Webservice_execute,PathlistHandler,auth_ip
+from Management.settings import allow_ip
 
 
 define('port', type=int, default=8080)
 
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
 
 class Application(tornado.web.Application):
-    def __init__(self,callback):
+    def __init__(self):
+        wsgi_app = tornado.wsgi.WSGIContainer(
+            django.core.handlers.wsgi.WSGIHandler()
+        )
         handlers = [
-#            (r"/", MainHandler),
-#            (r"/auth/login", AuthLoginHandler),
-#            (r"/auth/logout", AuthLogoutHandler),
-            [('.*', tornado.web.FallbackHandler, dict(fallback=callback))]
+            (r"/v1/sync_file/", ChatSocketHandler),
+            (r"/v1/service_execute/", Webservice_execute),
+            (r"/v1/path_list/", PathlistHandler),
+            ('.*', tornado.web.FallbackHandler, dict(fallback=wsgi_app))
         ]
-        '''
+
         settings = dict(
-            cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
-            login_url="/auth/login",
+          #  cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
+           # login_url="/auth/login",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
-            facebook_api_key=options.facebook_api_key,
-            facebook_secret=options.facebook_secret,
-            ui_modules={"Post": PostModule},
+         #   xsrf_cookies=True,
+         #   facebook_api_key=options.facebook_api_key,
+         #   facebook_secret=options.facebook_secret,
+         #   ui_modules={"Post": PostModule},
             debug=True,
-            autoescape=None,
+         #   autoescape=None,
         )
-        '''
         #settings=dict()
-        tornado.web.Application.__init__(self, handlers)
+        super(Application, self).__init__(handlers, **settings)
 
 
 class Connect_agent(object):
 
     stream_w=dict()
-
     def __init__(self,host,port,object_w,_id):
         self.host=host
         self.port=port
@@ -96,6 +97,15 @@ class Connect_agent(object):
                     self.object_w.write_message(reply)
                     if json.loads(reply)['pf'] == 'write':
                         self.object_w.close()
+                        break
+            elif self.data['fun'] == "rsync_files_w":
+                yield stream.write((json.dumps(self.data) + "\n").encode())
+                while True:
+                    reply = yield stream.read_until(b"\n")
+                    self.object_w.write_message(reply)
+                    if json.loads(reply)['pf'] == 'write':
+                        self.object_w.close()
+                        #self.object_w.close()
                         break
             stream.close()
         except StreamClosedError:
@@ -152,8 +162,10 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         # Non-None enables compression with default options.
         return {}
 
+   # @auth_ip()
     def open(self):
         self.put_client()
+
 
     def on_close(self):
         self.remove_client()
@@ -184,7 +196,9 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
                     print 'aaaaa'
                #     bridge.connect_message(client_data['data'])
                     if bridge == None:
-                        connect = Connect_agent(client_data['ip'], '9888', self, self._id())
+                        #connect = Connect_agent(client_data['ip'], '9888', self, self._id())
+                        for i in client_data['ip']:
+                            connect = Connect_agent(i, '9888', self, self._id())
                         self.waiters_d[self._id()] = connect
                         connect.start(client_data)
                     else:
@@ -202,6 +216,11 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
 
 def main():
     parse_command_line()
+    django.setup()
+    server = tornado.httpserver.HTTPServer(Application())
+    server.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()
+'''
     django.setup()
     wsgi_app=tornado.wsgi.WSGIContainer(
         django.core.handlers.wsgi.WSGIHandler()
@@ -223,7 +242,10 @@ def main():
     )
 
     server = tornado.httpserver.HTTPServer(tornado_app)
+
+    server = tornado.httpserver.HTTPServer(Application())
     server.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
+    '''
 
 main()

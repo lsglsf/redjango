@@ -75,7 +75,13 @@ var config = {
   },
   plugins: [new webpack.DefinePlugin({
     __DEV__: String(!isProduction)
-  })]
+  }),
+    new webpack.ProvidePlugin({
+      $:"jquery",
+      jQuery:"jquery",
+      "window.jQuery":"jquery"
+    })
+  ]
 }
 
 if (isProduction) {

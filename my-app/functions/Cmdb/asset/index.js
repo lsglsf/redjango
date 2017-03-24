@@ -15,6 +15,8 @@ import FixedTable from 'bfd/FixedTable'
 import xhr from 'bfd/xhr'
 import TextOverflow from 'bfd/TextOverflow'
 import {Put_asset} from './asset_edit'
+import { Nav, NavItem ,IndexNavItem } from 'bfd/Nav'
+
 
 
 
@@ -36,9 +38,10 @@ class FixedTableDemo extends Component {
         order: true,
         //width: '100px',
         render: (text, item) => {
-          return <a href="javascript:void(0);" onClick={this.handletest.bind(this, item)}>{text}</a>
+          return (<a href="#" onClick={() => this.props.history.pushState(null, `/Cmdb/details/${item['id']}`)}>{text}</a>
+            )
         },
-        key: 'hostname'
+        key: 'hostname',
       }, {
         title: 'IP地址',
         key: 'ip',
@@ -143,6 +146,7 @@ class FixedTableDemo extends Component {
 
   componentWillMount(){
     this.getdata()
+    console.log(this.props)
   }
 
 

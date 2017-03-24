@@ -6,7 +6,6 @@ from Cmdb.methods.common import File_operation,path_replace
 import os
 import logging
 from django.http import HttpResponse
-from Cmdb.methods.common import Connect_agen as Connect_agent
 from Cmdb.methods.common import AnsibleTask,CRYPTOR
 import re
 
@@ -15,7 +14,8 @@ import re
 def Models_list():
     ret={}
     return ret
-    pass
+
+
 
 Methods = {
     "GET": {

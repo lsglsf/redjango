@@ -5,5 +5,4 @@ import rests
 
 urlpatterns = [
     url(r'^list/(?P<fun>\S*)/$',rests.Service.as_view(),name="service"),
-   # usr(r'^')
 ]

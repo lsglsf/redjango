@@ -9,7 +9,7 @@ import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
-//import { Select, Option as Options } from 'bfd/Select'
+import { Select, Option as Optionh } from 'bfd/Select'
 //import { Row, Col } from 'bfd/Layout'
 import { Menu, Dropdown,Icon,Popconfirm } from 'antd';
 import { Modal, Button as Buttons, Alert } from 'antd';
@@ -26,6 +26,7 @@ import { Row, Col } from 'antd'
 import Tree from 'bfd/Tree'
 import ReactDOM from 'react-dom'
 import { Spin} from 'antd';
+import { MultipleSelect, Option  } from 'bfd/MultipleSelect'
 //import ReactDOM from 'react-dom'
 
 
@@ -49,11 +50,13 @@ class File_sync extends Component{
       backup:[],
       ws:'',
       sftp_rsync:'file_write',
+      host_select_vd:'',
     }
   }
 
   componentWillMount(){
     console.log(this.props.item,'item')
+    console.log('test11111111')
   }
 
   handleSuccess(res) {
@@ -72,23 +75,19 @@ class File_sync extends Component{
   }
 
   add_path(){
+  	if (this.state.host_select_vd.length == 1){
+  		
     let path_list=new Array()
     if (this.state.add_Path==true){
       if (this.state.formData['desc']){
         for (var i in this.state.formData['desc'].split('\n')){
           let path_dict={}
-          //console.log(this.state.formData['desc'].split('\n')[i].length,'iiiiiiii.1')
           if (this.state.formData['desc'].split('\n')[i].length > 1){
             path_dict['path']=this.state.formData['desc'].split('\n')[i]
             path_dict['delete']=false
             path_dict['type']='none'
-            //path_list.push(this.state.formData['desc'].split('\n')[i])
             path_list.push(path_dict)
           }
-        }
-        if (!this.state.ws){
-          //console.log('adfsaf')
-          this.handsocket()
         }
         this.setState({path_list})
       }
@@ -96,35 +95,34 @@ class File_sync extends Component{
     }else{
         this.setState({add_Path:true,path_list:[],sync_data:'',result_data:{},backup:[]})
     }
+}else{
+	message.danger('暂时只支持单节点操作')
+}
   }
 
   detection_path(){
-    /*let path_list=this.state.path_list
-   console.log('path_list',path_list)
-    const _this = this
-    xhr({
-      type: 'POST',
-      url: '/v1/service/list/file_dir/',
-      data: {'path_list':path_list,'host':this.props.select_host,'per_host':this.state.per_host},
-      success(data) {
-        console.log(data)
-        console.log(data['data'])
-        _this.setState({path_list:data['data']})
-      }
-    })*/
-    let path_list=this.state.path_list
-    let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.props.item['ip'],'app':this.props.item['service_name'],ip:this.props.item['ip']}
-    this.ws_websokct(path_dict)
-    //let ws=this.state.ws
-    //ws.send()
+  	let path_list=this.state.path_list
+  	console.log(path_list)
+  	if (path_list.length > 0 && !this.state.ws){
+  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
+  		this.handsocket_io(path_dict)
+  		console.log('test1')
+  	} else if (path_list && this.state.ws){
+  		let path_list=this.state.path_list
+  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
+  		this.ws_websokct(path_dict)
+  		console.log('test2')
+  	}else{
+  		message.danger("没有可以操作目录或者目录以检测过")
+  	}
   }
+
+
+
 
   ws_websokct(data){
     let ws = this.state.ws
     ws.send(JSON.stringify(data))
-    /*ws.onopen=function(){
-      ws.send(JSON.stringify(data))
-    }*/
   }
 
 
@@ -134,6 +132,32 @@ class File_sync extends Component{
       this.setState({sftp_rsync:'rsync_files_w'})
     }else{
       this.setState({sftp_rsync:'file_write'})
+    }
+  }
+
+
+  handsocket_io(data){
+  	OPEN.service_sync(this,this.callback,data)
+  }
+
+
+  callback(_this,data){
+  	  let return_json=JSON.parse(data)
+      if (return_json['status'] != "stop"){
+      if (return_json['pf'] == 'read'){
+        _this.setState({sync_data:JSON.parse(data),path_list:''})
+      }else if (return_json['pf'] == 'backup'){
+        let backup = _this.state.backup
+        backup.push(return_json['data'])
+        _this.setState({sync_data:'',backup})
+      }else if (return_json['pf']=='write') {
+        let result_data = _this.state.result_data
+        result_data['update']=return_json['update']
+        result_data['delete']=return_json['delete']
+        _this.setState({result_data})
+      }
+    }else{
+      message.danger(return_json['data'])
     }
   }
 
@@ -170,79 +194,39 @@ class File_sync extends Component{
     this.props._this.setState({visible:false})
   }
 
-  handsocket(){
-    let ws_baseUrl='ws://192.168.44.130:8080/v1/sync_file/'
-    //let ws_baseUrl='wss://cmdb.winbons.com/v1/sync_file/'
-    //let ws_baseUrl='ws://127.0.0.1:8080/v1/sync_file/'
-    //let ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
-    let _this=this
-    console.log('socketsdfsa')
-    //let ws=new WebSocket("ws://127.0.0.1:8080/v1/sync_file/");
-    let ws=new WebSocket(ws_baseUrl);
-    ws.onopen = function()
-    {
-      console.log("open");
-     _this.setState({ws})
-
-    };
-    ws.onmessage = function(evt)
-    {
-      let return_json=JSON.parse(evt.data)
-      if (return_json['status'] != "stop"){
-      if (return_json['pf'] == 'read'){
-        _this.setState({sync_data:JSON.parse(evt.data),path_list:''})
-      }else if (return_json['pf'] == 'backup'){
-        let backup = _this.state.backup
-        backup.push(return_json['data'])
-        _this.setState({sync_data:'',backup})
-      }else if (return_json['pf']=='write') {
-        let result_data = _this.state.result_data
-        result_data['update']=return_json['update']
-        result_data['delete']=return_json['delete']
-        _this.setState({result_data})
-      }
-    }else{
-      message.danger(return_json['data'])
-    }
-    };
-    ws.onclose = function(evt)
-    {
-      console.log('close',evt)
-      console.log("WebSocketClosed!");
-      _this.setState({ws:''})
-    };
-    ws.onerror = function(evt)
-    {
-      console.log('error',evt)
-      console.log("WebSocketError!");
-    };
-    return ws
+  select_host_v(value){
+  	console.log(value)
+  	if (value.length == 1){
+  		this.setState({host_select_vd:value})
+  	}else if (value.length == 0){
+  		message.danger("请选择节点")
+  	}else{
+  		message.danger("暂时只支持单节点操作")
+  	}
   }
 
-
-  render() {
-    const { formData } = this.state
-    let nav=this.state.path_list ? this.state.path_list.map((item,str)=>{
-    let color1='none'
-    if (item['type']=='none'){
+  color_l(type){
+  	let color1='none'
+    if (type=='none'){
        color1='black'
-    }else if (item['type']=='f') {
+    }else if (type=='f') {
        color1='green'
-    }else if (item['type']=='d') {
+    }else if (type=='d') {
       color1='green'
-    }else if (item['type']=='w') {
+    }else if (type=='w') {
       color1 = 'yellow'
     }else{
       color1 = 'red'
     }
+    return color1
+  }
+
+  render() {
+    const { formData } = this.state
+    let nav=this.state.path_list ? this.state.path_list.map((item,str)=>{
     return(
         <div key={str}>
-          <span style={{height:'20px',lineHeight:'20px',color:color1}}>{item['path']}</span>
-          {/*<FormSelect style={{left:'50px',float:'right'}} className="Select_heig" onChange={
-          .bind(this,str)}>
-            <Option >同步</Option>
-            <Option value={1}>删除</Option>
-          </FormSelect>*/}
+          <span style={{height:'20px',lineHeight:'20px'}}>{item['path']}</span>
           <span style={{float:'right'}}>
           <select onChange={::this.handselect.bind(this,str)} >
             <option key={0} value={false}>同步</option>
@@ -255,27 +239,12 @@ class File_sync extends Component{
     }):<span></span>
 
     let source_file=this.state.sync_data['s'] ? this.state.sync_data['s'].map((item,str)=>{
-    //console.log(item,str,'1111111111')
-    let color1='none'
-    if (item['type']=='none'){
-       color1='black'
-    }else if (item['type']=='f') {
-       color1='green'
-    }else if (item['type']=='d') {
-      color1='green'
-    }else if (item['type']=='w') {
-      color1 = 'yellow'
-    }else{
-      color1 = 'red'
-    }
+     let color_f=this.color_l(item['type'])
+     console.log(color_f)
       return(
         <div key={str}>
-          <span style={{height:'20px',lineHeight:'20px',color:color1}}>{item['path']}</span>
+          <span style={{height:'20px',lineHeight:'20px',color:color_f}}>{item['path']}</span>
           <span style={{float:'right'}}>
-          {/*<select onChange={::this.handselect.bind(this,str)} >
-            <option key={0} value={false}>同步</option>
-            <option key={1} value={true}>删除</option>
-          </select>*/}
           {
              item['delete'] ? <span style={{color:'red'}}>删除</span>:<span style={{color:'green'}}>同步</span>
           }
@@ -284,27 +253,11 @@ class File_sync extends Component{
     }):<span></span>
 
     let target_file=this.state.sync_data['d'] ? this.state.sync_data['d'].map((item,str)=>{
-  //  console.log(item,str,'1111111111')
-    let color1='none'
-    if (item['type']=='none'){
-       color1='black'
-    }else if (item['type']=='f') {
-       color1='green'
-    }else if (item['type']=='d') {
-      color1='green'
-    }else if (item['type']=='w') {
-      color1 = 'yellow'
-    }else{
-      color1 = 'red'
-    }
+      let color_f=this.color_l(item['type'])
       return(
         <div key={str} >
-          <span style={{height:'20px',lineHeight:'20px',color:color1}}>{item['path']}</span>
+          <span style={{height:'20px',lineHeight:'20px',color:color_f}}>{item['path']}</span>
           <span style={{float:'right'}}>
-          {/*<select onChange={::this.handselect.bind(this,str)} >
-            <option key={0} value={false}>同步</option>
-            <option key={1} value={true}>删除</option>
-          </select>*/}
           {          
             item['delete'] ? <span style={{color:'red'}}>删除</span>:<span style={{color:'green'}}>同步</span>
           }
@@ -333,50 +286,63 @@ class File_sync extends Component{
         <Options value={item}>{item}</Options>
         )
     }):<span></span>
+
+    let host_select_v= this.props.item['host_ip'] ? Object.keys(this.props.item['host_ip']).map((items,str)=>{
+    	return (
+    		<Option key={items} value={items}>{this.props.item['host_ip'][items]}</Option>
+    		)
+    }) :<span></span>
+    
     return (
-    	<Form
-        action="/v1/cmdb/list/groupdelete/"
-        data={formData}
-        type='GET'
-        onChange={formData => this.update('set', { formData })}
-        rules={this.rules}
-        labelWidth={'200px'}
-        onSuccess={::this.handleSuccess}
-      >
-      	<FormItem label="添加同步文件或者目录" name="name" help="" style={{height:'17px',lineHeight:'30px'}}>
-          <a href='#' style={{marginRight:'20px'}}><span onClick={::this.add_path}>添加</span></a>
-          <a href='#' ><span onClick={::this.detection_path} >检测</span></a>
-        </FormItem>
-        <div style={{maxHeight:'500',overflow:'auto'}}>
-          {
-            this.state.add_Path ? <div><FormItem label="选择模式" name="test" help="">
-                                  <select onChange={::this.sftp_rsync.bind(this)} ref="sftp_rsync">
-                                    <option key={0} value='0' >SFTP</option>
-                                    <option key={1} value='1'>RSYNC</option>
-                                  </select>
-                                  </FormItem>
-                                  <FormItem label="添加目录" name="desc" help="">
-                                  <FormTextarea style={{width:"700px",height:"150px"}}/>
-                                  </FormItem></div>: <div></div>
-          }
-          {nav}
-          {this.state.sync_data ?
-            <div>
-              <h4>{this.state.sync_data['s_host']}</h4>
-              {source_file}
-              <h4>{this.state.sync_data['t_host']}</h4>
-              {target_file}
-              <div style={{paddingTop:'20px'}}>
-                <Button onClick={::this.write_close} type='minor' >取消</Button>
-                <Button onClick={::this.write_file} type='minor' style={{marginLeft:'632px'}} >同步</Button>
-              </div>
-            </div>
-          :<span></span>
-          }
-          {backup}
-          {update}
-        </div>
-      </Form>
+    	<div>
+	    	<Form
+	        action="/v1/cmdb/list/groupdelete/"
+	        data={formData}
+	        type='GET'
+	        onChange={formData => this.update('set', { formData })}
+	        rules={this.rules}
+	        labelWidth={'200px'}
+	        onSuccess={::this.handleSuccess}
+	      >
+	        <FormItem label="选择主机" name="name" help="" style={{height:'17px',lineHeight:'30px'}}>
+	      		<MultipleSelect defaultValues={[]} onChange={::this.select_host_v}>
+	        		{host_select_v}
+	      		</MultipleSelect>
+	        </FormItem>
+	      	<FormItem label="同步内容" name="name" help="" style={{height:'17px',lineHeight:'30px'}}>
+	          <a href='#' style={{marginRight:'20px'}}><span onClick={::this.add_path}>添加</span></a>
+	          <a href='#' ><span onClick={::this.detection_path} >检测</span></a>
+	        </FormItem>
+	        <div style={{maxHeight:'500',overflow:'auto'}}>
+	          {
+	            this.state.add_Path ? <div><FormItem label="选择模式" name="test" help="">
+	                                  <select onChange={::this.sftp_rsync.bind(this)} ref="sftp_rsync">
+	                                    <option key={0} value='0' >SFTP</option>
+	                                    <option key={1} value='1'>RSYNC</option>
+	                                  </select>
+	                                  </FormItem>
+	                                  <FormItem label="添加目录" name="desc" help="">
+	                                  <FormTextarea style={{width:"700px",height:"150px"}}/>
+	                                  </FormItem></div>: <div></div>
+	          }
+	          {nav}
+	          {this.state.sync_data ?
+	            <div>
+	              <h4>{this.state.sync_data['s_host']}</h4>
+	              {source_file}
+	              <h4>{this.state.sync_data['t_host']}</h4>
+	              {target_file}
+	              <div style={{paddingTop:'20px'}}>
+	                <Button onClick={::this.write_close} type='minor' >取消</Button>
+	                <Button onClick={::this.write_file} type='minor' style={{marginLeft:'632px'}} >同步</Button>
+	              </div>
+	            </div>
+	          :<span></span>}
+	          {backup}
+	          {update}
+	        </div>
+	      </Form>
+      </div>
     )
   }
 }
@@ -594,8 +560,8 @@ class Configuration extends Component{
 
   componentWillMount(){
   //  console.log(this.props.item,'11111item')
-    this.setState({loading:true})
-    OPEN.path_list(this,this.props.item,this.Callback)
+   // this.setState({loading:true})
+    //OPEN.path_list(this,this.props.item,this.Callback)
   }
 
   Callback(_this,data){
@@ -630,15 +596,21 @@ class Configuration extends Component{
     }
   }
 
+  choice_c(value){
+  	let items = this.props.item
+  	items['ip']=value
+  	this.setState({loading:true})
+  	OPEN.path_list(this,items,this.Callback)
+  }
+
+
   handfun(data,event){
    // console.log(ReactDOM.findDOMNode(this.refs.input_read).childNodes[1].defaultValue="adfsaf")
    // console.log(ReactDOM.findDOMNode(this.refs.input_read).childNodes)
     if (data['children'] == undefined){
       let path=new Array()
       let data_object={}
-     // console.log('sdfsafdf111111')
       for (let i in event){
-        //console.log(event[i]['name'])
         path.push(event[i]['name'])
       }
       data_object['ip']=this.props.item['ip']
@@ -656,15 +628,28 @@ class Configuration extends Component{
       theme: 'blackboard',
      height: '800px'
     };
+    let host_select_v= this.props.item['host_ip'] ? Object.keys(this.props.item['host_ip']).map((items,str)=>{
+    	return (
+    		<Optionh key={items} value={items}>{this.props.item['host_ip'][items]}</Optionh>
+    		)
+    }) :<span></span>
 
     return (
       <div >
-
         <Row>
-          <Col span={6} className="input_lef_s">
+          <Col span={6}>
+          	<div> 
+          		{/*<span>选择主机:</span>    */}
+          		<Select searchable onChange={::this.choice_c}>
+			      <Optionh>请选择</Optionh>
+			      {host_select_v}
+			    </Select>
+          	</div>
+          	<div  className="input_lef_s">
             <Spin spinning={this.state.loading} style={{height:'500px'}}>
               <Tree defaultData={this.state.data} data={this.state.data} getIcon={data => data.open ? 'folder-open' : 'folder'} onSelect={::this.handfun} />
             </Spin>
+            </div>
           </Col>
           <Col span={18}>
             {/*<CodeMirror value={'import os \n aaa'} className="input_codemirror" options={options} ref="input_read"/>*/}
@@ -913,25 +898,11 @@ class Base_version extends Component {
     return (
 
       <div >
-       { /*<Button onClick={::this.handleOpen.bind(this,'create')} >添加服务</Button>
-        <a href = "javascript:void(0);" onClick={::this.handleOpen.bind(this,'version')}>发布版本</a>*/}
         <Dropdown overlay={menu} trigger={['click']}>
           <a className="ant-dropdown-link" href="#" style={{fontSize:14}}>
             更多操作<Icon type="down" />
           </a>
         </Dropdown>
-        {/*<Modal ref="modal" className="create_cmdb_group">
-          <ModalHeader className="create_cmdb_group" >
-            <h6>{this.state.title}</h6>
-          </ModalHeader>
-          <ModalBody className="create_cmdb_group">
-            {this.state.fun}
-          <div style={{marginTop:'20px'}}>
-            <Button onClick={::this.prev}>上一步</Button>
-            <Button style={{float:"right"}} onClick={::this.next}>下一步</Button>
-          </div>
-          </ModalBody>
-        </Modal>*/}
         <Modal
           visible={this.state.visible}
           title={this.state.title}

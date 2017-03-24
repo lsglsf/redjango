@@ -10,8 +10,11 @@ from django.http import HttpResponse
 from django.template import loader, Context, RequestContext
 from django.http import Http404
 from rest_framework.views import APIView
+from common import AnsibleTask
 from Cmdb.models import AssetGroup,Asset,ASSET_ENV,ASSET_STATUS,ASSET_TYPE
+from service.models import Register
 from common import CRYPTOR
+from Automation.models import Automation_Hostdetails
 import logging
 
 Cmdb_log = logging.getLogger("Cmdb_log")
@@ -23,7 +26,12 @@ dict_key={
 def group_all(group_id=''):
     ret={}
     groupdata = AssetGroup.objects.all()
+    hosts = Asset.objects.all()
+    templates = Register.objects.all()
+
     ret['data'] = []
+    ret['host'] = []
+    ret['template'] =[]
     for gdata in groupdata:
         sys={}
         sys['id']=gdata.id
@@ -31,6 +39,32 @@ def group_all(group_id=''):
         sys['comment']=gdata.comment
         ret['data'].append(sys)
     return ret['data']
+
+
+def hosts_all(group_id=None):
+    ret={}
+    hosts = Asset.objects.all()
+    ret['host'] = []
+    for host in hosts:
+        sys={}
+        sys['id']=host.id
+        sys['ip']=host.ip
+        sys['hostname']=host.hostname
+        ret['host'].append(sys)
+    return ret['host']
+
+def template_all(group_id=None):
+    ret={}
+    templates = Register.objects.all()
+    print templates
+    ret['template'] = []
+    for template in templates:
+        sys={}
+        sys['id'] = template.id
+        sys['service_name'] = template.service_name
+        sys['alias_name'] = template.alias_name
+        ret['template'].append(sys)
+    return ret['template']
 
 def assert_all(group_id=''):
     ret={}
@@ -81,7 +115,7 @@ def group_create(request):
     name=request.POST.get('name')
     comment=request.POST.get('desc')
     data_host=request.POST.get('targetData')
-    print name,comment,data_host
+  #  print name,comment,data_host
     try:
         insert_o=AssetGroup.objects.create(name=name,comment=comment)
         if data_host:
@@ -178,11 +212,24 @@ def assetpost(request):
                                           comment=request.POST.get('desc'),
                                           username=request.POST.get('username'),
                                           password=password,
+                                          host_hostname=request.POST.get('test_host')
                                           )
         insert_asset.save()
         if json.loads(request.POST.get('group')):
             for group_id in json.loads(request.POST.get('group')):
                 rela_asset_group=Asset.objects.get(id=insert_asset.id).group.add(AssetGroup.objects.get(id=group_id))
+        if request.POST.get('template',None):
+            print request.POST.get('template')
+            for template_id in json.loads(request.POST.get('template')):
+                template_add=Register.objects.get(id=template_id).Asset_service.add(insert_asset)
+        try:
+            Asset.objects.get(ip=ip).automation_hostdetails.lang
+            pass
+         #   ansible_api=AnsibleTask(targetHost=['192.168.44.130'],user="root",password_d="redhat")
+         #   ansible_data=ansible_api.ansiblePlay(module='setup',args='')
+         #   ansible_facts=ansible_data.get('ansible_facts',None)
+        except:
+            Automation_add(ip=ip,port=request.POST.get('port'),user=request.POST.get('username'),password=request.POST.get('password'),insert_asset=insert_asset)
         ret['status'] = True
     except Exception as e:
         ret['status'] = "添加失败"
@@ -255,6 +302,14 @@ def assetget(request):
     assetdata = Asset.objects.all()
     ret['data'] = []
     for gasset in assetdata:
+        print gasset.register_set.all()
+        template=None
+        for i in gasset.register_set.all():
+            template={}
+            if i.alias_name:
+                template[i.id]="{0}-{1}".format(i.service_name,i.alias_name)
+            else:
+                template[i.id]=i.service_name
         sys={}
         sys['id']=gasset.id
         sys['hostname']=gasset.hostname
@@ -273,6 +328,9 @@ def assetget(request):
         sys['host_status_id']=gasset.status
         sys['run_env_id'] =gasset.env
         sys['host_type_id']=gasset.asset_type
+        sys['username']=gasset.username
+        sys['host_hostname']=gasset.host_hostname
+        sys['template']=template
         sys['desc']=gasset.comment
         ret['data'].append(sys)
     return ret
@@ -298,6 +356,43 @@ def asset_delete(request):
     return ret
     pass
 
+
+def Automation_add(ip,port,user,password,insert_asset):
+    _IP = [ip + ':{0}'.format(port)]
+    ansible_api = AnsibleTask(targetHost=_IP, user=user, password_d=password)
+    ansible_data = ansible_api.ansiblePlay(module='setup', args='')
+    ansible_facts = ansible_data.get('ansible_facts', None)
+   # print ansible_data
+    if ansible_facts:
+        return_data = Automation_Hostdetails.objects.create(architecture=ansible_facts.get("ansible_architecture", 0),
+                                              lang=ansible_facts['ansible_cmdline'].get('LANG', 0) if ansible_facts.get(
+                                                  "ansible_cmdline", 0) else 0,
+                                              distribution=ansible_facts.get("ansible_distribution", 0),
+                                              distributionmajorversion=ansible_facts.get(
+                                                  "ansible_distribution_major_version", 0),
+                                              distributionrelease=ansible_facts.get("ansible_distribution_release", 0),
+                                              distributionversion=ansible_facts.get("ansible_distribution_version", 0),
+                                              dns=','.join(
+                                                  ansible_facts['ansible_dns'].get('nameservers', [])) if ansible_facts.get(
+                                                  "ansible_dns", 0) else 0,
+                                              domain=ansible_facts.get("ansible_domain", 0),
+                                              fqdn=ansible_facts.get("ansible_fqdn", 0),
+                                              hostname=ansible_facts.get("ansible_hostname", 0),
+                                              kernel=ansible_facts.get("ansible_kernel", 0),
+                                              description=ansible_facts['ansible_lsb'].get('description',
+                                                                                           0) if ansible_facts.get(
+                                                  "ansible_lsb", 0) else 0,
+                                              family=ansible_facts.get("ansible_os_family", 0),
+                                              processor=','.join(
+                                                  ansible_facts.get("ansible_processor", 0)) if ansible_facts.get(
+                                                  "ansible_processor", 0) else 0,
+                                              processorcores=ansible_facts.get("ansible_processor_vcpus", 0),
+                                              processorcount=ansible_facts.get("ansible_processor_count", 0),
+                                              machine=ansible_facts.get("ansible_machine", 0),
+                                              system=ansible_facts.get("ansible_system", 0),
+                                              asset_one=insert_asset,
+                                              )
+  #      print return_data
 
 Methods = {
     "GET": {

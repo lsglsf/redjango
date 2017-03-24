@@ -48,6 +48,13 @@ export default render((
           cb(null, require('./functions/Cmdb/asset').default)
           })
         }} />
+        <Route path="details">
+          <Route path=":id" getComponent={(location, cb) => {
+          require.ensure([], require => {
+          cb(null, require('./functions/Cmdb/details').default)
+          })
+          }} />
+        </Route>
       </Route>
       <Route path="Service">
         <Route path="register" getComponent={(location, cb) => {

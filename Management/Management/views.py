@@ -18,6 +18,7 @@ def index(request):
   #  user = json.dumps(user)
     print user
     response = render_to_response('index.html', {'user':user})
+    response.set_cookie("user", "0FAC6FBASDS3213AX")
     return response
 
 
@@ -72,8 +73,7 @@ def login(request):
     else:
         user=request.user.username
         response = render_to_response('index.html', {'name':user})
-        if user:
-            response.set_cookie("user","0FAC6FBASDS3213AX")
+        response.set_cookie("user","0FAC6FBASDS3213AX")
         return response
 
 

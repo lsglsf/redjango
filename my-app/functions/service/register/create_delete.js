@@ -326,6 +326,9 @@ class Create_server extends Component{
         <FormItem label="服务名称" required name="service_name" help="">
           <FormInput />
         </FormItem>
+        <FormItem label="别名" required name="alias_name" help="相同程序安装不目录">
+          <FormInput />
+        </FormItem>
         <FormItem label="重启服务" required name="service_restart" help="">
           <FormInput />
         </FormItem>

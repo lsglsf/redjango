@@ -10,6 +10,8 @@ import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
 import { MultipleSelect, Option as Options } from 'bfd/MultipleSelect'
+import { Switch, Icon } from 'antd';
+import OPEN from '../../data_request/request.js'
 
 
 class Delete_asset extends Component{
@@ -112,6 +114,9 @@ class Create_asset extends Component{
         brand: 0
       },
       group:'',
+      hosts_status: false,
+      hosts_data: '',
+      template_data: '',
     }
   }
 
@@ -148,22 +153,51 @@ class Create_asset extends Component{
 
   handleclose(){
     this.props.modal.close()
+
   }
 
   handselect(values){
-    //console.log('........values',values)
+    console.log('........values',values)
     let formData = this.state.formData
     formData['group'] = values
     this.setState({formData})
   }
 
+  hosts_func(evnet){
+    this.setState({hosts_status:evnet})
+    OPEN.cmdb_all_list(this,'group_get',"hosts_all",this.Callback)
+  }
+
+  Callback(_this,data,status_data){
+    _this.setState({hosts_data:data['data']})
+  }
+ 
+   template_func(evnet){
+      this.setState({template_status:evnet})
+      OPEN.cmdb_all_list(this,'group_get',"template_all",(_this,data)=>{
+        this.setState({template_data:data['data']})
+      })
+   }
+
+
   render() {
     const { formData } = this.state
-    let nav = this.state.group ? Object.keys(this.state.group).map((item,str)=>{
+    let group = this.state.group ? Object.keys(this.state.group).map((item,str)=>{
       return (
         <Options key={item} value={this.state.group[item]['id']}>{this.state.group[item]['name']}</Options>
         )
     }):<span></span>
+    let host_all = this.state.hosts_data ? Object.keys(this.state.hosts_data).map((item,str)=>{
+      return (
+        <Option key={item} value={this.state.hosts_data[item]['id']}>{this.state.hosts_data[item]['hostname']}</Option>
+        )
+    }):<span></span>
+    let template_all = this.state.template_data ? Object.keys(this.state.template_data).map((item,str)=>{
+      return (
+        <Options key={item} value={this.state.template_data[item]['id']}>{this.state.template_data[item]['alias_name']?this.state.template_data[item]['service_name']+"-"+this.state.template_data[item]['alias_name']:this.state.template_data[item]['service_name']}</Options>
+        )
+    }):<span></span>
+
     return (
       <Form
         action="/v1/cmdb/list/assetpost/"
@@ -198,8 +232,27 @@ class Create_asset extends Component{
         </FormItem>*/}
         <FormItem label="所属主机组" name="group">
           <MultipleSelect defaultValues={[]} onChange={::this.handselect}>
-            {nav}
+            {group}
           </MultipleSelect>
+        </FormItem>
+        <FormItem label="预发布节点" name="test_host">
+          { this.state.hosts_status ? 
+          <FormSelect searchable defaultValues={[]} onChange={(values)=> {let formData = this.state.formData;formData['test_host'] = values;this.setState({formData})}} style={{marginRight:'10px'}}>
+            <Option>请选择</Option>
+            {host_all}
+          </FormSelect>
+          :<span></span>
+          }
+          <span><Switch checkedChildren={'开'} unCheckedChildren={'关'} onChange={::this.hosts_func} /></span>
+
+        </FormItem>
+        <FormItem label="选择应用" name="template">
+          { this.state.template_status ?
+          <MultipleSelect defaultValues={[]} onChange={(values)=> {let formData = this.state.formData;formData['template'] = values;this.setState({formData})}} style={{marginRight:'10px'}}>
+            {template_all}
+          </MultipleSelect>:<span></span>
+        }
+        <span><Switch checkedChildren={'开'} unCheckedChildren={'关'} onChange={::this.template_func} /></span>
         </FormItem>
         <FormItem label="系统类型" required name="sys_name" help="">
           <FormInput />

@@ -40,11 +40,7 @@ class Put_asset extends Component{
         _this.setState({group:data['data']})
       }
     })
-//    let group_list=[]
- //   for (var i in this.props.item['group_id']){
- //   	group_list.push(this.props.item['group_id'][i])
-  //  }
-    console.log(this.props.item)
+    
     let formData=this.state.formData
     formData['id']=this.props.item['id']
     formData['name']=this.props.item['hostname']
@@ -94,7 +90,6 @@ class Put_asset extends Component{
   
   render() {
     const { formData } = this.state
-   //console.log(this.state.group_list,'............111')
     let nav = this.state.group ? Object.keys(this.state.group).map((item,str)=>{
       return (
         <Options key={item} value={this.state.group[item]['id']}>{this.state.group[item]['name']}</Options>

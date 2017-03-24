@@ -3,16 +3,9 @@ from django.http import HttpResponse
 from Cmdb.models import AssetGroup
 import paramiko
 import copy
-from tornado.ioloop import IOLoop
-from tornado import gen
-from tornado.tcpclient import TCPClient
-from tornado.options import options, define
 import os,ConfigParser
 import json
-import socket
-#import tornado
-import tornado.iostream
-from tornado.iostream import StreamClosedError
+import re
 import traceback
 from collections import namedtuple
 from ansible.parsing.dataloader import DataLoader
@@ -26,6 +19,15 @@ from ansible.plugins.callback import CallbackBase
 from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
 import logging
+import smtplib
+from email.mime.text import MIMEText
+import pymongo
+import urllib2
+from Management.settings import ZABBIX,ZABBIX_TOKEN
+import datetime,time
+from Management.settings import ANSABLE_CNF
+
+ZABBIX_TOKEN=None
 Cmdb_log = logging.getLogger("Cmdb_log")
 
 
@@ -111,72 +113,6 @@ def path_replace(sourc,output,file_list):
     print ret,'file_list'
     return ret
 
-class Connect_agen(object):
-    def __init__(self,host,port,data):
-        self.host=host
-        self.port=port
-        self.data=data
-        self.EOF = b'\n'
-        self.reutn_data=None
-        self.stream=None
-
-    def send_msg(self):
-        try:
-            self.sock_fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            self.stream = tornado.iostream.IOStream(self.sock_fd)
-            #self.stream.set_close_callback(self.on_close)
-            self.stream.connect((self.host, self.port))
-            self.stream.write(self.data+self.EOF)
-            data=self.stream.read_until(self.EOF)
-            print data
-            return data
-            self.stream.close()
-        except:
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']="error"
-            ret['data']="The connection fails"
-            return ret
-
-    @gen.coroutine
-    def send_message_new(self):
-        print 'test'
-        print self.host,self.port,self.data
-        try:
-            stream = yield TCPClient().connect(self.host, self.port)
-            self.stream = stream
-            print self.data
-            print self.host,self.port
-            yield stream.write((json.dumps(self.data) + b"\n").encode())
-            reply = yield stream.read_until(b"\n")
-            self.reutn_data=reply
-            stream.close()
-        except StreamClosedError:
-            print 'error'
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']='stop'
-            ret['data']='连接客户端失败'
-            self.reutn_data=ret
-        except Exception as e:
-            print e
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']='stop'
-            ret['data']='连接客户端失败'
-            self.reutn_data=ret
-
-    def run(self):
-        print 'run'
-        self.send_message_new()
-        while True:
-            if self.reutn_data != None:
-                break
-        return self.reutn_data
-
 
 class ResultCallback(CallbackBase):
     def __init__(self):
@@ -200,25 +136,29 @@ class ResultCallback(CallbackBase):
 results_callback = ResultCallback()
 
 class AnsibleTask(object):
-    def __init__(self, targetHost,user,password_d):
+    def __init__(self, targetHost,user,password_d,ansible_cfg=None):
         self.targetHost=targetHost
         Options = namedtuple(
                           'Options', [
                               'listtags', 'listtasks', 'listhosts', 'syntax', 'connection','module_path',
                               'forks', 'remote_user', 'private_key_file', 'ssh_common_args', 'ssh_extra_args',
                               'sftp_extra_args', 'scp_extra_args', 'become', 'become_method', 'become_user',
-                              'verbosity', 'check'
+                              'verbosity', 'check','host_key_checking','ask_pass'
                           ]
                        )
 
         # initialize needed objects
+        if ansible_cfg == None:
+            os.environ["ANSIBLE_CONFIG"] = ANSABLE_CNF
+        else:
+            os.environ["ANSIBLE_CONFIG"] = ansible_cfg
         self.variable_manager = VariableManager()
         self.options = Options(
                           listtags=False, listtasks=False, listhosts=False, syntax=False, connection='smart',
                           module_path='/usr/local/lib/python2.7/site-packages/ansible/modules/', forks=100,
                           remote_user=user, private_key_file=None, ssh_common_args=None, ssh_extra_args=None,
                           sftp_extra_args=None, scp_extra_args=None, become=False, become_method=None, become_user=user,
-                          verbosity=None, check=False
+                          verbosity=None, check=False,host_key_checking=False,ask_pass = False
                       )
         self.passwords = dict(sshpass=password_d,conn_pass=password_d)
         self.loader = DataLoader()
@@ -323,4 +263,235 @@ class PyCrypt(object):
             pass
             #raise ServerError('Decrypt password error, TYpe error.')
         return plain_text.rstrip('\0')
-CRYPTOR = PyCrypt('weishikejihuaban')
+CRYPTOR = PyCrypt('test')
+
+
+
+def Mongdb_error():
+    def fun_m(fun):
+        def fun_p( self,*args, **kwargs):
+            data = fun(self,*args,**kwargs)
+            return data
+        return fun_p
+    return fun_m
+
+
+class Mongodb_Operate(object):
+    """
+    monogdb 操作
+    """
+
+    def __init__(self,host,port,username=None,password=None):
+        self.host=host
+        self.port=port
+        self.username=username
+        self.password=password
+        self.connet_m=self.connet()
+
+    @Mongdb_error()
+    def insert_one(self,db,table,data):
+        dbs=self.connet_m[db]
+        try:
+            dbs[table].insert_one(data)
+            return 1
+        except:
+            Cmdb_log.error(traceback.format_exc())
+            return 0
+
+    @Mongdb_error()
+    def read(self,db,table,arg=None):
+        ret=[]
+        if arg == None:
+            dbs=self.connet_m[db]
+           # find_data = dbs[table].find({})
+            for i in dbs[table].find({}):
+                ret.append(i)
+        else:
+            dbs=self.connet_m[db]
+            for i in dbs[table].find({}):
+                ret.append(i)
+        return ret
+
+    @Mongdb_error()
+    def connect_object(self,db,table):
+        ret=None
+        ret=self.connet_m[db][table]
+        return ret
+
+
+    def connet(self):
+        connet_m = None
+        if self.username == None:
+            connet_m=pymongo.MongoClient(self.host,self.port)
+        else:
+            connet_m=pymongo.MongoClient(self.host,self.port,self.username,self.password)
+        return connet_m
+
+    @Mongdb_error()
+    def update(self,**kwargs):
+        db=kwargs.get('db',None)
+        table=kwargs.get('table',None)
+        if kwargs.get('source',None) != None:
+            dbs=self.connet_m[db]
+            dbs[table].update_one(kwargs.get('source',None),{"$set":kwargs.get('target',None)})
+            return 1
+        else:
+            Cmdb_log.error('source None')
+            return 0
+
+    @Mongdb_error()
+    def delnete(self,**kwargs):
+        db=kwargs.get('db',None)
+        table=kwargs.get('table',None)
+        dbs = self.connet_m[db]
+        dbs[table].delete_one(kwargs.get('data',None))
+        return 1
+        #db.my_collection.delete_one({'id': 1})
+        #pass
+
+    def close(self):
+        self.connet_m.close()
+
+
+
+
+def send_mail(to_list, subject, content):
+    mail_host = 'smtp.sina.com'
+    mail_user = 'test_btbh'
+    mail_pass = 'test123456'
+    mail_postfix = 'sina.com'
+
+    me = mail_user + "<" + mail_user + "@" + mail_postfix + ">"
+    msg = MIMEText(content, _subtype='plain', _charset='utf-8')
+    msg['Subject'] = subject
+    msg['From'] = me
+    msg['to'] = to_list
+    try:
+        s = smtplib.SMTP()
+        s.connect(mail_host)
+        s.login(mail_user, mail_pass)
+        s.sendmail(me, to_list, msg.as_string())
+        s.close()
+        return True
+    except Exception, e:
+        print str(e)
+        return False
+
+def sendhttp(url,data):
+    header = {"Content-Type": "application/json"}
+    try:
+        request = urllib2.Request(url, data)
+        for key in header:
+            request.add_header(key, header[key])
+        try:
+            result = urllib2.urlopen(request)
+            result_t=json.loads(result.read())
+        except:
+            result_e = traceback.format_exc()
+            Cmdb_log.error(result_e)
+            result_t = 0
+        else:
+            result.close()
+        return result_t
+    except:
+        s = traceback.format_exc()
+        Cmdb_log.error('execute func %s failure : %s' % (sendhttp, s))
+
+
+class Zabbix_api(object):
+    def __init__(self):
+        pass
+
+    @classmethod
+    def send_json(cls,method):
+        ret={"user":'{"jsonrpc": "2.0","method": "%s","params": {"user": "%s","password": "%s"},"id": 1}',
+             "host":'{"jsonrpc": "2.0","method": "%s","params": {"output": ["hostid","name"]},"auth": "%s","id": 1}',
+             "item":'{"jsonrpc": "2.0","method": "%s","params": {"output": "itemids","hostids": "%s","search": {"key_": "%s"},"sortfield": "name"},"auth": "%s","id": 1}',
+             "history":'{"jsonrpc": "2.0","method": "%s","params": {"history": 3,"itemids": ["%s"],"output":"extend","time_from":"%s","time_till":"%s"},"auth": "%s","id": 1}'
+             }
+        return ret[method]
+
+    @classmethod
+    def _time_date(cls,time_type,interval):
+        data={
+            'minutes': (datetime.datetime.now() - datetime.timedelta(minutes=interval)).strftime("%Y-%m-%d %H:%M:%S"),
+            'hours': (datetime.datetime.now() - datetime.timedelta(hours=interval)).strftime("%Y-%m-%d %H:%M:%S"),
+             'days': (datetime.datetime.now() - datetime.timedelta(days=interval)).strftime("%Y-%m-%d %H:%M:%S")
+         }
+        return int(str(time.mktime(time.strptime(data[time_type], "%Y-%m-%d %H:%M:%S"))).split('.')[0])
+
+    @classmethod
+    def get_token(cls):
+        global ZABBIX_TOKEN
+        send_data=cls.send_json(method="user") % ("user.login",ZABBIX['default']['USER'],ZABBIX['default']['PASSWORD'])
+        return_data=sendhttp(ZABBIX['default']['URL'],send_data)
+        print  return_data
+        if return_data != 0:
+            ZABBIX_TOKEN = return_data['result']
+            print ZABBIX_TOKEN
+            return 0
+        return 1
+
+
+    @classmethod
+    def hostids(cls,host):
+        global ZABBIX_TOKEN
+        sys=[]
+        patt = r".*%s.*" % host
+        patt1 = re.compile(patt)
+        send_data=cls.send_json(method="host") % ("host.get",ZABBIX_TOKEN)
+        return_data=sendhttp(ZABBIX['default']['URL'],send_data)
+        if return_data != 0:
+            rets_t=return_data['result']
+            for i_key in rets_t:
+                if len(re.findall(patt1,i_key['name'])) > 0:
+                    sys.append(i_key)
+        return sys
+
+    @classmethod
+    def itemids(cls,item_key,host_list):
+        global ZABBIX_TOKEN
+        for host_o in host_list:
+            print host_o
+            send_data=cls.send_json(method="item") % ("item.get",host_o['hostid'],item_key,ZABBIX_TOKEN)
+            return_data = sendhttp(ZABBIX['default']['URL'], send_data)
+            if return_data != 0:
+                rets_t=return_data['result'][0]['itemid']
+                host_o['itemid']=rets_t
+        return host_list
+
+
+
+    @classmethod
+    def history_data(cls,host_list):
+        global ZABBIX_TOKEN
+        ret={}
+        ret['date'] = []
+        ret['graph']={}
+        ret['graph']['data']={}
+        time_from=str(cls._time_date(time_type="minutes",interval=60))
+        #time_till=str(time.time()).split('.')[0]
+        #time_till=int(str(time.mktime(time.strptime(datetime.datetime.now(), "%Y-%m-%d %H:%M:%S"))).split('.')[0])
+        print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        time_till = str(time.mktime(time.strptime(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S"))).split('.')[0]
+        for host_item in host_list:
+            #print host_item,host_item['itemid']
+            #print type(host_item)
+            send_data = cls.send_json(method="history") % ("history.get",host_item['itemid'], time_from, time_till,ZABBIX_TOKEN)
+            return_data=sendhttp(ZABBIX['default']['URL'], send_data)
+            if return_data != 0:
+              #  print return_data['result']
+                ret['graph']['data'][host_item['name']]=return_data['result']
+                ret['graph']['type']='nginx.connections.active'
+                for lock_data in return_data['result']:
+                  #  print lock_data
+                    if len(ret['date']) == 0:
+                        print time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(float(lock_data['clock'])))
+                        ret['date'].append(lock_data['clock'])
+        return ret
+
+
+    @classmethod
+    def token_data(cls):
+        global ZABBIX_TOKEN
+        return ZABBIX_TOKEN

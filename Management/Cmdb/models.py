@@ -82,6 +82,7 @@ class Asset(models.Model):
     date_added = models.DateTimeField(auto_now=True, null=True)
     is_active = models.BooleanField(default=True, verbose_name=u"是否激活")
     comment = models.CharField(max_length=128, blank=True, null=True, verbose_name=u"备注")
+    host_hostname = models.IntegerField(blank=True,null=True,verbose_name=u"预发布节点")
 
     def __unicode__(self):
         return self.ip

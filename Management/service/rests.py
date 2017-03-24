@@ -30,7 +30,6 @@ class Service(APIView):
 
     def put(self,request,fun,format=None):
         print fun
-        method = request.POST.get('method')
         ret = Methods.get('PUT').get(fun)(request)
         return packageResponse(ret)
 

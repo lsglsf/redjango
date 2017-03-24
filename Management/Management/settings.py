@@ -22,6 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '7n27ukmro69%k5hs5$2zau2mgg*+djr3m*c57r+rxg$+b!cfwm'
 
+allow_ip='192.168.44.1'
+
+Automation_path=os.path.join(BASE_DIR,'Automation','ansible')
+ANSABLE_CNF = os.path.join(BASE_DIR,'Automation','ansible','ansible.cfg')
+print ANSABLE_CNF
+print Automation_path
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -52,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'middleware.middleware.UserSessionMiddleware',
 )
 
 ROOT_URLCONF = 'Management.urls'
@@ -213,20 +221,28 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cmdb',
-        'USER': 'testuser',
-        'PASSWORD': '123456',
-        'HOST': '192.168.44.129',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '192.168.11.1',
         'PORT': 3306,
     }
 }
 
+ZABBIX={
+    "default":{
+        "URL":"http://127.0.0.1/api_jsonrpc.php",
+        "USER":"lsg",
+        "PASSWORD":"redhat123"
+    }
+}
+ZABBIX_TOKEN=''
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 

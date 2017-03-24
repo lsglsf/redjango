@@ -6,6 +6,7 @@ from Cmdb.models import Asset
 
 class Register(models.Model):
     service_name = models.CharField(max_length=50, blank=True, null=True,verbose_name=u'服务名称')
+    alias_name = models.CharField(max_length=50,blank=True,null=True,unique=True,verbose_name=u'别名')
     service_start = models.CharField(max_length=100, blank=True, null=True,verbose_name=u'启动服务')
     service_stop = models.CharField(max_length=100, blank=True, null=True,verbose_name=u'停止服务')
     service_restart = models.CharField(max_length=100, blank=True, null=True,verbose_name=u'重启服务')

@@ -14,8 +14,9 @@ from rest_framework.reverse import reverse
 from rest_framework import generics
 from django.conf import settings
 import json
-from methods.cmdb_fun import Methods
-from methods.common import packageResponse
+#from methods.cmdb_fun import Methods
+from Cmdb.methods.common import packageResponse
+from service import Methods
 
 class Automation(APIView):
     def get(self,request,fun,format=None):

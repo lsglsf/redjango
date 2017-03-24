@@ -22,12 +22,28 @@ import tornado.iostream
 import socket
 #from Cmdb.models import Asset
 import hashlib
-from Cmdb.methods.common import response_t,Connect_agen
+from Cmdb.methods.common import response_t
 import traceback
+from Management.settings import allow_ip
 dict_w={}
 
 class Base_websockt(tornado.websocket.WebSocketHandler):
     pass
+
+
+
+def auth_ip():
+    def fun2(fun):
+        def fun3(self,*args,**kwargs):
+           # print dir(self.request)
+            #print self.request
+            print allow_ip
+            if self.request.get('X-Forwarded-For') == allow_ip:
+                fun(self)
+            else:
+                self.close()
+        return fun3
+    return fun2
 
 class Connect_agent(object):
     global dict_w
@@ -185,6 +201,7 @@ class Webservice_execute(tornado.websocket.WebSocketHandler):
         # Non-None enables compression with default options.
         return {}
 
+    @auth_ip()
     def open(self):
         self.put_client()
 
@@ -237,52 +254,51 @@ class Webservice_execute(tornado.websocket.WebSocketHandler):
 
 
 class PathlistHandler(tornado.web.RequestHandler):
-   # def __init__(self):
-     #   super(tornado.web.RequestHandler, self).__init__()
-    #    self.data=True
-    def get(self, *args, **kwargs):
-        ret={}
-        ret=response_t(ret)
-        self.write(ret)
 
     @gen.coroutine
+   # @auth_ip()
     def post(self):
-        data_p=json.loads(self.get_argument('data'))
-        data = {}
-        data['path'] = data_p['path_config']
-        data['fun'] = 'service_config'
-        data['app'] = 'read_path'
-       # conn = Connect_agen(host=data_p['ip'], port=9888,data=data)
-       # aa=yield self.send_message_new(host=data_p['ip'], port=9888,data=data)
-       # print aa
-        try:
-            ret={}
-            stream = yield TCPClient().connect(data_p['ip'], 9888)
-            yield stream.write((json.dumps(data) + b"\n").encode())
-            reply = yield stream.read_until(b"\n")
-            print reply,'1111'
-            self.reutn_data = reply
-           # self.reutn_data=reply
-            ret['status']='None'
-            ret['data_d']=reply
-            self.reutn_data = ret
-            stream.close()
-        except StreamClosedError:
-            print 'error'
-            s = traceback.format_exc()
-            print s
+        if self.request.remote_ip == allow_ip:
+            data_p=json.loads(self.get_argument('data'))
+            data = {}
+            data['path'] = data_p['path_config']
+            data['fun'] = 'service_config'
+            data['app'] = 'read_path'
+           # conn = Connect_agen(host=data_p['ip'], port=9888,data=data)
+           # aa=yield self.send_message_new(host=data_p['ip'], port=9888,data=data)
+           # print aa
+            try:
+                ret={}
+                stream = yield TCPClient().connect(data_p['ip'], 9888)
+                yield stream.write((json.dumps(data) + b"\n").encode())
+                reply = yield stream.read_until(b"\n")
+                print reply,'1111'
+                self.reutn_data = reply
+               # self.reutn_data=reply
+                ret['status']='None'
+                ret['data_d']=reply
+                self.reutn_data = ret
+                stream.close()
+            except StreamClosedError:
+                print 'error'
+                s = traceback.format_exc()
+                print s
+                ret={}
+                ret['status']='stop'
+                ret['data_d']='连接客户端失败'
+                self.reutn_data=ret
+            except Exception as e:
+                print e
+                s = traceback.format_exc()
+                print s
+                ret={}
+                ret['status']='stop'
+                ret['data_d']='连接客户端失败'
+                self.reutn_data=ret
+        else:
             ret={}
             ret['status']='stop'
-            ret['data_d']='连接客户端失败'
-            self.reutn_data=ret
-        except Exception as e:
-            print e
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']='stop'
-            ret['data_d']='连接客户端失败'
-            self.reutn_data=ret
+            ret['data_d']="error"
         ret = response_t(ret)
         self.write(ret)
 
@@ -292,58 +308,3 @@ class PathlistHandler(tornado.web.RequestHandler):
         self.set_header('Access-Control-Max-Age', 1000)
         self.set_header('Access-Control-Allow-Headers', '*')
         self.set_header('Content-type', 'application/json')
-
-
-    @gen.coroutine
-    def send_message_new(self,host,port,data):
-        print 'test'
-        print host,port,data
-        try:
-            ret={}
-            stream = yield TCPClient().connect(host, port)
-            yield stream.write((json.dumps(data) + b"\n").encode())
-            reply = yield stream.read_until(b"\n")
-          #  print reply
-            self.reutn_data = reply
-           # self.reutn_data=reply
-            ret['status']='None'
-            ret['data_d']=reply
-            self.reutn_data = ret
-            stream.close()
-
-        except StreamClosedError:
-            print 'error'
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']='stop'
-            ret['data_d']='连接客户端失败'
-            self.reutn_data=ret
-        except Exception as e:
-            print e
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']='stop'
-            ret['data_d']='连接客户端失败'
-            self.reutn_data=ret
-       # finally:
-           # self.write(self.reutn_data)
-    def send_msg(self):
-        try:
-            self.sock_fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            self.stream = tornado.iostream.IOStream(self.sock_fd)
-            #self.stream.set_close_callback(self.on_close)
-            self.stream.connect((self.host, self.port))
-            self.stream.write(self.data+self.EOF)
-            data=self.stream.read_until(self.EOF)
-            print data
-            return data
-            self.stream.close()
-        except:
-            s = traceback.format_exc()
-            print s
-            ret={}
-            ret['status']="error"
-            ret['data']="The connection fails"
-            return ret

@@ -33,9 +33,10 @@ class Body extends Component {
                 <NavItem href="Service" icon="credit-card-alt" title="服务管理" >
                   <NavItem href="Service/register" title="服务注册" />
                 </NavItem>
+                {/*
                 <NavItem href="automation" icon="credit-card-alt" title="远程管理" >
                   <NavItem href="automation/modules" title="远程命令执行" />
-                </NavItem>     
+                </NavItem>   */}  
               </NavItem>
             </Nav>
           </LayoutSidebar>
