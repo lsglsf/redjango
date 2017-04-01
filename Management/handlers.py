@@ -27,6 +27,8 @@ import traceback
 from Management.settings import allow_ip
 dict_w={}
 
+connection = logging.getLogger("connection")
+
 class Base_websockt(tornado.websocket.WebSocketHandler):
     pass
 
@@ -37,10 +39,12 @@ def auth_ip():
         def fun3(self,*args,**kwargs):
            # print dir(self.request)
             #print self.request
-            print allow_ip
+           # print allow_ip
             if self.request.get('X-Forwarded-For') == allow_ip:
+                connection.info("{0}-{0}".format("WEBSOCKET连接成功IP",allow_ip))
                 fun(self)
             else:
+                connection.error("{0}-{0}".format("WEBSOCKET连接失败IP", allow_ip))
                 self.close()
         return fun3
     return fun2
@@ -259,6 +263,7 @@ class PathlistHandler(tornado.web.RequestHandler):
    # @auth_ip()
     def post(self):
         if self.request.remote_ip == allow_ip:
+            connection.info("{0}-{0}".format("POST连接成功IP", allow_ip))
             data_p=json.loads(self.get_argument('data'))
             data = {}
             data['path'] = data_p['path_config']
@@ -296,6 +301,7 @@ class PathlistHandler(tornado.web.RequestHandler):
                 ret['data_d']='连接客户端失败'
                 self.reutn_data=ret
         else:
+            connection.error("{0}-{0}".format("POST连接失败IP", allow_ip))
             ret={}
             ret['status']='stop'
             ret['data_d']="error"

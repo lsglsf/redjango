@@ -61,11 +61,6 @@ class FixedTableDemo1 extends Component {
       {
         title:"日志文件",
         key:"path_log",
-        render:(text,item)=>{
-          return (<TextOverflow>
-            <p style={{width: '80px'}}>{text}</p>
-          </TextOverflow>)
-        }
       },
       {
         title: '关联主机',
@@ -99,7 +94,7 @@ class FixedTableDemo1 extends Component {
               <div>
                   {/*<a href = "javascript:void(0);" onClick = {this.handleClick.bind(this, item)} style={{float:'left'}}>编辑<span>|</span></a>
                   <Base_version item={item} host={this.state.host}/>*/}
-                  <Base_version item={item} callback_get={::this.callback_get} />
+                  <Base_version item={item} callback_get={::this.callback_get} status_update={::this.status_update} />
               </div>
             )
         },
@@ -138,12 +133,7 @@ class FixedTableDemo1 extends Component {
     })
   }
 
-
-
-
-
   callback(key) {
-    console.log(key,'key111111');
     let _this=this
     let vardata=this.state.vardata
     let key_id=this.query_name(key[key.length-1])
@@ -152,7 +142,7 @@ class FixedTableDemo1 extends Component {
         type: 'GET',
         url: `/v1/service/list/query/?name=${key_id}`,
         success(data) {
-          console.log(data['data'])
+         // console.log(data['data'])
           let data_list=data['data']
           for (let i in data_list){
             data_list[i]['coll_id']=key[key.length-1]
@@ -168,7 +158,7 @@ class FixedTableDemo1 extends Component {
   handleClick(item, event) {
     event = event ? event : window.event;
     event.stopPropagation();
-    console.log(item)
+  //  console.log(item)
   }
 
   /*handleCheckboxSelect(selectedRows) {
@@ -176,16 +166,15 @@ class FixedTableDemo1 extends Component {
   }*/
 
   handleRowClick(row) {
-    console.log('rowclick', row)
+  //  console.log('rowclick', row)
   }
 
   handleOrder(name, sort) {
-    console.log(name, sort)
+ //   console.log(name, sort)
   }
 
   componentWillMount(){
     let _this=this
-
     xhr({
       type: 'GET',
       url: '/v1/service/list/type_list/',
@@ -196,30 +185,41 @@ class FixedTableDemo1 extends Component {
     })
     let vardata=this.state.vardata
     //let key_id=this.query_name(key[key.length-1])
+    xhr({
+      type: 'GET',
+      url: `/v1/service/list/query/`,
+      success(data) {
+       // console.log(data['data'])
+        vardata=data['data']
+        _this.setState({vardata})
+      }
+    })
+  }
 
-      xhr({
-        type: 'GET',
-        url: `/v1/service/list/query/`,
-        success(data) {
-          console.log(data['data'])
-          vardata=data['data']
 
-          _this.setState({vardata})
-        }
-      })
-    
-   // this.setState({count:key.length,Table_list:key})
+  status_update(){
+    let _this = this
+    let vardata=this.state.vardata
+    xhr({
+      type: 'GET',
+      url: `/v1/service/list/query/`,
+      success(data) {
+       // console.log(data['data'])
+        vardata=data['data']
 
+        _this.setState({vardata})
+      }
+    })
   }
 
   handleButtonClick(e) {
     message.info('Click on left button.');
-    console.log('click left button', e);
+  //  console.log('click left button', e);
   }
 
   handleMenuClick(e) {
     message.info('Click on menu item.');
-    console.log('click', e);
+   // console.log('click', e);
   }
 
 
@@ -236,7 +236,7 @@ class FixedTableDemo1 extends Component {
     return (
       <div>
           <div><h5>主机组服务详细信息列表</h5></div>
-          <div><CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list}/></div>
+          <div><CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list} status_update={::this.status_update}/></div>
           <div>
           <FixedTable 
             height={500}

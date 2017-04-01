@@ -22,12 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '7n27ukmro69%k5hs5$2zau2mgg*+djr3m*c57r+rxg$+b!cfwm'
 
-allow_ip='192.168.44.1'
+allow_ip='192.168.2.57'
 
 Automation_path=os.path.join(BASE_DIR,'Automation','ansible')
 ANSABLE_CNF = os.path.join(BASE_DIR,'Automation','ansible','ansible.cfg')
-print ANSABLE_CNF
-print Automation_path
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -119,41 +117,17 @@ LOGGING = {
             'formatter': 'online',
             'filename' : '{0}/error.log'.format(LOG_BASE_DIR).replace('\\','/')
         },
-        'ac_file': {
-            'level':'DEBUG',
-            'class':'logging.FileHandler',
-            'formatter': 'complete',
-            'filename' :'{0}/service.log'.format(LOG_BASE_DIR).replace('\\','/')
-        },
-        'cmd_file': {
-            'level':'DEBUG',
-            'class':'logging.FileHandler',
-            'formatter': 'complete',
-            'filename' :'{0}/cmd.log'.format(LOG_BASE_DIR).replace('\\','/')
-        },
-        'hdfs_file': {
-            'level':'DEBUG',
-            'class':'logging.FileHandler',
-            'formatter': 'complete',
-            'filename' :'{0}/hdfs.log'.format(LOG_BASE_DIR).replace('\\','/')
-        },
-        'kd_agent_file': {
-            'level':'DEBUG',
-            'class':'logging.FileHandler',
-            'formatter': 'complete',
-            'filename' :'{0}/service.log'.format(LOG_BASE_DIR).replace('\\','/')
-        },
-        'openstack_log': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'formatter': 'complete',
-            'filename': '{0}/openstack.log'.format(LOG_BASE_DIR).replace('\\', '/')
-        },
         'Cmdb_log':{
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'formatter':'complete',
             'filename': '{0}/cmdb_log.log'.format(LOG_BASE_DIR).replace('\\','/')
+        },
+        "connection":{
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': '{0}/connection.log'.format(LOG_BASE_DIR).replace('\\', '/')
         },
         'console':{
             'level':'DEBUG',
@@ -172,37 +146,27 @@ LOGGING = {
             'level':'DEBUG',
         },
         'cmd_log': {
-            'handlers':['cmd_file', 'console'],
+            'handlers':[ 'console'],
             'propagate': False,
             'level':'DEBUG',
         },
         'access_log': {
-            'handlers':['ac_file', 'console'],
+            'handlers':[ 'console'],
             'propagate': False,
             'level':'DEBUG',
-        },
-        'hdfs_log': {
-            'handlers':['hdfs_file', 'console'],
-            'propagate': False,
-            'level':'DEBUG',
-        },
-        'kd_agent_log': {
-            'handlers':['kd_agent_file','console'],
-            'propagate': False,
-            'level':'DEBUG',
-        },
-        'openstack_log': {
-            'handlers': ['openstack_log'],
-            'propagate': False,
-            'level': 'DEBUG',
         },
         'Cmdb_log':{
           'handlers':['Cmdb_log'],
             'propagate':False,
             'level':'DEBUG',
         },
+        'connection':{
+            'handlers': ['connection'],
+            'propagate': False,
+            'level': 'DEBUG',
+        },
         'django.request': {
-            'handlers': ['ac_file', 'mail_admins'],
+            'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },
@@ -223,18 +187,26 @@ DATABASES = {
         'NAME': 'cmdb',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '192.168.11.1',
+        'HOST': '11',
         'PORT': 3306,
     }
 }
 
 ZABBIX={
     "default":{
-        "URL":"http://127.0.0.1/api_jsonrpc.php",
-        "USER":"lsg",
-        "PASSWORD":"redhat123"
+        "URL":"http://1111/api_jsonrpc.php",
+        "USER":"11",
+        "PASSWORD":"11",
+        "TIMEOUT":2
     }
 }
+MONGODB={
+    "default":{
+        'HOST' : '1',
+        'PORT' : 1
+    }
+}
+
 ZABBIX_TOKEN=''
 
 # Internationalization
@@ -249,7 +221,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

@@ -263,7 +263,7 @@ class PyCrypt(object):
             pass
             #raise ServerError('Decrypt password error, TYpe error.')
         return plain_text.rstrip('\0')
-CRYPTOR = PyCrypt('test')
+CRYPTOR = PyCrypt('sss')
 
 
 
@@ -307,8 +307,9 @@ class Mongodb_Operate(object):
             for i in dbs[table].find({}):
                 ret.append(i)
         else:
+            Cmdb_log.info("{0}-{1}-{2}".format(db,table,arg))
             dbs=self.connet_m[db]
-            for i in dbs[table].find({}):
+            for i in dbs[table].find(arg):
                 ret.append(i)
         return ret
 
@@ -384,7 +385,7 @@ def sendhttp(url,data):
         for key in header:
             request.add_header(key, header[key])
         try:
-            result = urllib2.urlopen(request)
+            result = urllib2.urlopen(request,timeout = 2)
             result_t=json.loads(result.read())
         except:
             result_e = traceback.format_exc()
@@ -412,7 +413,7 @@ class Zabbix_api(object):
         return ret[method]
 
     @classmethod
-    def _time_date(cls,time_type,interval):
+    def time_date(cls,time_type,interval):
         data={
             'minutes': (datetime.datetime.now() - datetime.timedelta(minutes=interval)).strftime("%Y-%m-%d %H:%M:%S"),
             'hours': (datetime.datetime.now() - datetime.timedelta(hours=interval)).strftime("%Y-%m-%d %H:%M:%S"),
@@ -469,10 +470,10 @@ class Zabbix_api(object):
         ret['date'] = []
         ret['graph']={}
         ret['graph']['data']={}
-        time_from=str(cls._time_date(time_type="minutes",interval=60))
+        time_from=str(cls.time_date(time_type="minutes",interval=60))
         #time_till=str(time.time()).split('.')[0]
         #time_till=int(str(time.mktime(time.strptime(datetime.datetime.now(), "%Y-%m-%d %H:%M:%S"))).split('.')[0])
-        print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         time_till = str(time.mktime(time.strptime(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S"))).split('.')[0]
         for host_item in host_list:
             #print host_item,host_item['itemid']

@@ -104,7 +104,7 @@ class FixedTableDemo extends Component {
 
 
   render() {
-    console.log(this.state.data)
+    //console.log(this.state.data)
     return (
       <div>
         <div><h6>主机详细信息列表</h6></div>
@@ -146,7 +146,7 @@ class FixedTableDemo extends Component {
 
   componentWillMount(){
     this.getdata()
-    console.log(this.props)
+   // console.log(this.props)
   }
 
 
@@ -156,7 +156,7 @@ class FixedTableDemo extends Component {
       type: 'GET',
       url: '/v1/cmdb/list/assetget/',
       success(data) {
-        console.log(data['data'])
+       // console.log(data['data'])
         _this.setState({data:data['data']})
 
       }
@@ -166,7 +166,7 @@ class FixedTableDemo extends Component {
   handleClick(item, event) {
     event = event ? event : window.event;
     event.stopPropagation();
-    console.log(item)
+   // console.log(item)
     this.setState({item})
     this.handleOpen()
   }
@@ -185,11 +185,11 @@ class FixedTableDemo extends Component {
   }
 
   handleRowClick(row) {
-    console.log('rowclick', row)
+   // console.log('rowclick', row)
   }
 
   handleOrder(name, sort) {
-    console.log(name, sort)
+  //  console.log(name, sort)
   }
 }
 

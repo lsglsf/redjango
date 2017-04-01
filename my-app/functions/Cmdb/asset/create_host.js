@@ -127,7 +127,7 @@ class Create_asset extends Component{
       type: 'GET',
       url: '/v1/cmdb/list/groupget/?name=group_all',
       success(data) {
-        console.log(data)
+       // console.log(data)
         _this.setState({group:data['data']})
       }
     })
@@ -157,7 +157,7 @@ class Create_asset extends Component{
   }
 
   handselect(values){
-    console.log('........values',values)
+    //console.log('........values',values)
     let formData = this.state.formData
     formData['group'] = values
     this.setState({formData})
@@ -212,7 +212,7 @@ class Create_asset extends Component{
         <FormItem label="主机IP" required name="ip" help="请输入IP地址">
           <FormInput />
         </FormItem>
-        <FormItem label="其他IP" required name="other_ip" help="">
+        <FormItem label="其他IP"  name="other_ip" help="">
           <FormInput />
         </FormItem>
         <FormItem label="端口" required name="port" help="">
@@ -244,7 +244,6 @@ class Create_asset extends Component{
           :<span></span>
           }
           <span><Switch checkedChildren={'开'} unCheckedChildren={'关'} onChange={::this.hosts_func} /></span>
-
         </FormItem>
         <FormItem label="选择应用" name="template">
           { this.state.template_status ?
@@ -309,7 +308,7 @@ class CreateModal extends Component {
   }
 
   handleOpen(type){
-  	console.log(type)
+  //	console.log(type)
     this.refs.modal.open()
     let title=this.handletitle()[type]
     let fun=this.handlefun()[type]

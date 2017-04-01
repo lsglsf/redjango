@@ -37,7 +37,7 @@ class List_host extends Component {
     }
 
    callback(key) {
-   console.log(key);
+  // console.log(key);
     }
 
 
@@ -49,12 +49,12 @@ class List_host extends Component {
             <Tabs>
               <TabList>
                 <Tab>主机基本信息</Tab>
-                <Tab>监控数据</Tab>
+                {/*<Tab>监控数据</Tab>*/}
               </TabList>
               <TabPanel>
                 <Info id={this.state.id}/>
               </TabPanel>
-              <TabPanel>xixix</TabPanel>
+              <TabPanel></TabPanel>
             </Tabs>
         </div>
  

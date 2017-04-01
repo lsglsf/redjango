@@ -8,7 +8,7 @@ import tornado.web
 import tornado.wsgi
 from tornado.options import options, define, parse_command_line
 import tornado.websocket
-import logging
+#import logging
 from tornado.iostream import StreamClosedError
 import uuid
 import tornado.escape
@@ -25,7 +25,9 @@ import socket
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Management.settings")
 from handlers import Webservice_execute,PathlistHandler,auth_ip
 from Management.settings import allow_ip
+import logging
 
+Cmdb_log = logging.getLogger("Cmdb_log")
 
 define('port', type=int, default=8080)
 
@@ -180,11 +182,10 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def on_message(self, message):
-        print self.waiters_d
-        print self._id()
-       # websocket_id=self._id()
-       # webid_d=self.waiters_d.get(websocket_id,None)
-        print message
+       # print self.waiters_d
+        #print self._id()
+      #  print message
+        Cmdb_log.info("{0}-{1}".format("文件同步",message))
         print self.get_cookie('user')
         if self.get_cookie('user') == None:
             bridge = self.get_client()

@@ -34,7 +34,7 @@ class Todos extends Component {
 
   componentWillMount(){
     OPEN.home_count(this,(_this,data)=>{    
-        console.log(data,'testxxx')
+      //  console.log(data,'testxxx')
         this.setState({app_count:data['app_count'],host_count:data['host_count']})
     })
   }
@@ -79,13 +79,13 @@ class Todos extends Component {
                 date=this.date_list(graph[keys])
             }
             let series_d=this.series_t(keys,graph[keys])
-            console.log(series_d)
+           // console.log(series_d)
             series.push(series_d)
         })
         host.map((keys,item)=>{
             host_data.push(keys['name'])
         })
-        console.log('test', host_data)
+       // console.log('test', host_data)
     var myChart = echarts3.init(document.getElementById('main'));
     var connectChart = echarts3.init(document.getElementById('connect'));
     myChart.setOption({
@@ -247,7 +247,7 @@ class Todos extends Component {
 
 
   render() {
-    console.log(this.state.graph_data,"test11111111111")
+   // console.log(this.state.graph_data,"test11111111111")
     const { update, state } = this
     const { text, list } = state
     const title = (

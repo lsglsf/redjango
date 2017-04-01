@@ -223,6 +223,7 @@ class Create_server extends Component{
       targetData: [],
       newData:[],
       record_source:[],
+      host_status:false
     }
   }
 
@@ -233,9 +234,8 @@ class Create_server extends Component{
       type: 'GET',
       url: '/v1/cmdb/list/groupget/?name=assert_all',
       success(data) {
-        console.log(data['data'])
+       // console.log(data['data'])
         _this.setState({host:data['data']})
-
       }
     })
   }
@@ -248,6 +248,7 @@ class Create_server extends Component{
       this.props.callback_get(this.props.Table_list[i])
    }
     if (res['status']==true){
+      this.props.status_update()
       message.success('创建成功！')
     }else{
       message.danger(res['status'])
@@ -256,7 +257,7 @@ class Create_server extends Component{
 
   handleChange(sourceData, targetData) {
    // this.test(this.state.newData,sourceData)
-    console.log(targetData)
+   // console.log(targetData)
     let formData = this.state.formData
     //formData['sourceData']=sourceData
     formData['targetData']=targetData
@@ -271,12 +272,12 @@ class Create_server extends Component{
 
   handleButtonClick(e) {
     message.info('Click on left button.');
-    console.log('click left button', e);
+   // console.log('click left button', e);
   }
 
   handleMenuClick(e) {
     message.info('Click on menu item.');
-    console.log('click', e);
+  //  console.log('click', e);
   }
 
 
@@ -286,9 +287,9 @@ class Create_server extends Component{
     this.props.modal.close()
   }
 
-  handleChange(value) {
-    console.log(`selected ${value}`);
-    console.log(value,'sdfsaf')
+  handleChange(value,event) {
+  //  console.log(`selected ${value}`);
+  //  console.log(value,event,'sdfsaf')
     let formData = this.state.formData
     //formData['sourceData']=sourceData
     formData['targetData']=value
@@ -297,12 +298,15 @@ class Create_server extends Component{
     })
  }
 
+  handleon(event){
+   // console.log('test1111',event)
+  }
+
   render() {
     const { formData } = this.state
     const children = [];
     for (let i = 0; i< this.state.host.length; i++) {
-      //console.log('iddd',this.state.host.length,i,this.state.host[i].description)
-      children.push(<Option key={this.state.host[i].id}>{this.state.host[i].description}</Option>);
+      children.push(<Option onChange={::this.handleon.bind(this)} key={this.state.host[i].id} value={this.state.host[i].description}>{this.state.host[i].description}</Option>);
     }
     return (
       <Form
@@ -312,7 +316,7 @@ class Create_server extends Component{
         rules={this.rules}
         onSuccess={::this.handleSuccess}
       >
-       <FormItem label="主机" required name="name" help="选择主机">
+       <FormItem label="主机"  name="name" help="选择主机">
           <Select
               multiple
               style={{ width: '30%' }}
@@ -323,10 +327,19 @@ class Create_server extends Component{
               {children}
           </Select>
         </FormItem>
+        {/*
+        <FormItem label="选择应用" name="template">
+          { this.state.host_status ?
+          <MultipleSelect defaultValues={[]} onChange={(values)=> {let formData = this.state.formData;formData['template'] = values;this.setState({formData})}} style={{marginRight:'10px'}}>
+            {template_all}
+          </MultipleSelect>:<span></span>
+        }
+        <span><Switch checkedChildren={'开'} unCheckedChildren={'关'} onChange={::this.template_func} /></span>
+        </FormItem>*/}
         <FormItem label="服务名称" required name="service_name" help="">
           <FormInput />
         </FormItem>
-        <FormItem label="别名" required name="alias_name" help="相同程序安装不目录">
+        <FormItem label="别名"  name="alias_name" help="相同程序安装不目录">
           <FormInput />
         </FormItem>
         <FormItem label="重启服务" required name="service_restart" help="">
@@ -383,7 +396,7 @@ class CreateModal extends Component {
 
   handlefun(){
   	return {
-  		'create':<Create_server host={this.props.host} modal={this.refs.modal} callback_get={::this.props.callback_get} Table_list={this.props.Table_list}/>,
+  		'create':<Create_server host={this.props.host} modal={this.refs.modal} callback_get={::this.props.callback_get} Table_list={this.props.Table_list} status_update={this.props.status_update}/>,
   		'detele':<Delete_group rows={this.props.rows} modal={this.refs.modal} />
   	}
   }

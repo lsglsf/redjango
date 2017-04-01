@@ -17,7 +17,7 @@ class Put_group extends Component{
     this.rules = {
       name(v) {
         if (!v) return '名称不能为空'
-        if (v.length > 5) return '用户群名称不能超过5个字符'
+      //  if (v.length > 5) return '用户群名称不能超过5个字符'
       },
     }
     this.state = {
@@ -86,9 +86,9 @@ class Put_group extends Component{
   test(a,b){
     var array=[];
     a.forEach(function(item){
-    	console.log(item)
-    	console.log(b,'b')
-    	console.log(b.indexOf(item))
+    	//console.log(item)
+    //	console.log(b,'b')
+    //	console.log(b.indexOf(item))
         if(b.indexOf(item)>-1) array.push(item);
     })
     return array;

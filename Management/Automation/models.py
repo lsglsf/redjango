@@ -30,4 +30,5 @@ class Automation_Hostdetails(models.Model):
     processorcount = models.CharField(max_length=50,blank=True, null=True,)
     machine = models.CharField(max_length=50,blank=True, null=True,)
     system =  models.CharField(max_length=50,blank=True, null=True,)
+    agent = models.IntegerField(blank=True,null=True,verbose_name=u"客户端状态")
     asset_one = models.OneToOneField(Asset, blank=True, verbose_name=u"安装记录")

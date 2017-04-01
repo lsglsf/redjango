@@ -11,7 +11,7 @@ import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
 import { Select, Option as Optionh } from 'bfd/Select'
 //import { Row, Col } from 'bfd/Layout'
-import { Menu, Dropdown,Icon,Popconfirm } from 'antd';
+import {Select as Selects , Menu, Dropdown,Icon,Popconfirm } from 'antd';
 import { Modal, Button as Buttons, Alert } from 'antd';
 import CodeMirror from 'react-codemirror'
 import codeMirror from 'codemirror'
@@ -27,6 +27,7 @@ import Tree from 'bfd/Tree'
 import ReactDOM from 'react-dom'
 import { Spin} from 'antd';
 import { MultipleSelect, Option  } from 'bfd/MultipleSelect'
+const Optionss = Selects.Option;
 //import ReactDOM from 'react-dom'
 
 
@@ -55,8 +56,8 @@ class File_sync extends Component{
   }
 
   componentWillMount(){
-    console.log(this.props.item,'item')
-    console.log('test11111111')
+  //  console.log(this.props.item,'item')
+  //  console.log('test11111111')
   }
 
   handleSuccess(res) {
@@ -102,16 +103,16 @@ class File_sync extends Component{
 
   detection_path(){
   	let path_list=this.state.path_list
-  	console.log(path_list)
+  //	console.log(path_list)
   	if (path_list.length > 0 && !this.state.ws){
   		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
   		this.handsocket_io(path_dict)
-  		console.log('test1')
+  	//	console.log('test1')
   	} else if (path_list && this.state.ws){
   		let path_list=this.state.path_list
   		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
   		this.ws_websokct(path_dict)
-  		console.log('test2')
+  	//	console.log('test2')
   	}else{
   		message.danger("没有可以操作目录或者目录以检测过")
   	}
@@ -127,7 +128,7 @@ class File_sync extends Component{
 
 
   sftp_rsync(value,value2){
-    console.log(this.refs.sftp_rsync.value)
+   // console.log(this.refs.sftp_rsync.value)
     if (this.refs.sftp_rsync.value==1){
       this.setState({sftp_rsync:'rsync_files_w'})
     }else{
@@ -164,13 +165,13 @@ class File_sync extends Component{
   handselect(var1,var2,){
     let path_list=this.state.path_list
     if (var2 == 1 ){
-      console.log(path_list[var1])
+     // console.log(path_list[var1])
       path_list[var1]['delete']=var2.target.value
     }else{
       path_list[var1]['delete']=var2.target.value
     }
     this.setState({path_list})
-    console.log(path_list,'path_list111111')
+   // console.log(path_list,'path_list111111')
   }
 
   pre_host(hostname){
@@ -179,7 +180,7 @@ class File_sync extends Component{
   }
 
   write_file(){
-    console.log(this.state.sync_data)
+   // console.log(this.state.sync_data)
     let sync_data=this.state.sync_data
     sync_data['fun']=this.state.sftp_rsync
     sync_data['pf']='init'
@@ -195,7 +196,7 @@ class File_sync extends Component{
   }
 
   select_host_v(value){
-  	console.log(value)
+  	//console.log(value)
   	if (value.length == 1){
   		this.setState({host_select_vd:value})
   	}else if (value.length == 0){
@@ -709,6 +710,131 @@ class File_show extends Component{
 
 
 
+class Modify extends Component{
+  constructor(props) {
+    super()
+    this.update = update.bind(this)
+    this.state = {
+    	formData: {
+        	brand: 0,
+       },
+      data:'',
+      loading: false,
+      host:[],
+    }
+  }
+
+  componentWillMount(){
+  	console.log(this.props.item['host'],"sddddddddddddddddddddd")
+
+  	let formData= this.state.formData
+  	formData['service_name'] = this.props.item['service_name']
+  	formData['alias_name'] = this.props.item['alias_name']
+  	formData['service_restart'] = this.props.item['service_restart']
+  	formData['path_config'] = this.props.item['path_config']
+  	formData['path_root'] = this.props.item['path_root']
+  	formData['path_project'] = this.props.item['path_project']
+  	formData['log_path'] = this.props.item['path_log']
+  	formData['desc'] = this.props.item['desc']
+  	formData['id'] = this.props.item['id']
+  	let _this=this
+    xhr({
+      type: 'GET',
+      url: '/v1/cmdb/list/groupget/?name=assert_all',
+      success(data) {
+        console.log(data['data'])
+        _this.setState({host:data['data']})
+      }
+    })
+  }
+
+  handleSuccess(res) {
+    this.handleclose()
+   // this.props.getdata()
+   for (let i in this.props.Table_list){
+      this.props.callback_get(this.props.Table_list[i])
+   }
+    if (res['status']==true){
+      this.props.status_update()
+      message.success('修改成功！')
+    }else{
+      this.props.status_update()
+      message.danger(res['status'])
+    }
+  }
+
+  handleclose(){
+    this.props._this.setState({visible:false})
+  }
+
+  handleChange(value) {
+    console.log(`selected ${value}`);
+    console.log(value,'sdfsaf')
+    let formData = this.state.formData
+    //formData['sourceData']=sourceData
+    formData['targetData']=value
+    this.setState({
+      formData,
+    })
+ }
+
+  render() {
+  	const { formData } = this.state
+  	const children = [];
+  	for (let i = 0; i< this.state.host.length; i++) {
+      children.push(<Optionss key={this.state.host[i].id} value={this.state.host[i].description}>{this.state.host[i].description}</Optionss>);
+    }
+    return (
+      <Form
+        action="/v1/service/list/register_p/"
+        data={formData}
+        onChange={formData => this.update('set', { formData })}
+        rules={this.rules}
+        onSuccess={::this.handleSuccess}
+      >
+       <FormItem label="主机" required name="name" help="选择主机">
+          <Selects
+              multiple
+              style={{ width: '30%' }}
+              placeholder="host select"
+              defaultValue={this.props.item['host']}
+              onChange={::this.handleChange}
+            >
+              {children}
+          </Selects>
+        </FormItem>
+        <FormItem label="服务名称" required name="service_name" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="别名"  name="alias_name" help="相同程序安装不目录">
+          <FormInput />
+        </FormItem>
+        <FormItem label="重启服务" required name="service_restart" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="配置路径" required name="path_config" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="程序路径" required name="path_root" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="项目路径" required name="path_project" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="日志路径" required name="log_path" help="">
+          <FormInput />
+        </FormItem>
+        <FormItem label="描述" name="desc" help="500个字符以内">
+          <FormTextarea />
+        </FormItem>
+        <FormSubmit>确定</FormSubmit>
+        <Button onClick={::this.handleclose}>取消</Button>
+      </Form>
+    )
+  }
+}
+
+
 class Base_version extends Component {
 	constructor(props) {
     super()
@@ -739,18 +865,20 @@ class Base_version extends Component {
   	return {
   		'version':'版本更新',
   		'detele':'删除服务',
-      'execute':'重启服务日志',
-      'configuration':'配置文件'
+      	'execute':'重启服务日志',
+      	'configuration':'配置文件',
+      	'modify':"修改",
   	}
   }
 
   handlefun(){
   	return {
-  		'version1':<Version_update item={this.props.item} _this={this}/>,
-  		'detele':<File_sync rows={this.props.rows} modal={this.refs.modal} />,
+  	  'version1':<Version_update item={this.props.item} _this={this}/>,
+  	  'detele':<File_sync rows={this.props.rows} modal={this.refs.modal}  />,
       'version': <File_sync select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this}/>,
       'execute':<Execute ws_data={this.state.ws_data} _this={this} />,
-      'configuration':<Configuration item={this.props.item}/>
+      'configuration':<Configuration item={this.props.item}/>,
+      'modify':<Modify item={this.props.item} _this={this} status_update={this.props.status_update}/>
   	}
   }
 
@@ -769,10 +897,7 @@ class Base_version extends Component {
 
   next() {
     const current = this.state.current + 1;
-    //this.setState({ current });
     if (current < this.list().length){
-     //console.log(this.list()[current]['title'])
-     // console.log('222')
       this.setState({title:this.list()[current]['title'],current,fun:this.list()[current]['content']})
     }
 
@@ -781,20 +906,18 @@ class Base_version extends Component {
   prev() {
     const current = this.state.current - 1;
     if (current >= 0){
-      console.log(this.list()[current]['title'])
-      console.log('222')
       this.setState({title:this.list()[current]['title'],current,fun:this.list()[current]['content']})
     }
   }
 
   handleButtonClick(e) {
     message.info('Click on left button.');
-    console.log('click left button', e);
+  //  console.log('click left button', e);
   }
 
   handleMenuClick(e) {
-    console.log('click', e.key);
-    console.log(this.handletitle())
+  //  console.log('click', e.key);
+   // console.log(this.handletitle())
     if (e.key != 'delete' && e.key != 'execute1'){
       let title=this.handletitle()[e.key]
       let fun = this.handlefun()[e.key]
@@ -812,25 +935,21 @@ class Base_version extends Component {
       url: '/v1/service/list/delete_server/',
       data: {id:id},
       success(data) {
-        console.log(data)
+       // console.log(data)
         if (data['status']){
           message.success('操作成功')}
           _this.props.callback_get(coll_id)
+          _this.props.status_update()
         }
     })
   }
 
   restart(){
-    //console.log('aaaa',this.props.item)
     let data_ws={'host':this.props.item['host'],'cmd':this.props.item['service_restart'],'app':'start','path':this.props.item['path_log'],ip:this.props.item['ip']}
     OPEN.service_execute(this,this.callback,data_ws)
-
-   // OPEN.service_execute()
   }
 
   callback(_this,data){
-   //console.log(_this,data,'callback')
-   /// _this.state.ws.close()
    if (JSON.parse(data)['status']!="stop"){
    let ws_data = _this.state.ws_data
      ws_data.push(JSON.parse(data))
@@ -847,7 +966,7 @@ class Base_version extends Component {
       }
 
   }else{
-      console.log('sdfsafas')
+     // console.log('sdfsafas')
       message.danger(JSON.parse(data)['data'])
       _this.handleCancel()
 
@@ -879,6 +998,7 @@ class Base_version extends Component {
   render() {
     const menu = (
     <Menu onClick={::this.handleMenuClick}>
+      <Menu.Item key="modify" >编辑</Menu.Item>
       <Menu.Item key="delete">
         <Popconfirm title="确认删除？" onConfirm={::this.confirm} okText="Yes" cancelText="No">
           <a href="#">删除</a>

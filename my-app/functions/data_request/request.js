@@ -5,8 +5,8 @@ import xhr from 'bfd/xhr'
 
 //const ws_baseUrl='ws://127.0.0.1:8080'
 //const ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
-//let ws_baseUrl='wss://cmdb.winbons.com'
-const ws_baseUrl='ws://192.168.44.130:8080'
+const ws_baseUrl='wss://cmdb.winbons.com'
+//const ws_baseUrl='ws://192.168.2.224:8080'
 
 var Datarequest = {
   UrlList() {
@@ -19,6 +19,7 @@ var Datarequest = {
       'list_system':'/v1/service/list/list_system/',
       'home_demo':'/v1/service/list/Home/',
       'home_count':'/v1/service/list/Home_number/',
+      'graph':'/v1/service/list/graph/',
     }
   },
 
@@ -27,8 +28,13 @@ var Datarequest = {
     this.xhrGetData(_this,url,fun)
   },
 
+  system_graph(_this,id,type,pid,fun){
+    let url=this.UrlList()['graph']+"?pid="+pid+"&type="+type+"&id="+id
+    this.xhrGetData(_this,url,fun)
+  },
+
   service_execute(_this,fun,data){
-    console.log(data)
+    //console.log(data)
     let url=ws_baseUrl+this.UrlList()['service_execute']
     this.handsocket(_this,url,fun,data)
   },
@@ -44,13 +50,13 @@ var Datarequest = {
   },
 
   service_sync(_this,fun,data){
-    console.log(data)
+    //console.log(data)
     let url=ws_baseUrl+this.UrlList()['service_sync']
     this.handsocket(_this,url,fun,data)
   },
 
   path_list(_this,data,fun){
-    console.log(data,'data')
+    //console.log(data,'data')
     this.xhrPostData(_this,this.UrlList()['path_list'],data,'None',fun)
   },
 
@@ -59,7 +65,7 @@ var Datarequest = {
   },
 
   cmdb_all_list(_this,fun_url,name,fun){
-    console.log(name)
+   // console.log(name)
     let url=this.UrlList()[fun_url]+'?name='+name
     this.xhrGetData(_this,url,fun)
   },
@@ -107,13 +113,13 @@ var Datarequest = {
     };
       ws.onclose = function(evt)
     {
-      console.log('close',evt)
+     // console.log('close',evt)
       console.log("WebSocketClosed!");
       _this.setState({ws:''})
     };
     ws.onerror = function(evt)
     {
-      console.log('error',evt)
+      //console.log('error',evt)
       console.log("WebSocketError!");
     };
   }

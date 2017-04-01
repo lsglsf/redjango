@@ -9,7 +9,7 @@ import router from './router'
 
 // AJAX 全局配置
 if (__DEV__) {
-  xhr.baseUrl = 'http://192.168.44.130:8080'
+  xhr.baseUrl = 'http://192.168.2.224:8080'
 } else {
  // xhr.baseUrl = '/api'
   xhr.baseUrl=''

@@ -131,13 +131,13 @@ class FixedTableDemo extends Component {
         },
         key: 'name'
       }, {
-        title: '数量',
-        key: 'age',
+        title: '主机数量',
+        key: 'count',
       //  order: 'desc'
       }, {
         title: '创建时间',
-        key: 'country',
-        //width: '20%',
+        key: 'createdate',
+        width: '20%',
         //render: (text, item) => {
        //   return item.country + "/" + item.area
        // }
@@ -231,7 +231,6 @@ class FixedTableDemo extends Component {
   }
 
   handleCheckboxSelect(selectedRows) {
-  //  console.log('rows:', selectedRows)
     this.setState({rows:selectedRows})
   }
 

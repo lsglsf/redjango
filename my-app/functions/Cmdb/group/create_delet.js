@@ -80,7 +80,7 @@ class Create_gruop extends Component{
     this.rules = {
       name(v) {
         if (!v) return '名称不能为空'
-        if (v.length > 5) return '用户群名称不能超过5个字符'
+        //if (v.length > 5) return '用户群名称不能超过5个字符'
       },
     }
     this.state = {
@@ -102,7 +102,7 @@ class Create_gruop extends Component{
       type: 'GET',
       url: '/v1/cmdb/list/groupget/?name=assert_all',
       success(data) {
-        console.log(data['data'])
+        //console.log(data['data'])
         _this.setState({sourceData:data['data']})
 
       }
@@ -122,7 +122,7 @@ class Create_gruop extends Component{
 
   handleChange(sourceData, targetData) {
    // this.test(this.state.newData,sourceData)
-    console.log(targetData)
+    //console.log(targetData)
     let formData = this.state.formData
     //formData['sourceData']=sourceData
     formData['targetData']=targetData

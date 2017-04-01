@@ -28,7 +28,6 @@ def group_all(group_id=''):
     groupdata = AssetGroup.objects.all()
     hosts = Asset.objects.all()
     templates = Register.objects.all()
-
     ret['data'] = []
     ret['host'] = []
     ret['template'] =[]
@@ -37,6 +36,8 @@ def group_all(group_id=''):
         sys['id']=gdata.id
         sys['name']=gdata.name
         sys['comment']=gdata.comment
+        sys['createdate']=gdata.createdate.strftime('%Y-%m-%d %H:%M:%S')
+        sys['count'] = gdata.asset_set.all().count()
         ret['data'].append(sys)
     return ret['data']
 
@@ -56,7 +57,7 @@ def hosts_all(group_id=None):
 def template_all(group_id=None):
     ret={}
     templates = Register.objects.all()
-    print templates
+   # print templates
     ret['template'] = []
     for template in templates:
         sys={}
@@ -153,7 +154,7 @@ def group_update(request):
                 Asset.objects.get(id=delete_id).group.remove(AssetGroup.objects.get(id=request.POST.get('id')))
         ret['status'] = True
     except Exception as e:
-        print e
+     #   print e
         try:
             ret['status'] = e[1]
         except:
@@ -185,7 +186,7 @@ def group_delete(request):
             delete_host=AssetGroup.objects.get(id=host_id).delete()
         ret['status']=True
     except Exception as e:
-        print e
+      #  print e
         ret['status']=e[1]
         s=traceback.format_exc()
         Cmdb_log.error('{0}-{1}'.format('删除失败',s))
@@ -196,7 +197,7 @@ def assetpost(request):
     ret={}
     try:
         #assetgroup=AssetGroup.objects.get(id=request.POST.get('group'))
-        print request.POST
+     #   print request.POST
         ip=request.POST.get('ip')
         password=CRYPTOR.encrypt(request.POST.get('password'))
         insert_asset=Asset.objects.create(ip=ip,
@@ -219,7 +220,7 @@ def assetpost(request):
             for group_id in json.loads(request.POST.get('group')):
                 rela_asset_group=Asset.objects.get(id=insert_asset.id).group.add(AssetGroup.objects.get(id=group_id))
         if request.POST.get('template',None):
-            print request.POST.get('template')
+           # print request.POST.get('template')
             for template_id in json.loads(request.POST.get('template')):
                 template_add=Register.objects.get(id=template_id).Asset_service.add(insert_asset)
         try:
@@ -234,32 +235,62 @@ def assetpost(request):
     except Exception as e:
         ret['status'] = "添加失败"
         s=traceback.format_exc()
-        print s
+     #   print s
         Cmdb_log.error('{0}-{1}'.format('asset插入数据',s))
     return ret
 
 def asset_update(request):
+    print  request.POST
     ret={}
     try:
-        group_id = request.POST.get('group_id',None)
-        Asset.objects.filter(id=request.POST.get('id')).update(
-            ip=request.POST.get('ip'),
-            other_ip=request.POST.get('other_ip'),
-            hostname=request.POST.get('name'),
-            port=request.POST.get('port'),
-            # group=AssetGroup.objects.filter(name=request.POST.get('group')),
-            username=request.POST.get('username'),
-            password=request.POST.get('password'),
-            system_type=request.POST.get('sys_name'),
-            system_version=request.POST.get('sys_version'),
-            status=request.POST.get('host_status'),
-            asset_type=request.POST.get('host_type'),
-            env=request.POST.get('run_env'),
-            comment=request.POST.get('desc',None)
-        )
+        if request.POST.get('password'):
+            password = CRYPTOR.encrypt(request.POST.get('password'))
+            group_id = request.POST.get('group_id',None)
+            Asset.objects.filter(id=request.POST.get('id')).update(
+                ip=request.POST.get('ip'),
+                other_ip=request.POST.get('other_ip'),
+                hostname=request.POST.get('name'),
+                port=request.POST.get('port'),
+                # group=AssetGroup.objects.filter(name=request.POST.get('group')),
+                username=request.POST.get('username'),
+                password=password,
+                system_type=request.POST.get('sys_name'),
+                system_version=request.POST.get('sys_version'),
+                status=request.POST.get('host_status'),
+                asset_type=request.POST.get('host_type'),
+                env=request.POST.get('run_env'),
+                comment=request.POST.get('desc',None),
+                host_hostname = request.POST.get('test_host',None)
+            )
+        else:
+            group_id = request.POST.get('group_id',None)
+            Asset.objects.filter(id=request.POST.get('id')).update(
+                ip=request.POST.get('ip'),
+                other_ip=request.POST.get('other_ip'),
+                hostname=request.POST.get('name'),
+                port=request.POST.get('port'),
+                # group=AssetGroup.objects.filter(name=request.POST.get('group')),
+                username=request.POST.get('username'),
+                system_type=request.POST.get('sys_name'),
+                system_version=request.POST.get('sys_version'),
+                status=request.POST.get('host_status'),
+                asset_type=request.POST.get('host_type'),
+                env=request.POST.get('run_env'),
+                comment=request.POST.get('desc',None),
+                host_hostname = request.POST.get('test_host',None)
+            )
+   #     if len(request.POST.get('test_host')) != 0:
+   #         Asset.objects.filter(id=request.POST.get('id')).update(host_hostname = request.POST.get('test_host'))
+   #     else:
+   #         Asset.objects.filter(id=request.POST.get('id')).update(host_hostname=None)
         asset_id=request.POST.get('id')
+        template_id = request.POST.get('template', None)
         group_list=[ i.id for i in Asset.objects.get(id=asset_id).group.all()]
+        template_list=[i.id for i in Asset.objects.get(id=asset_id).register_set.all()]
+        print template_list,'list'
         delnete_d=[]
+        delnete_t=[]
+        print group_id
         if group_id:
             if len(json.loads(group_id)) == 0:
                 if group_list:
@@ -286,6 +317,31 @@ def asset_update(request):
                 except Exception as e:
                     s = traceback.format_exc()
                     Cmdb_log.error('{0}-{1}'.format('asset数据修改', s))
+        if template_id:
+            if len(json.loads(template_id)) == 0:
+                if group_list:
+                    template_data=Asset.objects.get(id=asset_id)
+                    for delete_id in template_list:
+                        template_data.register_set.remove(Register.objects.get(id=delete_id))
+            else:
+                template_id = json.loads(template_id)
+                for data in template_list:
+                    try:
+                        template_id.index(data)
+                        template_id.remove(data)
+                    except:
+                        delnete_t.append(data)
+                try:
+                    if len(template_id) > 0:
+                        for template in template_id:
+                            Asset.objects.get(id=asset_id).register_set.add(Register.objects.get(id=template))
+                    if delnete_t:
+                        asset_data =Asset.objects.get(id=asset_id)
+                        for delete_id in delnete_t:
+                            asset_data.register_set.remove(Register.objects.get(id=delete_id))
+                except Exception as e:
+                    s = traceback.format_exc()
+                    Cmdb_log.error("{0}-{1}".format("asset 修改模版失败",s))
         ret['status']=True
     except:
         s = traceback.format_exc()
@@ -302,10 +358,9 @@ def assetget(request):
     assetdata = Asset.objects.all()
     ret['data'] = []
     for gasset in assetdata:
-        print gasset.register_set.all()
-        template=None
+      #   print gasset.register_set.all()
+        template = {}
         for i in gasset.register_set.all():
-            template={}
             if i.alias_name:
                 template[i.id]="{0}-{1}".format(i.service_name,i.alias_name)
             else:
@@ -330,7 +385,7 @@ def assetget(request):
         sys['host_type_id']=gasset.asset_type
         sys['username']=gasset.username
         sys['host_hostname']=gasset.host_hostname
-        sys['template']=template
+        sys['template']=template if len(template) != 0 else None
         sys['desc']=gasset.comment
         ret['data'].append(sys)
     return ret
@@ -349,7 +404,7 @@ def asset_delete(request):
             delete_host=Asset.objects.get(id=host_id).delete()
         ret['status']=True
     except Exception as e:
-        print e
+     #   print e
         ret['status']=e[1]
         s=traceback.format_exc()
         Cmdb_log.error('{0}-{1}'.format('删除失败',s))
@@ -392,6 +447,7 @@ def Automation_add(ip,port,user,password,insert_asset):
                                               system=ansible_facts.get("ansible_system", 0),
                                               asset_one=insert_asset,
                                               )
+    Cmdb_log.info("{0}-{1}".format('初始化数据',ansible_data))
   #      print return_data
 
 Methods = {
