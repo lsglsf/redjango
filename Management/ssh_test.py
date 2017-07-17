@@ -38,14 +38,7 @@ class Bridge(object):
                 username=data["username"],
                 password=data["password"],
             )
-            '''
-            self.ssh.connect(
-                hostname="192.168.4.245",
-                port=int(22),
-                username='root',
-                password="redhat",
-            )
-            '''
+            
         except AuthenticationException:
             raise Exception("auth failed user:%s ,passwd:%s" %
                             (data["username"], data["password"]))
