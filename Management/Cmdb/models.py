@@ -27,7 +27,7 @@ ASSET_TYPE = (
 class AssetGroup(models.Model):
     name = models.CharField(max_length=80, unique=True)
     comment = models.CharField(max_length=160, blank=True, null=True)
-    createdate = models.DateTimeField(auto_now_add=True)
+    createdate = models.DateTimeField(auto_now_add=True,null=True,verbose_name=u"添加时间")
     def __unicode__(self):
         return self.name
 

@@ -9,13 +9,15 @@ import echarts3 from 'echarts'
 //import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from 'antd';
 //import { Tabs, TabList, Tab, TabPanel } from 'bfd/Tabs'
-import { Table } from 'antd';
+import { Table as Tables} from 'antd';
 import OPEN from '../../data_request/request.js'
 import { Tooltip } from 'antd';
 import TextOverflow from 'bfd/TextOverflow'
 import Icon from 'bfd/Icon'
 import { Modal, Button } from 'antd';
 import Graph from './graph'
+
+
 class Info extends Component {
 
   constructor() {
@@ -214,18 +216,18 @@ class Info extends Component {
       		<Col span={13} offset={2}>
       			<div>
       				<span className="title_1">内存信息</span>
-      				<Table columns={columns_mem} dataSource={this.state.system_men} pagination={false} />
+      				<Tables columns={columns_mem} dataSource={this.state.system_men} pagination={false} />
       			</div>
       			<div>
       				<span className="title_1">磁盘信息</span>
-      				<Table columns={columns} dataSource={this.state.system_disk} pagination={false} />
+      				<Tables columns={columns} dataSource={this.state.system_disk} pagination={false} />
       			</div>
       		</Col>
         	</Row>
         	<div>
         		<div>
       				<span className="title_1">磁盘I0</span>
-      				<Table columns={columns_io} dataSource={this.state.process_io} pagination={false} />
+      				<Tables columns={columns_io} dataSource={this.state.process_io} pagination={false} />
       			</div>
         	</div>
         	 <div>

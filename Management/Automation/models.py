@@ -25,7 +25,7 @@ class Automation_Hostdetails(models.Model):
     kernel = models.CharField(max_length=50,blank=True, null=True,)
     description = models.CharField(max_length=50,blank=True, null=True,)
     family =  models.CharField(max_length=50,blank=True, null=True,)
-    processor = models.CharField(max_length=50,blank=True, null=True,)
+    processor = models.TextField(null=True, blank=True)
     processorcores = models.CharField(max_length=50,blank=True, null=True,)
     processorcount = models.CharField(max_length=50,blank=True, null=True,)
     machine = models.CharField(max_length=50,blank=True, null=True,)

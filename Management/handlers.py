@@ -25,6 +25,9 @@ import hashlib
 from Cmdb.methods.common import response_t
 import traceback
 from Management.settings import allow_ip
+from ssh_test import Bridge
+from Cmdb.models import Asset
+from Cmdb.methods.common import CRYPTOR
 dict_w={}
 
 connection = logging.getLogger("connection")
@@ -314,3 +317,188 @@ class PathlistHandler(tornado.web.RequestHandler):
         self.set_header('Access-Control-Max-Age', 1000)
         self.set_header('Access-Control-Allow-Headers', '*')
         self.set_header('Content-type', 'application/json')
+
+
+class WSHandler(tornado.websocket.WebSocketHandler):
+    waiters_d = dict()
+    clients=dict()
+    def get_client(self):
+        #return self.waiters_d.get(self._id(), None)
+        return self.clients.get(self._id(),None)
+
+    def put_client(self):
+        # connect = Connect_agent('192.168.44.130', '9888',self)
+        #self.waiters_d[self._id()] = None
+        try:
+            bridge = Bridge(self)
+            self.clients[self._id()] = bridge
+        except:
+            logging.error(traceback.format_exc())
+            print traceback.format_exc()
+
+    def remove_client(self):
+       # bridge = self.get_client()
+    #    if bridge:
+    #        bridge.destroy()
+      #      del self.waiters_d[self._id()]
+       #     print self.waiters_d
+        bridge = self.get_client()
+        if bridge:
+            bridge.destroy()
+            del self.clients[self._id()]
+
+    def check_origin(self, origin):
+        return True
+
+    def _id(self):
+        return id(self)
+
+    def get_compression_options(self):
+        # Non-None enables compression with default options.
+        return {}
+
+    @staticmethod
+    def _check_init_param():
+        # return check_ip(data["hostname"]) and check_port(data["port"])
+        return True
+
+    @staticmethod
+    def _is_init_data(data):
+        return data.get_type() == 'init'
+        #return True
+    @staticmethod
+    def _is_init_host(data):
+        print data
+        #data_dict={}
+        hostobject=Asset.objects.get(id=data)
+        print hostobject
+        '''                hostname=data["hostname"],
+                port=int(data["port"]),
+                username=data["username"],
+                password=data["password"],'''
+
+        data_dict={
+            'hostname' : hostobject.ip,
+            'port' : int(hostobject.port),
+            'username' : hostobject.username,
+            'password' : CRYPTOR.decrypt(hostobject.password)
+        }
+        print data_dict
+        return data_dict
+
+
+   # @auth_ip()
+    def open(self):
+        self.put_client()
+
+    def on_close(self):
+        self.remove_client()
+
+    #@staticmethod
+    #def _is_init_data(data):
+      #  return data['pf'] == 'init'
+
+    def on_message(self, message):
+        bridge = self.get_client()
+        print bridge
+        print self.clients
+        print message,'test111'
+        try:
+            message_a=json.loads(message)
+            if message_a.get('init',None) != None:
+                self.write_message('test')
+        except:
+            pass
+        print len(message)
+        try:
+            client_data = ClientData(message)
+            if self._is_init_data(client_data):
+                if self._check_init_param():
+                    bridge.open(self._is_init_host(client_data.id))
+                    logging.info('connection established from: %s' % self._id())
+                else:
+                    self.remove_client()
+                    logging.warning('init param invalid: %s' % client_data.data)
+            else:
+                if bridge:
+                    bridge.trans_forward(client_data.data)
+        except:
+            print traceback.format_exc()
+
+
+class WSHandler1(tornado.websocket.WebSocketHandler):
+    clients = dict()
+    def get_client(self):
+        return self.clients.get(self._id(), None)
+
+    def put_client(self):
+        bridge = Bridge(self)
+        self.clients[self._id()] = bridge
+
+    def remove_client(self):
+        bridge = self.get_client()
+        if bridge:
+            bridge.destroy()
+            del self.clients[self._id()]
+
+    @staticmethod
+    def _check_init_param():
+        #return check_ip(data["hostname"]) and check_port(data["port"])
+        return True
+
+    @staticmethod
+    def _is_init_data(data):
+        return data.get_type() == 'init'
+
+    def _id(self):
+        return id(self)
+
+    def on_close(self):
+        self.remove_client()
+        logging.info('client close the connection: %s' % self._id())
+
+    def open(self):
+        print 'test'
+        self.put_client()
+
+
+    def on_message(self, message):
+        #bridge = self.get_client()
+        print message
+        self.write_message("aaaa")
+''''
+        client_data = ClientData(message)
+        if self._is_init_data(client_data):
+            if self._check_init_param(client_data.data):
+                bridge.open(client_data.data)
+                logging.info('connection established from: %s' % self._id())
+            else:
+                self.remove_client()
+                logging.warning('init param invalid: %s' % client_data.data)
+        else:
+            if bridge:
+                bridge.trans_forward(client_data.data)
+
+
+
+
+'''
+class BaseData(object):
+
+    def __init__(self, data=""):
+        self.from_json(data)
+
+    def from_json(self, data=""):
+        self.__dict__ = json.loads(data)
+
+    def to_json(self):
+        return json.dumps(self)
+
+    def get_type(self):
+        return self.tp
+
+
+class ClientData(BaseData):
+
+    def __init__(self, data=""):
+        super(ClientData, self).__init__(data)

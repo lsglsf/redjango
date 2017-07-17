@@ -83,6 +83,7 @@ class FixedTableDemo extends Component {
 
   componentWillMount(){
     let _this=this
+    /*
     xhr({
       type: 'GET',
       url: '/v1/cmdb/list/groupget/',
@@ -91,7 +92,7 @@ class FixedTableDemo extends Component {
         _this.setState({data:data['data']})
 
       }
-    })
+    })*/
   }
 
   handleClick(item, event) {

@@ -8,6 +8,10 @@ import DatePicker from 'bfd/DatePicker'
 import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
+import Terminal from 'xterm'
+import "../../../node_modules/xterm/dist/xterm.css"
+import OPEN from '../../data_request/request.js'
+
 
 
 class Delete_group extends Component{
@@ -24,6 +28,7 @@ class Delete_group extends Component{
       formData: {
         brand: 0
       },
+      ws:false,
     }
   }
 
@@ -38,6 +43,46 @@ class Delete_group extends Component{
   handleSuccess(res) {
     console.log(res)
     message.success('操作成功！')
+  }
+
+  data_ens(data){
+    let data_r = {"tp":"client","data":data}
+    return JSON.stringify(data_r)
+  }
+
+  componentDidMount(){
+    let term = new Terminal({cols: 200, rows: 35, screenKeys: false, useStyle:true})
+    var shellprompt = '$ ';
+    let _this=this
+
+    term.prompt = function (test) {
+      //term.write('\r\n' + shellprompt);
+      term.write(test)
+    };
+    let data={'aa':'ttt','tp':'init'}
+    OPEN.wssocket('ws://192.168.2.224:8080/v1/sshsocket/',data,(ws,evt)=>{
+
+      //console.log(ws,evt)
+      //term.write('\r\n'+evt.data+'$ ')
+      term.prompt(evt.data)
+      if (_this.state.ws == false){
+        _this.setState({ws})
+      }
+    })
+
+    term.on('key', function (key, ev) {
+        //console.log(key,'testxxx')
+        //console.log(_this.data_ens(key))
+        let data_obj= _this.data_ens(key)
+        _this.state.ws.send(data_obj)
+
+    });
+
+    term.on('paste', function (data, ev) {
+        //term.write(data);
+    });
+
+    term.open(document.getElementById('terminal'));
   }
 
   handleChange(sourceData, targetData) {
@@ -66,6 +111,7 @@ class Delete_group extends Component{
         onSuccess={::this.handleSuccess}
       >
       	<h6>删除的组是</h6>
+        <div style={{}} id="terminal"></div>
         <FormSubmit>保存</FormSubmit>
       </Form>
     )
@@ -185,7 +231,7 @@ class CreateModal extends Component {
   }
 
   handleOpen(type){
-  	console.log(type)
+  	//console.log(type)
     this.refs.modal.open()
     let title=this.handletitle()[type]
     let fun=this.handlefun()[type]

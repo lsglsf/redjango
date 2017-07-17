@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^v1/automation/',include('Automation.url')),
     url(r'^login', views.login),
     url(r'^logout', views.logout),
-    url(r'$',views.login),
+    #url(r'$',views.login),
    # url(r'^*',views.index),
 ]

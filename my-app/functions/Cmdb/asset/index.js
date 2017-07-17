@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import update from 'react-update'
 import Input from 'bfd/Input'
 import './index.less'
-import { Form, FormItem, FormSubmit, FormInput, FormSelect, Option, FormTextarea } from 'bfd/Form'
+//import { Form, FormItem, FormSubmit, FormInput, FormSelect, Option, FormTextarea } from 'bfd/Form'
 import DatePicker from 'bfd/DatePicker'
 import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
 import DataTable from 'bfd/DataTable'
-import { Table, Icon } from 'antd/lib/Table'
+//import { Table, Icon } from 'antd/lib/Table'
 import { Modal, ModalHeader, ModalBody } from 'bfd/Modal'
 import Button from 'bfd/Button'
 import {CreateModal} from './create_host'
@@ -15,7 +15,14 @@ import FixedTable from 'bfd/FixedTable'
 import xhr from 'bfd/xhr'
 import TextOverflow from 'bfd/TextOverflow'
 import {Put_asset} from './asset_edit'
-import { Nav, NavItem ,IndexNavItem } from 'bfd/Nav'
+import Icon from 'bfd/Icon'
+import {VNC,VNC_model,VNC_Tabl} from './vnc'
+import Terminal from 'xterm'
+import "../../../node_modules/xterm/dist/xterm.css"
+import OPEN from '../../data_request/request.js'
+import { Select,Option } from 'bfd/Select'
+import { Tabs } from 'antd';
+const TabPane = Tabs.TabPane;
 
 
 
@@ -23,11 +30,13 @@ import { Nav, NavItem ,IndexNavItem } from 'bfd/Nav'
 class FixedTableDemo extends Component {
   constructor(props) {
     super()
+    this.newTabIndex = 0;
+   // let panes = [
+ //     { title: 'Tab 1', content: <VNC host_id={this.state.host_id}/>, key: '1' },
+     // { title: 'Tab 2', content: 'Content of Tab Pane 2', key: '2' },
+  //  ];
     this.state = {
-      column: [{
-        title: '序号',
-        key: 'sequence',
-       // width:'50px'
+      column: [{title: '序号', key: 'sequence', // width:'50px'
       },{
         primary: true,
         title: 'ID',
@@ -38,7 +47,14 @@ class FixedTableDemo extends Component {
         order: true,
         //width: '100px',
         render: (text, item) => {
-          return (<a href="#" onClick={() => this.props.history.pushState(null, `/Cmdb/details/${item['id']}`)}>{text}</a>
+          //console.log(item.id)
+          let host_id=item.id
+          return (
+            <div>
+              <a href="#" onClick={() => this.props.history.pushState(null, `/Cmdb/details/${item['id']}`)}>{text}</a>
+              {/*<VNC_model host_id={host_id} />*/}
+              {/*<a herf="#" style={{marginLeft:"10px"}} onClick={::this.handletest}><Icon type="desktop" /></a>*/}
+            </div>
             )
         },
         key: 'hostname',
@@ -99,16 +115,29 @@ class FixedTableDemo extends Component {
       data: [],
       rows:'',
       item:'',
+      ws:'',
+      host_id:'',
+      host_list:[],
+      activeKey: '1',
+      panes:[],
+      title:'',
+      ws_list:[],
     }
   }
 
+  Selectcallback(event){
+    //console.log(event)
+    //console.log(this.state.data[event])
+    let title = this.state.data[event]['hostname']+' - '+this.state.data[event]['ip']
+    this.setState({title,host_id:this.state.data[event]['id']})
+  }
 
   render() {
     //console.log(this.state.data)
     return (
       <div>
         <div><h6>主机详细信息列表</h6></div>
-        <div><CreateModal rows={this.state.rows} getdata={::this.getdata}/></div>
+        <div><CreateModal rows={this.state.rows} getdata={::this.getdata} handletest={::this.handletest}/></div>
         <FixedTable 
           height={500}
           data={this.state.data}
@@ -127,18 +156,44 @@ class FixedTableDemo extends Component {
             </ModalBody>
           </Modal>
         </div>
-        <div>
-          <Modal ref="test" className="create_cmdb_group">
-            <ModalHeader className="create_cmdb_group" >
-              <h6>主机编1辑</h6>
+        <div >
+          <Modal ref="test" onClose={::this.closecallback} style={{width:'1000px !important'}} width={'956px'} lock>
+            <ModalHeader className="" style={{width:'1000px !important'}} >
+              <h6 >ssh终端</h6>
             </ModalHeader>
-            <ModalBody className="create_cmdb_group">
-                                <div id="iFrame" style={{}} ref="iFrame">
-                    <iframe name="iFrame" width="760" height="1000" src="http://127.0.0.1:9527/" scrolling="auto "
-                            frameborder="0" style={{height: "588px"}}></iframe>
-                  </div>
+            <ModalBody className="" style={{width:'1000px !important'}}>
+              <div>
+                {/*<VNC_Tabl host_id={this.state.host_id}/>*/}
+                <div style={{ marginBottom: 16 }}>
+                  <Select searchable onChange={::this.Selectcallback}>
+                    <Option>请选择</Option>
+                    {this.state.data.map((str,item)=>{
+                      return (<Option key={item} value={item}>{str.hostname}</Option>)
+                    })}
+                  </Select> 
+                <Button onClick={::this.add}>打开终端</Button>
+                </div>
+              <Tabs
+                hideAdd
+                onChange={::this.onChange}
+                activeKey={this.state.activeKey}
+                type="editable-card"
+                onEdit={::this.onEdit}
+              >
+                {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>)}
+              </Tabs>
+              </div>
             </ModalBody>
           </Modal>
+        {/*
+          <Modal ref="test" className="create_cmdb_group">
+            <ModalHeader className="create_cmdb_group" >
+              <h6>ssh终端</h6>
+            </ModalHeader>
+            <ModalBody className="create_cmdb_group">
+                <div style={{}} id="terminal"></div>
+            </ModalBody>
+          </Modal>*/}
         </div>
       </div>
     )
@@ -163,6 +218,7 @@ class FixedTableDemo extends Component {
     })
   }
 
+
   handleClick(item, event) {
     event = event ? event : window.event;
     event.stopPropagation();
@@ -177,6 +233,15 @@ class FixedTableDemo extends Component {
 
   handletest(item, event){
     this.refs.test.open()
+   // this.refs.test.close(this.closecallback)
+  }
+
+  closecallback(){
+    console.log(this.state.ws_list)
+    this.state.ws_list.map((str,item)=>{
+      str.close()
+    })
+    this.setState({panes:[]})
   }
 
   handleCheckboxSelect(selectedRows) {
@@ -185,12 +250,55 @@ class FixedTableDemo extends Component {
   }
 
   handleRowClick(row) {
-   // console.log('rowclick', row)
+    console.log('rowclick', row.id)
+    let _this = this
+    console.log(this.state.host_list)
+    if (this.state.host_list.length===0){
+      this.state.host_list.push(row.id)
+      this.setState({host_id:row.id})
+    }else{
+      if (this.state.host_list.indexOf(row.id) === -1){
+        this.state.host_list.push(row.id)
+        this.setState({host_id:row.id})
+      }
+    }
   }
 
   handleOrder(name, sort) {
   //  console.log(name, sort)
   }
+
+  onChange(activeKey){
+    this.setState({ activeKey });
+  }
+  onEdit(targetKey, action){
+    this[action](targetKey);
+  }
+  add(){
+    const panes = this.state.panes;
+    const activeKey = `newTab${this.newTabIndex++}`;
+    let panes_id=this.state.host_id+activeKey
+    panes.push({ title: this.state.title, content: <VNC host_id={this.state.host_id} panes_id={panes_id} _this={this} ws_list={this.state.ws_list}/>, key: activeKey });
+    this.setState({ panes, activeKey });
+  }
+  remove(targetKey){
+    let activeKey = this.state.activeKey;
+    let lastIndex;
+    this.state.panes.forEach((pane, i) => {
+      if (pane.key === targetKey) {
+        lastIndex = i - 1;
+        let ws_object=this.state.ws_list[i]
+        ws_object.close()
+      }
+    });
+    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+    console.log(lastIndex)
+    if (lastIndex >= 0 && activeKey === targetKey) {
+      activeKey = panes[lastIndex].key;
+    }
+    this.setState({ panes, activeKey });
+  }
+
 }
 
 

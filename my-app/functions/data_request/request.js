@@ -4,9 +4,8 @@ import {notification} from 'antd';
 import xhr from 'bfd/xhr'
 
 //const ws_baseUrl='ws://127.0.0.1:8080'
-//const ws_baseUrl='ws://114.215.199.94:8080/v1/sync_file/'
-const ws_baseUrl='wss://cmdb.winbons.com'
-//const ws_baseUrl='ws://192.168.2.224:8080'
+const ws_baseUrl='ws://192.168.2.224:8080'
+
 
 var Datarequest = {
   UrlList() {
@@ -20,8 +19,75 @@ var Datarequest = {
       'home_demo':'/v1/service/list/Home/',
       'home_count':'/v1/service/list/Home_number/',
       'graph':'/v1/service/list/graph/',
+      'connect':'/v1/service/list/connect/',
+      'vnc':'/v1/sshsocket/',
+      'task':'/v1/service/list/tasklist/',
+      'taskdetail':'/v1/service/list/taskdetail/',
+      'taskstatus':'/v1/service/list/taskstatus/',
+      'serverlist':'/v1/service/list/serverlist/',
+      'filecheck':'/v1/service/list/filecheck/',
+      'filesync':'/v1/service/list/filesync/',
+      'serverconf':'/v1/service/list/serverconf/',
+      'serverrestart':'/v1/service/list/serverrestart/',
+      'selectquery':'/v1/service/list/selectquery/',
     }
   },
+
+  selectquery(_this,data,fun){
+    let url = this.UrlList()['selectquery']+'?group='+data
+    this.xhrGetData(_this,url,fun)
+  },
+
+  serverrestart(data,fun){
+    let url = this.UrlList()['serverrestart']
+    this.xhrPostdata(url,data,fun)
+  },
+
+  serverconf(_this,data,config,fun){
+    let url = this.UrlList()['serverconf']+'?ip='+data+'&configpath='+config
+    this.xhrGetData(_this,url,fun)
+  },
+  
+  filesync(data,fun){
+    let url = this.UrlList()['filesync']
+    this.xhrPostdata(url,data,fun)
+  },
+
+  filecheck(data,fun){
+    let url = this.UrlList()['filecheck']
+    this.xhrPostdata(url,data,fun)
+  },
+
+  serverlist(_this,fun){
+    let url=this.UrlList()['serverlist']
+    this.xhrGetData(_this,url,fun)
+  },
+
+  vnc_host(data,fun){
+    let url=ws_baseUrl+this.UrlList()['vnc']
+    this.wssocket(url,data,fun)
+  },
+
+  task_list(_this,data,fun){
+    let url=this.UrlList()['task']+'?id='+data
+    this.xhrGetData(_this,url,fun)
+  },
+
+  task_status(_this,data,fun){
+    let url=this.UrlList()['taskstatus']+'?id='+data
+    this.xhrGetData(_this,url,fun)
+  },
+
+  task_delete(_this,data,fun){
+    let url=this.UrlList()['taskdetail']+'?delete_id='+data
+    this.xhrGetData(_this,url,fun)
+  },
+
+  taskdetail(_this,data,fun){
+    let url=this.UrlList()['taskdetail']+'?id='+data
+    this.xhrGetData(_this,url,fun)
+  },
+
 
   host_info(_this,data,fun){
     let url=this.UrlList()['list_system']+'?id='+data
@@ -70,6 +136,10 @@ var Datarequest = {
     this.xhrGetData(_this,url,fun)
   },
 
+  connect_test(_this,data,fun){
+    this.xhrPostData(_this,this.UrlList()['connect'],data,'None',fun)
+  },
+
   xhrPostData(_this, url, data_select, host_status, fun) {
     let self = this
     xhr({
@@ -85,7 +155,23 @@ var Datarequest = {
       error:() => {
         message.danger('API异常！')
       }
-  })
+    })
+  },
+
+  xhrPostdata(url,data,fun){
+    xhr({
+      url: url,
+      type: 'POST',
+      data: {
+        data: data
+      },
+      success: (retu_data) => {
+        fun(retu_data)
+      },
+      error:() => {
+        message.danger('API异常！')
+      }
+    })
   },
 
 
@@ -94,7 +180,7 @@ var Datarequest = {
         url: url,
         type: 'GET',
         success: (retu_data) => {
-        fun(_this, retu_data)
+        fun(_this,retu_data)
       }
     })
   },
@@ -116,6 +202,31 @@ var Datarequest = {
      // console.log('close',evt)
       console.log("WebSocketClosed!");
       _this.setState({ws:''})
+    };
+    ws.onerror = function(evt)
+    {
+      //console.log('error',evt)
+      console.log("WebSocketError!");
+    };
+  },
+  wssocket(url,data,fun){
+    //console.log('socketsdfsa')
+    let ws=new WebSocket(url);
+    ws.onopen = function()
+    {
+      ws.send(JSON.stringify(data))
+    //  _this.setState({ws})
+    };
+    ws.onmessage = function(evt){
+      //console.log(evt)
+      fun(ws,evt)
+    };
+      ws.onclose = function(evt)
+    {
+     //console.log('close',evt)
+      console.log("WebSocketClosed!");
+
+     // _this.setState({ws:''})
     };
     ws.onerror = function(evt)
     {

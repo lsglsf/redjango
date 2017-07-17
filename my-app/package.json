@@ -17,7 +17,8 @@
     "react-codemirror": "^0.3.0",
     "react-dom": "^0.14.7",
     "react-router": "^1.0.2",
-    "react-update": "^0.3.8"
+    "react-update": "^0.3.8",
+    "xterm": "^2.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",

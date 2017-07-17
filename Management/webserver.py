@@ -198,7 +198,7 @@ class ChatSocketHandler(tornado.websocket.WebSocketHandler):
                #     bridge.connect_message(client_data['data'])
                     if bridge == None:
                         #connect = Connect_agent(client_data['ip'], '9888', self, self._id())
-                        for i in client_data['ip']:
+                        for i in client_data['t_host']:
                             connect = Connect_agent(i, '9888', self, self._id())
                         self.waiters_d[self._id()] = connect
                         connect.start(client_data)

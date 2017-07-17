@@ -10,6 +10,7 @@ import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
 import { Select,Menu, Dropdown, Icon} from 'antd';
+import OPEN from '../../data_request/request.js'
 const Option = Select.Option;
 
 
@@ -223,7 +224,8 @@ class Create_server extends Component{
       targetData: [],
       newData:[],
       record_source:[],
-      host_status:false
+      host_status:false,
+      service_id:[],
     }
   }
 
@@ -237,6 +239,9 @@ class Create_server extends Component{
        // console.log(data['data'])
         _this.setState({host:data['data']})
       }
+    })
+    OPEN.serverlist(_this,(_this,data)=>{
+      _this.setState({service_id:data['data']})
     })
   }
 
@@ -305,6 +310,10 @@ class Create_server extends Component{
   render() {
     const { formData } = this.state
     const children = [];
+    console.log(this.state.service_id)
+    let host_all=this.state.service_id.map((item,str)=>{
+        return (<Options key={str} value={item.id}>{item.name}</Options>)
+    })
     for (let i = 0; i< this.state.host.length; i++) {
       children.push(<Option onChange={::this.handleon.bind(this)} key={this.state.host[i].id} value={this.state.host[i].description}>{this.state.host[i].description}</Option>);
     }
@@ -341,6 +350,12 @@ class Create_server extends Component{
         </FormItem>
         <FormItem label="别名"  name="alias_name" help="相同程序安装不目录">
           <FormInput />
+        </FormItem>
+        <FormItem label="服务关联" name="service_id">
+          <FormSelect searchable defaultValues={[]} style={{marginRight:'10px'}}>
+            <Options>请选择</Options>
+            {host_all}
+          </FormSelect>
         </FormItem>
         <FormItem label="重启服务" required name="service_restart" help="">
           <FormInput />

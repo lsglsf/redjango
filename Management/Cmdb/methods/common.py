@@ -26,6 +26,10 @@ import urllib2
 from Management.settings import ZABBIX,ZABBIX_TOKEN
 import datetime,time
 from Management.settings import ANSABLE_CNF
+import pika,uuid
+import time
+from celery.result import AsyncResult
+from service.models import Taskqueue
 
 ZABBIX_TOKEN=None
 Cmdb_log = logging.getLogger("Cmdb_log")
@@ -55,63 +59,6 @@ def response_t(result):
         json_status = {"data": result, "code": 200}
         json_status = json.dumps(json_status)
     return json_status
-
-class File_operation(object):
-
-    def __init__(self,host,port,username,password):
-        self.host=host
-        self.port=port
-        self.username=username
-        self.password=password
-
-
-    def connect(self):
-        ssh=paramiko.Transport((self.host,self.port))
-        ssh.connect(username=self.username,password=self.password)
-        sftp=paramiko.SFTPClient.from_transport(ssh)
-        return sftp
-
-    @classmethod
-    def file_status(self,ssh,df):
-        ret = ''
-        try:
-            status=ssh.stat(df)
-            str_status=str(status)[0]
-            if str_status == 'd':
-                ret = 'd'
-            elif str_status == '-':
-                ret = 'f'
-            else:
-                ret = 'w'
-        except:
-            ret = 'e'
-        finally:
-            return ret
-
-    def file_put(self,ssh,source,target):
-        pass
-
-
-
-def path_replace(sourc,output,file_list):
-
-    print sourc,output
-    ret={}
-    file_s = copy.deepcopy(file_list)
-    for i in file_s:
-        if sourc in i['path']:
-            pass
-        else:
-            i['type']='e'
-    for i in file_list:
-        if sourc in i['path']:
-            i['path']=i['path'].replace(sourc,output)
-        else:
-            i['type']='e'
-    ret['s']=file_s
-    ret['d']=file_list
-    print ret,'file_list'
-    return ret
 
 
 class ResultCallback(CallbackBase):
@@ -263,7 +210,7 @@ class PyCrypt(object):
             pass
             #raise ServerError('Decrypt password error, TYpe error.')
         return plain_text.rstrip('\0')
-CRYPTOR = PyCrypt('sss')
+CRYPTOR = PyCrypt('test')
 
 
 
@@ -378,14 +325,14 @@ def send_mail(to_list, subject, content):
         print str(e)
         return False
 
-def sendhttp(url,data):
+def sendhttp(url,data,timeout=5):
     header = {"Content-Type": "application/json"}
     try:
         request = urllib2.Request(url, data)
         for key in header:
             request.add_header(key, header[key])
         try:
-            result = urllib2.urlopen(request,timeout = 2)
+            result = urllib2.urlopen(request,timeout = timeout)
             result_t=json.loads(result.read())
         except:
             result_e = traceback.format_exc()
@@ -397,6 +344,8 @@ def sendhttp(url,data):
     except:
         s = traceback.format_exc()
         Cmdb_log.error('execute func %s failure : %s' % (sendhttp, s))
+
+
 
 
 class Zabbix_api(object):
@@ -496,3 +445,201 @@ class Zabbix_api(object):
     def token_data(cls):
         global ZABBIX_TOKEN
         return ZABBIX_TOKEN
+
+
+class FibonacciRpcClient(object):
+    def __init__(self,host,username,password,httpwrite):
+        credentials = pika.PlainCredentials(username, password)
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host,credentials=credentials))
+        self.channel = self.connection.channel()
+        self.httpwrite = httpwrite
+
+        result = self.channel.queue_declare(exclusive=True)
+        self.callback_queue = result.method.queue
+
+        self.channel.basic_consume(self.on_response, no_ack=True,queue=self.callback_queue)
+
+    def on_response(self, ch, method, props, body):
+        if self.corr_id == props.correlation_id:
+            body=json.loads(body)
+            if body['pf'] == "read":
+                self.response = body
+            elif body['pf'] == "write":
+                self.response = body
+            elif body['pf'] == "backup_error":
+                self.response = body
+            self.httpwrite.write_message(body)
+
+    def call(self, message,routing_key):
+        self.response = None
+        self.corr_id = str(uuid.uuid4())
+        message=json.dumps(message)
+        self.channel.basic_publish(exchange='',
+                                   routing_key=routing_key,
+                                   properties=pika.BasicProperties(
+                                         reply_to = self.callback_queue,
+                                         correlation_id = self.corr_id,
+                                         ),
+                                   body=message)
+        while self.response is None:
+           # print 'test'
+            ret={}
+            ret['status'] = True
+            ret['pf'] = 'status'
+            ret['msg'] = '.'
+            time.sleep(1)
+            self.connection.process_data_events()
+            self.httpwrite.write_message(ret)
+        #return int(self.response)
+        return self.response
+
+class FibonacciRpc_celery(object):
+    def __init__(self, host, username, password):
+        credentials = pika.PlainCredentials(username, password)
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host, credentials=credentials))
+        self.channel = self.connection.channel()
+        self.ret=[]
+
+        result = self.channel.queue_declare(exclusive=True)
+        self.callback_queue = result.method.queue
+
+        self.channel.basic_consume(self.on_response, no_ack=True, queue=self.callback_queue)
+
+    def on_response(self, ch, method, props, body):
+
+        if self.corr_id == props.correlation_id:
+            body = json.loads(body)
+            if body['pf'] == "read":
+                self.ret.append(body)
+                self.response = self.ret
+            elif body['pf'] == "write":
+                self.ret.append(body)
+                self.response = self.ret
+            elif body['pf'] == "backup_error":
+                self.ret.append(body)
+                self.response = self.ret
+            else:
+                self.ret.append(body)
+
+
+    def call(self, message, routing_key):
+        self.response = None
+        self.corr_id = str(uuid.uuid4())
+        message = json.dumps(message)
+        self.channel.basic_publish(exchange='',
+                                   routing_key=routing_key,
+                                   properties=pika.BasicProperties(
+                                       reply_to=self.callback_queue,
+                                       correlation_id=self.corr_id,
+                                   ),
+                                   body=message)
+        while self.response is None:
+            self.connection.process_data_events()
+        # return int(self.response)
+        return self.response
+#fibonacci_rpc = FibonacciRpcClient()
+#
+#print(" [x] Requesting fib(30)")
+#response = fibonacci_rpc.call(30)
+#print(" [.] Got %r" % response)
+
+def test_ssh(host,port,user,password):
+    ret={}
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(hostname=host, port=port, username=user, password=password, timeout=5,allow_agent=False,look_for_keys=False)
+        stdin, stdout, stderr = ssh.exec_command("/sbin/ifconfig", timeout=5)
+        _IP = [host + ':{0}'.format(port)]
+        ansible_api=AnsibleTask(targetHost=_IP,user=user,password_d=password)
+        return_data=ansible_api.ansiblePlay(module='shell',args='echo 0')
+        try:
+            if return_data['stdout_lines'][0] != "0":
+                Cmdb_log.error("ssh 连接测试-{0}".format(return_data))
+        except Exception,e:
+            ret['status'] = False
+            ret['msg'] = 'ansible 连接异常'
+            Cmdb_log.error("ssh 连接测试-{0}".format(return_data))
+            return ret
+        #print stdout.readlines()
+        ssh.close()
+        ret['status'] = True
+        ret['msg'] ='连接成功'
+    except Exception,e:
+        ret['status'] = False
+        ret['msg'] = '{0}'.format(e)
+        Cmdb_log.error("ssh 连接测试-{0}".format(traceback.format_exc()))
+    return ret
+
+
+class RabbitMQAPI(object):
+    '''Class for RabbitMQ Management API'''
+
+    def __init__(self, user_name='guest', password='guest', host_name='',
+                 protocol='http', port=15672):
+        self.user_name = user_name
+        self.password = password
+        self.host_name = host_name or "127.0.0.1"
+        self.protocol = protocol
+        self.port = port
+
+    def call_api(self, path,IP,queue,):
+        '''
+           All URIs will server only resource of type application/json,and will require HTTP basic authentication. The default username and password is guest/guest.  /%sf is encoded for the default virtual host '/'
+        '''
+        ret = False
+        try:
+            url = '{0}://{1}:{2}/api/{3}'.format(self.protocol, self.host_name, self.port, path)
+            password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            password_mgr.add_password(None, url, self.user_name, self.password)
+            handler = urllib2.HTTPBasicAuthHandler(password_mgr)
+            Cmdb_log.debug('Issue a rabbit API call to get data on ' + path)
+            opener = urllib2.build_opener(handler)
+            urllib2.install_opener(opener)
+            pagehandle = urllib2.urlopen(url,timeout=3)
+            pagehandle_load=json.loads(pagehandle.read())
+            for i in pagehandle_load:
+                if i['queue']['name'] == queue and i['channel_details']['peer_host'] == IP:
+                    ret = True
+                    Cmdb_log.info("rabbitmq  状态检测-{0}-{1}ok".format(IP, queue))
+                    return ret
+                else:
+                    Cmdb_log.warning("rabbitmq 状态检测异常-{0}-{1}".format(IP,queue))
+            return ret
+        except:
+            s=traceback.format_exc()
+            Cmdb_log.error("rabbitmq  状态检测 - {0}".format(s))
+            return ret
+
+
+def task_state(task_id,sys):
+    task_object = AsyncResult(task_id)
+    if task_object.ready() == True:
+        Taskqueue.objects.filter(task_id=task_id).update(task_status=True)
+        Taskqueue.objects.filter(task_id=task_id).update(results_status=task_object.status)
+        sys['task_status']="True"
+        sys['results_status'] = task_object.status
+    else:
+        sys['task_status']="False"
+        sys['results_status'] = task_object.status
+    return sys
+
+
+class Task_query(object):
+
+    def __init__(self,task_id):
+        self.task_id=task_id
+        self.task_object = AsyncResult(self.task_id)
+
+   # @classmethod
+    def successful(self):
+        return self.task_object.successful()
+
+    def get(self,timeout=5):
+        return self.task_object.get(timeout=timeout)
+
+    def ready(self):
+        return self.task_object.ready()
+
+
+

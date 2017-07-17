@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import update from 'react-update'
 import Input from 'bfd/Input'
 import './index.less'
-import { Form, FormItem, FormSubmit, FormInput, FormSelect, Option, FormTextarea } from 'bfd/Form'
+//import { Form, FormItem, FormSubmit, FormInput, FormSelect, Option, FormTextarea } from 'bfd/Form'
 import DatePicker from 'bfd/DatePicker'
 import Checkbox, { CheckboxGroup } from 'bfd/Checkbox'
 import message from 'bfd/message'
@@ -16,8 +16,10 @@ import { Collapse } from 'antd'
 import {CreateModal} from './create_delete'
 import TextOverflow from 'bfd/TextOverflow'
 import {Base_version} from './version2'
-import { Select,Menu, Dropdown,Icon} from 'antd';
-const Options = Select.Option;
+import { Select, Option } from 'bfd/Select'
+import OPEN from '../../data_request/request.js'
+//import { Select,Menu, Dropdown,Icon} from 'antd';
+//const Options = Select.Option;
 
 
 class FixedTableDemo1 extends Component {
@@ -103,9 +105,14 @@ class FixedTableDemo1 extends Component {
       data: [],
       type:[],
       count:0,
-      vardata:{},
+      vardata:[],
       host:[],
-      Table_list:[]
+      Table_list:[],
+      select_group:'',
+      selectreturn:'',
+      returnvalue:[],
+      twoselect:true,
+      defaultselect:'select',
     }
   }
 
@@ -166,7 +173,7 @@ class FixedTableDemo1 extends Component {
   }*/
 
   handleRowClick(row) {
-  //  console.log('rowclick', row)
+   // console.log('rowclick', row)
   }
 
   handleOrder(name, sort) {
@@ -175,23 +182,32 @@ class FixedTableDemo1 extends Component {
 
   componentWillMount(){
     let _this=this
-    xhr({
-      type: 'GET',
-      url: '/v1/service/list/type_list/',
-      success(data) {
+    //xhr({
+    //  type: 'GET',
+    //  url: '/v1/service/list/type_list/',
+   //   success(data) {
        // console.log(data['data'])
-        _this.setState({type:data['data']})
-      }
-    })
+  //      _this.setState({type:data['data']})
+  //    }
+  //  })
     let vardata=this.state.vardata
     //let key_id=this.query_name(key[key.length-1])
     xhr({
       type: 'GET',
       url: `/v1/service/list/query/`,
       success(data) {
-       // console.log(data['data'])
+        //console.log(data)
         vardata=data['data']
         _this.setState({vardata})
+      }
+    })
+    xhr({
+      type: 'GET',
+      url: '/v1/cmdb/list/groupget/?name=group_all',
+      success(data) {
+        console.log(data)
+        _this.setState({select_group:data})
+       // _this.setState({data:data['data'],host:data['host']})
       }
     })
   }
@@ -206,7 +222,6 @@ class FixedTableDemo1 extends Component {
       success(data) {
        // console.log(data['data'])
         vardata=data['data']
-
         _this.setState({vardata})
       }
     })
@@ -221,31 +236,91 @@ class FixedTableDemo1 extends Component {
     message.info('Click on menu item.');
    // console.log('click', e);
   }
+   
+  selectgroupget(value){
+    let value_data = value
+    let _this = this
+    if (value_data){
+      OPEN.selectquery(this,value_data,(_this,data)=>{
+      //console.log(data)
+       _this.setState({vardata:data['data'],returnvalue:data,twoselect:false,defaultselect:'select'})
+       _this.refs.selectref.setState({value:'select'})
+      })
+    }else{
+      xhr({
+      type: 'GET',
+      url: `/v1/service/list/query/`,
+      success(data) {
+        //console.log(data)
+        let vardata=data['data']
+        _this.setState({vardata,twoselect:true,returnvalue:[]})
+        _this.refs.selectref.setState({value:'select'})
+      }
+    })
+    }
+  }
+
+  selectreturn(value){
+    //console.log(value)
+    this.selectgroupget(value)
+    //this.setState({selectreturn:value})
+  }
+
+  twoselectreturn(value,e){
+    //console.log(value,this.refs.selectref)
+    if (value != "select"){
+      let vardata=[]
+      let data = this.state.returnvalue['data'][value]
+      vardata.push(data)
+      this.setState({vardata})
+    }
+  }  
 
 
   render() {
-    const Panel = Collapse.Panel
-    //let nav = this.state.type ? this.state.type.map((item,str)=>{
-    let nav = this.state.vardata ? this.state.type.map((item,str)=>{
+    console.log(this.state.returnvalue)
+    let group_oj=this.state.select_group['data'] ? this.state.select_group['data'].map((item,str)=>{
+      //console.log(item,str)
       return (
-        <Panel header={item} key={str}>
-
-      </Panel>
-        )
-    }):<span></span>
+        <Option value={item['id']} key={str}>{item['name']}</Option>
+      )
+    })
+    :''
+    let returnvalue_l = this.state.returnvalue['data'] ? this.state.returnvalue['data'].map((item,str)=>{
+      console.log(item,str)
+      return (
+        <Option value={str} key={str}>{item['service_name']}-{item['alias_name']}</Option>
+      )
+    }):''
     return (
       <div>
           <div><h5>主机组服务详细信息列表</h5></div>
-          <div><CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list} status_update={::this.status_update}/></div>
           <div>
-          <FixedTable 
-            height={500}
-            data={this.state.vardata}
-            column={this.state.column}
-            onRowClick={::this.handleRowClick}
-            onOrder={::this.handleOrder}
-            //onCheckboxSelect={::this.handleCheckboxSelect}
-          /></div>
+            <div style={{float:"left"}}>
+              <CreateModal callback_get={::this.callback_get} Table_list={this.state.Table_list} status_update={::this.status_update} vardata={this.state.data}/>
+            </div>
+            <div>
+              <Select searchable style={{marginLeft:"39px"}} onChange={::this.selectreturn}>
+                <Option>请选择</Option>
+                {group_oj}
+              </Select>
+              <Select ref="selectref" searchable onChange={::this.selectreturn} disabled={this.state.twoselect} onChange={::this.twoselectreturn} defaultValue={this.state.defaultselect}>
+                <Option value={'select'}>请选择</Option>
+                {returnvalue_l}
+              </Select>
+             {/* <Button onClick={::this.selectgroupget}>搜索</Button>*/}
+            </div>
+          </div>
+          <div>
+            <FixedTable 
+              height={500}
+              data={this.state.vardata}
+              column={this.state.column}
+              onRowClick={::this.handleRowClick}
+              onOrder={::this.handleOrder}
+              //onCheckboxSelect={::this.handleCheckboxSelect}
+            />
+          </div>
       </div>
     )
   }

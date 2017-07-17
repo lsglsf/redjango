@@ -1,18 +1,23 @@
 #coding:utf-8
 import json
 import traceback
-from models import Register
+from models import Register,Taskqueue
 from Cmdb.models import Asset,AssetGroup
-from Cmdb.methods.common import File_operation,path_replace,send_mail,Mongodb_Operate,Zabbix_api
+from Cmdb.methods.common import send_mail,Mongodb_Operate,Zabbix_api,test_ssh
 import os
 import logging
 from django.http import HttpResponse
 from Management.settings import ZABBIX_TOKEN
-from Cmdb.methods.common import AnsibleTask,CRYPTOR
+from Cmdb.methods.common import AnsibleTask,CRYPTOR,task_state,Task_query,sendhttp
 import re,time,datetime
 import hashlib
 from Automation.models import Automation_Hostdetails
 from Management.settings import MONGODB
+from django.db.models import  Q
+from celeryproj import tasks
+from Cmdb.methods.redis_connect import Auth_token_get
+from Cmdb.methods.exception_class import TokenException
+from views import http_url_data
 
 
 
@@ -30,7 +35,8 @@ def register(request):
             path_root=request.POST.get('path_root'),
             path_project=request.POST.get('path_project'),
             desc=request.POST.get('desc',None),
-            path_log=request.POST.get('log_path')
+            path_log=request.POST.get('log_path'),
+            serviceid=request.POST.get('service_id'),
         )
         data_host=request.POST.get('targetData')
         '''
@@ -61,7 +67,8 @@ def register_p(request):
         path_root=request.POST.get('path_root'),
         path_project=request.POST.get('path_project'),
         desc=request.POST.get('desc', None),
-        path_log=request.POST.get('log_path')
+        path_log=request.POST.get('log_path'),
+        serviceid=request.POST.get('service_id'),
     )
     host_name=request.POST.get("targetData")
     host_list=[ i.hostname for i in Register.objects.get(id=register_id).Asset_service.all()]
@@ -162,6 +169,7 @@ def query_host(request):
             sys['path_root'] = service.path_root
             sys['path_project'] = service.path_project
             sys['desc'] = service.desc
+            sys['service_id']= service.serviceid
             sys['host'] = [ i.hostname for i in service.Asset_service.all() ]
             sys['path_log'] = service.path_log
             sys['ip'] = [i.ip for i in service.Asset_service.all()]
@@ -219,39 +227,6 @@ def delete_server(request):
         ret['status']=True
     return ret
 
-def file_dir(request):
-    ret={}
-    #print json.loads(request.POST.get('path_list'))
- #   print request.POST
-    per_host=request.POST.get('per_host')
-    host=json.loads(request.POST.get('host'))
-  #  print Asset.objects.get(hostname=per_host).register_set.all()
-    per_host_d={}
-    host_d={}
-    for i in Asset.objects.get(hostname=per_host).register_set.all():
-        #per_host_d['path_project']=os.path.abspath(i.path_project)
-        per_host_d['path_project']=i.path_project
-
-    #print host
-    for i in host:
-    #    print Asset.objects.get(hostname=i).register_set.all()
-        for i in Asset.objects.get(hostname=i).register_set.all():
-            #host_d['path_project']=os.path.abspath(i.path_project)
-            host_d['path_project']=i.path_project
-    path_project=path_replace(per_host_d['path_project'],host_d['path_project'],json.loads(request.POST.get('path_list')))
-    #print json.loads(request.POST.get('path_list'))
-    ret['data']=[]
-    for i in path_project['s']:
-        ssh1=File_operation(host='192.168.44.129',port=22,username='root',password='redhat')
-        ssh=ssh1.connect()
-        path_status=File_operation.file_status(ssh,i['path'])
-        ssh.close()
-        i['type']=path_status
-        ret['data'].append(i)
-   # for i in path_project['d']:
-
-   # print ret
-    return ret
 
 def path_list(request):
     ret={}
@@ -259,14 +234,18 @@ def path_list(request):
     p_re=json.loads(request.POST.get('data'))
     file_path=''
     re_out=re.compile(r"log|jar|out")
+    #print p_re
     if len(re_out.findall(p_re['path'][-1]))==0:
         for i in p_re['path']:
             file_path=os.path.join(file_path,i)
+        #print file_path
         Asset_o=Asset.objects.get(ip=p_re['ip'])
         _IP=[p_re['ip']+':{0}'.format(Asset_o.port)]
+        #print _IP,Asset_o.username,CRYPTOR.decrypt(Asset_o.password)
        # print Asset_o.username,Asset_o.password
         ansible_api=AnsibleTask(targetHost=_IP,user=Asset_o.username,password_d=CRYPTOR.decrypt(Asset_o.password))
         return_data=ansible_api.ansiblePlay(module='shell',args='cat {0}'.format(file_path))
+        #print return_data
       #  print file_path,return_data
         ret=return_data
     else:
@@ -365,7 +344,7 @@ def system_graph(request):
     #print host_ip
     if type:
         mongoclss = Mongodb_Operate(host=MONGODB['default']['HOST'],port=MONGODB['default']['PORT'])
-        form_data=str(Zabbix_api.time_date(time_type="hours",interval=1))
+        form_data=str(Zabbix_api.time_date(time_type="days",interval=1))
         time_till = str(time.mktime(time.strptime(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "%Y-%m-%d %H:%M:%S"))).split('.')[0]
        # print form_data,time_till
         arg={"id":{"$gte":form_data, "$lte":time_till}}
@@ -417,6 +396,262 @@ def  Home_number(request):
     ret['app_count']=app_count
     return ret
 
+def connect(request):
+    ret={}
+  #  print request.POST
+    data= json.loads(request.POST.get('data'))
+  #  print type(data.get('ip')),int(data.get('port')),data.get('username'),data.get('password')
+    ret=test_ssh(host=str(data.get('ip')),port=int(data.get('port')),user=data.get('username'),password=data.get('password'))
+    return ret
+
+def tasklist(request):
+    ret={}
+    ret['data']=[]
+    service_id = request.GET.get('id',None)
+    if service_id != None:
+        try:
+            if Register.objects.get(id=service_id).id >= 0:
+                try:
+                    for i in  Taskqueue.objects.filter(Register_Task__id=service_id).order_by('-add_date'):
+                        if i.task_status == False:
+                            sys={}
+                            sys=task_state(i.task_id,sys)
+                            print sys,'1111111'
+                            sys['id'] = i.id
+                            sys['task_id'] = i.task_id
+                           # sys['status'] = task_state(i.task_id)
+                            #sys['results_status'] = True
+                            sys['date'] = i.add_date.strftime('%Y-%m-%d %H:%M:%S')
+                            sys['task_name'] = i.task_name
+                            ret['data'].append(sys)
+                        else:
+                            sys={}
+                            sys['id'] = i.id
+                            sys['task_id'] = i.task_id
+                            sys['date'] = i.add_date.strftime('%Y-%m-%d %H:%M:%S')
+                            sys['task_name'] = i.task_name
+                            sys['results_status']=i.results_status
+                            sys['task_status']="True"
+                            ret['data'].append(sys)
+                except:
+                    ret['status']=0
+                    ret['msg']="发布任务查询失败"
+                    #print traceback.format_exc()
+                    Cmdb_log.error("发布任务查询失败-{0}".format(traceback.format_exc()))
+            #for i in Taskqueue.objects.filter(register__id=service_id):
+            #    print i.id
+        except:
+            ret['status']=0
+            ret['msg']="服务查询失败"
+            Cmdb_log.error("服务查询失败-{0}".format(traceback.format_exc()))
+    return ret
+
+def taskdetail(request):
+    task_id = request.GET.get('id', None)
+    task_delete_id = request.GET.get('delete_id',None)
+   # print 'task_id:',task_id,'taks-date:',task_delete_id
+    ret = {}
+    if task_id:
+        task_data=Task_query(task_id=task_id)
+        if task_data.successful():
+            try:
+                ret['status'] = True
+                ret['msg'] = task_data.get(timeout=5)
+            except:
+                ret['status'] = False
+                ret['pf'] = 'error'
+                ret['msg'] = '获取值异常'
+        else:
+            try:
+                ret['status'] = False
+                ret['msg'] = task_data.get(timeout=5)
+            except:
+                ret['status'] = False
+                ret['pf'] = 'error'
+                ret['msg'] = '获取值异常'
+        return ret
+    if task_delete_id:
+        try:
+            Taskqueue.objects.filter(task_id=task_delete_id).delete()
+            ret['status'] = True
+            ret['msg'] = '删除成功'
+        except:
+            ret['status'] = False
+            ret['msg'] = '删除失败'
+        return ret
+    return ret
+
+def task_status(request):
+    task_id = request.GET.get('id', None)
+    ret={}
+    if task_id:
+        task_data = Task_query(task_id=task_id)
+        ret['status']=task_data.ready()
+    return ret
+
+@Auth_token_get()
+def filecheck(request,*args,**kwargs):
+    ret={}
+    if request.method == 'POST':
+        print request.POST
+        print kwargs,args
+        data=json.loads(request.POST.get('data'))
+        path=data.get('path',None)
+        host=data.get('host',None)
+        service_id=data.get('serviceid',None)
+        if path !=None and host != None and service_id != None:
+            print path, host,
+            data['path'] = path
+            data['s_host']={}
+            data['t_host']={}
+            host_release=Asset.objects.get(id=Asset.objects.get(ip=host).host_hostname)
+            data['s_host']['username']=host_release.username
+            data['s_host']['password']=host_release.password
+            data['s_host']['ip']=host_release.ip
+            data['s_host']['port']=host_release.port
+            service_host_id=[ i.id for i in Register.objects.filter(Asset_service=host_release) if i.id == Register.objects.get(id=service_id).serviceid  ]
+            if  service_host_id:
+                data['s_host']['path']=Register.objects.get(id=Register.objects.get(id=service_id).serviceid).path_project
+            data['t_host']['path']=Register.objects.get(id=service_id).path_project
+            data['t_host']['ip']=host
+            senddata = {
+                'token':kwargs['token'],
+                'data': data}
+            check_url = http_url_data(IP=host, URL='CHECK')
+            request_http=sendhttp(url=check_url, data=json.dumps(senddata))
+            print request_http
+            if request_http['status'] == False and request_http.get('msg',None) == "Token":
+               # raise TokenException()
+                assert request_http['status'], "token timeout"
+
+            ret['status']=True
+            ret['data']=request_http
+    return ret
+
+
+def filesync(request):
+    ret={}
+    if request.method == 'POST':
+        data = json.loads(request.POST.get('data'))
+        print data['s_host']
+        print data
+        source_host=Asset.objects.get(ip=data['s_host'])
+        data['s_host']={}
+        data['s_host']['username'] = source_host.username
+        data['s_host']['password'] = source_host.password
+        data['s_host']['ip'] = source_host.ip
+        data['s_host']['port'] = source_host.port
+        http_task = tasks.Http_send_rpc.delay(data)
+        try:
+            create_task = Taskqueue.objects.create(task_name=http_task,
+                                                   task_id=http_task
+                                                   )
+
+            #Taskqueue.objects.get(id=create_task.id).Register_Task.add(Asset.objects.get(ip=source_host.ip).register_set.get(id=data['serviceid']))
+            Taskqueue.objects.get(id=create_task.id).Register_Task.add(Register.objects.get(id=data['serviceid']))
+            ret['status'] = True
+            ret['id'] = http_task.id
+        except:
+            ret['status'] = False
+            ret['msg'] = '任务数据库更新失败'
+            print traceback.format_exc()
+      #  print http_task
+    return ret
+
+
+def serverlist(request):
+    ret={}
+    assetgroup = Register.objects.all()
+    ret['data'] = []
+    for service in assetgroup:
+        sys = {}
+        sys['id'] = service.id
+        sys['name'] = str(service.service_name)+'-'+str(service.alias_name)
+        ret['data'].append(sys)
+    return ret
+
+@Auth_token_get()
+def serverconf(request,*args,**kwargs):
+    ret={}
+    host_o= request.GET.get('ip',None)
+    print request.GET
+    path=request.GET.get('configpath',None)
+    if host_o and path:
+        senddata = {
+            'token': kwargs['token'],
+            'path': path}
+        check_url = http_url_data(IP=host_o, URL='CONFIG')
+        request_http = sendhttp(url=check_url, data=json.dumps(senddata))
+
+        if request_http.get('status',None) == False and request_http.get('msg', None) == "Token":
+            # raise TokenException()
+            assert request_http['status'], "token timeout"
+        ret = request_http
+    return ret
+
+def serverrestart(request):
+    ret={}
+    #  print request.POST.get('data')
+    data = json.loads(request.POST.get('data'))
+    # print p_re
+    print len(data)
+    if data:
+        cmd=Register.objects.get(id=data['id']).service_restart
+        # print file_path
+        Asset_o = Asset.objects.get(ip=data['host'])
+        _IP = [data['host'] + ':{0}'.format(Asset_o.port)]
+        # print _IP,Asset_o.username,CRYPTOR.decrypt(Asset_o.password)
+        # print Asset_o.username,Asset_o.password
+        ansible_api = AnsibleTask(targetHost=_IP, user=Asset_o.username, password_d=CRYPTOR.decrypt(Asset_o.password))
+        return_data = ansible_api.ansiblePlay(module='shell', args='{0}'.format(cmd))
+        # print return_data
+        #  print file_path,return_data
+        ret = return_data
+    else:
+        ret['msg'] = "输入值异常"
+        #  print 'dfsfsfsafdsaf'
+    return ret
+
+
+def selectquery(request):
+    ret={}
+    print request.GET
+    group_id=request.GET.get('group',None)
+    print group_id
+    print AssetGroup.objects.get(id=group_id).name
+    print Asset.objects.filter(group__id=group_id)
+    ret['data']=[]
+    check_list=[]
+    for i in Asset.objects.filter(group__id=group_id):
+        print i.register_set.all()
+        for service in i.register_set.all():
+            if service.id in check_list:
+                continue
+            check_list.append(service.id)
+            sys = {}
+            sys['host_ip']={}
+            # sys['name_type'] = service.name_type
+            sys['id'] = service.id
+            sys['service_name'] = service.service_name
+            sys['service_restart'] = service.service_restart
+            sys['alias_name'] = service.alias_name
+            sys['path_config'] = service.path_config
+            sys['path_root'] = service.path_root
+            sys['path_project'] = service.path_project
+            sys['desc'] = service.desc
+            sys['service_id']= service.serviceid
+           # sys['host'] = [ i.hostname for i in service.Asset_service.all() ]
+            sys['path_log'] = service.path_log
+          #  sys['ip'] = [i.ip for i in service.Asset_service.all()]
+            for i in service.Asset_service.all():
+                sys['host_ip'][i.ip]=i.hostname
+            # sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
+            ret['data'].append(sys)
+   # ret['data']= list(set(ret['data']))
+            # sys['host']=map((lambda x:x.hostname),service.Asset_service.all())
+
+    return ret
+
 
 Methods = {
     "GET": {
@@ -425,16 +660,26 @@ Methods = {
         "list_system":system_info,
         "Home":Home,
         "Home_number":Home_number,
-        "graph":system_graph
+        "graph":system_graph,
+        "connect": connect,
+        "tasklist": tasklist,
+        "taskdetail": taskdetail,
+        'taskstatus':task_status,
+        'serverlist':serverlist,
+        'serverconf':serverconf,
+        'selectquery':selectquery,
       #  "mail": mail,
     },
     "POST": {
         "register":register,
-        "file_dir":file_dir,
         "delete_server":delete_server,
         "path_list":path_list,
         "mail": mail,
         "register_p":register_p,
+        "connect": connect,
+        "filecheck":filecheck,
+        "filesync":filesync,
+        "serverrestart":serverrestart,
     },
     "PUT":{
     },

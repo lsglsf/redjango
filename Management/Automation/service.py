@@ -2,7 +2,6 @@
 import json
 import traceback
 from Cmdb.models import Asset,AssetGroup
-from Cmdb.methods.common import File_operation,path_replace
 import os
 import logging
 from django.http import HttpResponse

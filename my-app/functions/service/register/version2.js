@@ -14,7 +14,7 @@ import { Select, Option as Optionh } from 'bfd/Select'
 import {Select as Selects , Menu, Dropdown,Icon,Popconfirm } from 'antd';
 import { Modal, Button as Buttons, Alert } from 'antd';
 import CodeMirror from 'react-codemirror'
-import codeMirror from 'codemirror'
+//import codeMirror from 'codemirror'
 import "../../../node_modules/codemirror/lib/codemirror.css";
 import "../../../node_modules/codemirror/theme/ambiance.css";
 import "../../../node_modules/codemirror/theme/blackboard.css";
@@ -28,7 +28,9 @@ import ReactDOM from 'react-dom'
 import { Spin} from 'antd';
 import { MultipleSelect, Option  } from 'bfd/MultipleSelect'
 const Optionss = Selects.Option;
-//import ReactDOM from 'react-dom'
+import Task_list from './taskfile'
+import Restartservice from './Sservicemanagement'
+const SubMenu = Menu.SubMenu;
 
 
 
@@ -52,6 +54,8 @@ class File_sync extends Component{
       ws:'',
       sftp_rsync:'file_write',
       host_select_vd:'',
+      loading: false,
+      loading_s:[],
     }
   }
 
@@ -77,7 +81,6 @@ class File_sync extends Component{
 
   add_path(){
   	if (this.state.host_select_vd.length == 1){
-  		
     let path_list=new Array()
     if (this.state.add_Path==true){
       if (this.state.formData['desc']){
@@ -105,12 +108,14 @@ class File_sync extends Component{
   	let path_list=this.state.path_list
   //	console.log(path_list)
   	if (path_list.length > 0 && !this.state.ws){
-  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
+      this.setState({loading:true})
+  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','s_host':this.state.host_select_vd,id:this.props.item['id'],'app':this.props.item['service_name'],t_host:this.state.host_select_vd}
   		this.handsocket_io(path_dict)
   	//	console.log('test1')
   	} else if (path_list && this.state.ws){
+      this.setState({loading:true})
   		let path_list=this.state.path_list
-  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','t_host':this.state.host_select_vd,'app':this.props.item['service_name'],ip:this.state.host_select_vd}
+  		let path_dict={'data':path_list,'pf':'init','fun':'fun_file','s_host':this.state.host_select_vd,id:this.props.item['id'],'app':this.props.item['service_name'],t_host:this.state.host_select_vd}
   		this.ws_websokct(path_dict)
   	//	console.log('test2')
   	}else{
@@ -144,28 +149,36 @@ class File_sync extends Component{
 
   callback(_this,data){
   	  let return_json=JSON.parse(data)
-      if (return_json['status'] != "stop"){
-      if (return_json['pf'] == 'read'){
-        _this.setState({sync_data:JSON.parse(data),path_list:''})
-      }else if (return_json['pf'] == 'backup'){
-        let backup = _this.state.backup
-        backup.push(return_json['data'])
-        _this.setState({sync_data:'',backup})
-      }else if (return_json['pf']=='write') {
-        let result_data = _this.state.result_data
-        result_data['update']=return_json['update']
-        result_data['delete']=return_json['delete']
-        _this.setState({result_data})
+      //console.log(return_json)
+      if (return_json['status'] != "stop" && return_json['status'] != false){
+        if (return_json['pf'] == 'read'){
+          _this.setState({sync_data:JSON.parse(data),path_list:'',loading_s:[]})
+          _this.setState({loading:false})
+        }else if (return_json['pf'] == 'backup'){
+          let backup = _this.state.backup
+          backup.push(return_json['data'])
+          _this.setState({sync_data:'',backup,loading_s:[]})
+          _this.setState({loading:false})
+        }else if (return_json['pf']=='write') {
+          let result_data = _this.state.result_data
+          result_data['update']=return_json['update']
+          result_data['delete']=return_json['delete']
+          _this.setState({result_data,loading_s:[]})
+          _this.setState({loading:false})
+        }else if (return_json['pf']=='status'){
+          let loading_s = _this.state.loading_s
+          loading_s.push('.')
+          _this.setState({loading_s})
+        }
+      }else{
+        message.danger(return_json['data'])
+        _this.setState({loading:false,loading_s:[]})
       }
-    }else{
-      message.danger(return_json['data'])
-    }
   }
 
-  handselect(var1,var2,){
+  handselect(var1,var2){
     let path_list=this.state.path_list
     if (var2 == 1 ){
-     // console.log(path_list[var1])
       path_list[var1]['delete']=var2.target.value
     }else{
       path_list[var1]['delete']=var2.target.value
@@ -184,7 +197,8 @@ class File_sync extends Component{
     let sync_data=this.state.sync_data
     sync_data['fun']=this.state.sftp_rsync
     sync_data['pf']='init'
-    sync_data['data']='aaa'
+    sync_data['id']=this.props.item['id'] 
+    //sync_data['data']='aaa'
     sync_data['ip']=this.props.item['ip']
     this.setState({sftp_rsync:'file_write'})
     this.ws_websokct(sync_data)
@@ -204,6 +218,16 @@ class File_sync extends Component{
   	}else{
   		message.danger("暂时只支持单节点操作")
   	}
+  }
+
+  componentDidMount(){
+    window.onresize = ()=> {
+         console.log('sfdsfsadf')
+    }
+    window.onbeforeunload=()=>{
+      alert("你正在刷新页面");
+    }
+
   }
 
   color_l(type){
@@ -241,7 +265,7 @@ class File_sync extends Component{
 
     let source_file=this.state.sync_data['s'] ? this.state.sync_data['s'].map((item,str)=>{
      let color_f=this.color_l(item['type'])
-     console.log(color_f)
+    // console.log(color_f)
       return(
         <div key={str}>
           <span style={{height:'20px',lineHeight:'20px',color:color_f}}>{item['path']}</span>
@@ -282,6 +306,15 @@ class File_sync extends Component{
         )
     }):<span></span>
 
+    let delete_file = this.state.result_data['delete'] ? this.state.result_data['delete'].map((item,str)=>{
+      return(
+        <div key={str}>
+          <h5 style={{color:"red"}}><span>{item}</span></h5>
+        </div>
+        )
+    }):<span></span>
+
+
     let host=this.props.host? this.props.host.map((item,str)=>{
       return(
         <Options value={item}>{item}</Options>
@@ -293,6 +326,12 @@ class File_sync extends Component{
     		<Option key={items} value={items}>{this.props.item['host_ip'][items]}</Option>
     		)
     }) :<span></span>
+
+    let loading_s = this.state.loading_s ? this.state.loading_s.map((item,str)=>{
+      return (
+        <span style={{fontSize:"15px"}}>{item}</span>
+        )
+    }): <span></span>
     
     return (
     	<div>
@@ -310,10 +349,12 @@ class File_sync extends Component{
 	        		{host_select_v}
 	      		</MultipleSelect>
 	        </FormItem>
+          
 	      	<FormItem label="同步内容" name="name" help="" style={{height:'17px',lineHeight:'30px'}}>
 	          <a href='#' style={{marginRight:'20px'}}><span onClick={::this.add_path}>添加</span></a>
 	          <a href='#' ><span onClick={::this.detection_path} >检测</span></a>
 	        </FormItem>
+          <Spin  spinning={this.state.loading}>
 	        <div style={{maxHeight:'500',overflow:'auto'}}>
 	          {
 	            this.state.add_Path ? <div><FormItem label="选择模式" name="test" help="">
@@ -340,8 +381,11 @@ class File_sync extends Component{
 	            </div>
 	          :<span></span>}
 	          {backup}
+            {delete_file}
 	          {update}
+            <div>{loading_s}</div>
 	        </div>
+          </Spin>
 	      </Form>
       </div>
     )
@@ -401,7 +445,7 @@ class Version_update extends Component{
 
   handleChange(sourceData, targetData) {
    // this.test(this.state.newData,sourceData)
-    console.log(targetData)
+    //console.log(targetData)
     let formData = this.state.formData
     //formData['sourceData']=sourceData
     formData['targetData']=targetData
@@ -422,14 +466,14 @@ class Version_update extends Component{
   }
 
   host_select(var11){
-    console.log('Selecthost',this.props.item)
+   // console.log('Selecthost',this.props.item)
     this.props._this.setState({select_host:var11})
   }
 
   render() {
     const { formData } = this.state
     let nav = this.props.item['host'] ? this.props.item['host'].map((item,str)=>{
-      console.log(item,str)
+      //console.log(item,str)
       return (
           <Checkbox value={item} key={item}>{item}</Checkbox>
         )
@@ -494,7 +538,7 @@ class Execute extends Component{
   }
 
   host_select(var11){
-    console.log('Selecthost',this.props.item)
+   // console.log('Selecthost',this.props.item)
     this.props._this.setState({select_host:var11})
   }
 
@@ -556,6 +600,7 @@ class Configuration extends Component{
       data:[],
       read_data:'',
       loading:false,
+      ip:'',
     }
   }
 
@@ -584,26 +629,50 @@ class Configuration extends Component{
   }
 
   host_select(var11){
-    console.log('Selecthost',this.props.item)
+    //console.log('Selecthost',this.props.item)
     this.props._this.setState({select_host:var11})
   }
 
   red_callback(_this,data){
     if (data['msg']==undefined){
       let data_f=data['stdout_lines'].join('\n')
-      _this.refs.input_read.setState({data:data_f,loading:false})
+      //console.log(_this.refs.input_read)
+      //_this.setState({read_data:data_f})
+      _this.refs.input_read.setState({data:data_f})
     }else{
-      message.danger(data['msg'],10)
+      message.danger(data['msg'],4)
     }
   }
 
   choice_c(value){
   	let items = this.props.item
   	items['ip']=value
+    //console.log(items)
   	this.setState({loading:true})
   	OPEN.path_list(this,items,this.Callback)
   }
 
+
+  choice_c_get(value){
+    //console.log(value)
+    //let items = this.props.item
+   // items['ip']=value
+    this.setState({loading:true,ip:value})
+
+    OPEN.serverconf(this,value,this.props.item['path_config'],(_this,data)=>{
+      //console.log(data)
+      if(data['status']){
+        _this.setState({
+        data:data['msg'],
+        loading:false
+        //data:data1
+      })
+
+      }else{
+        message.danger(data['msg'])
+      }
+    })
+  }
 
   handfun(data,event){
    // console.log(ReactDOM.findDOMNode(this.refs.input_read).childNodes[1].defaultValue="adfsaf")
@@ -614,9 +683,9 @@ class Configuration extends Component{
       for (let i in event){
         path.push(event[i]['name'])
       }
-      data_object['ip']=this.props.item['ip']
+      data_object['ip']=this.state.ip
       data_object['path']=path
-      this.refs.input_read.setState({loading:true})
+      //this.refs.input_read.setState({loading:true})
       OPEN.path_read(this,data_object,this.red_callback)
     }
   }
@@ -629,6 +698,9 @@ class Configuration extends Component{
       theme: 'blackboard',
      height: '800px'
     };
+
+
+
     let host_select_v= this.props.item['host_ip'] ? Object.keys(this.props.item['host_ip']).map((items,str)=>{
     	return (
     		<Optionh key={items} value={items}>{this.props.item['host_ip'][items]}</Optionh>
@@ -641,7 +713,7 @@ class Configuration extends Component{
           <Col span={6}>
           	<div> 
           		{/*<span>选择主机:</span>    */}
-          		<Select searchable onChange={::this.choice_c}>
+          		<Select searchable onChange={::this.choice_c_get}>
 			      <Optionh>请选择</Optionh>
 			      {host_select_v}
 			    </Select>
@@ -653,8 +725,8 @@ class Configuration extends Component{
             </div>
           </Col>
           <Col span={18}>
-            {/*<CodeMirror value={'import os \n aaa'} className="input_codemirror" options={options} ref="input_read"/>*/}
-            <File_show item={'\n'} ref="input_read"/>
+            {/*<codeMirror value={'import os \n aaa'} className="input_codemirror" options={options} />*/}
+            <File_show  ref="input_read" read_data={this.state.read_data}/>
           </Col>
         </Row>
 
@@ -674,19 +746,19 @@ class File_show extends Component{
   }
 
   componentWillMount(){
-  //  console.log(this.props.item,'11111item')
+    //console.log(this.props.read_data,'11111item')
     //OPEN.path_list(this,this.props.item,this.Callback)
   }
 
-  host_select(var11){
-    console.log('Selecthost',this.props.item)
-    this.props._this.setState({select_host:var11})
-  }
+  //host_select(var11){
+   // console.log('Selecthost',this.props.item)
+  //  this.props._this.setState({select_host:var11})
+  //}
 
-  red_callback(_this,data){
-    console.log(data['stdout_lines'],'red_callback')
-    _this.setState({read_data:data['stdout_lines'][0]})
-  }
+ // red_callback(_this,data){
+   // console.log(data['stdout_lines'],'red_callback')
+  //  _this.setState({read_data:data['stdout_lines'][0]})
+//  }
 
 
   render() {
@@ -695,13 +767,13 @@ class File_show extends Component{
       mode: 'text/x-ttcn-cfg',
       readOnly: false,
       theme: 'blackboard',
-     height: '800px'
+      height: '800px'
     };
 
     return (
       <div >
         <Spin spinning={this.state.loading}>
-          <CodeMirror value={this.state.data} className="input_codemirror" options={options} ref="input_read"/>
+          <CodeMirror value={this.state.data} className="" options={options} />
         </Spin>
       </div>
     )
@@ -721,11 +793,12 @@ class Modify extends Component{
       data:'',
       loading: false,
       host:[],
+      service_id:[],
     }
   }
 
   componentWillMount(){
-  	console.log(this.props.item['host'],"sddddddddddddddddddddd")
+  //	console.log(this.props.item['host'],"sddddddddddddddddddddd")
 
   	let formData= this.state.formData
   	formData['service_name'] = this.props.item['service_name']
@@ -737,15 +810,21 @@ class Modify extends Component{
   	formData['log_path'] = this.props.item['path_log']
   	formData['desc'] = this.props.item['desc']
   	formData['id'] = this.props.item['id']
+    this.props.item['service_id'] ? formData['service_id'] = this.props.item['service_id'] : false
+  //  formData['service_id'] = this.props.item['service_id']
   	let _this=this
     xhr({
       type: 'GET',
       url: '/v1/cmdb/list/groupget/?name=assert_all',
       success(data) {
-        console.log(data['data'])
+       // console.log(data['data'])
         _this.setState({host:data['data']})
       }
     })
+    OPEN.serverlist(_this,(_this,data)=>{
+      _this.setState({service_id:data['data']})
+    })
+
   }
 
   handleSuccess(res) {
@@ -768,8 +847,8 @@ class Modify extends Component{
   }
 
   handleChange(value) {
-    console.log(`selected ${value}`);
-    console.log(value,'sdfsaf')
+   // console.log(`selected ${value}`);
+   // console.log(value,'sdfsaf')
     let formData = this.state.formData
     //formData['sourceData']=sourceData
     formData['targetData']=value
@@ -781,6 +860,9 @@ class Modify extends Component{
   render() {
   	const { formData } = this.state
   	const children = [];
+    let host_all=this.state.service_id.map((item,str)=>{
+        return (<Options key={str} value={item.id}>{item.name}</Options>)
+    })
   	for (let i = 0; i< this.state.host.length; i++) {
       children.push(<Optionss key={this.state.host[i].id} value={this.state.host[i].description}>{this.state.host[i].description}</Optionss>);
     }
@@ -808,6 +890,12 @@ class Modify extends Component{
         </FormItem>
         <FormItem label="别名"  name="alias_name" help="相同程序安装不目录">
           <FormInput />
+        </FormItem>
+        <FormItem label="服务关联" name="service_id">
+          <FormSelect searchable defaultValues={[0]} style={{marginRight:'10px'}}>
+            <Options>请选择</Options>
+            {host_all}
+          </FormSelect>
         </FormItem>
         <FormItem label="重启服务" required name="service_restart" help="">
           <FormInput />
@@ -875,7 +963,8 @@ class Base_version extends Component {
   	return {
   	  'version1':<Version_update item={this.props.item} _this={this}/>,
   	  'detele':<File_sync rows={this.props.rows} modal={this.refs.modal}  />,
-      'version': <File_sync select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this}/>,
+      //'version': <File_sync select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this}/>,
+      'version':<Task_list select_host={this.state.select_host} host={this.props.host} item={this.props.item} _this={this} />,
       'execute':<Execute ws_data={this.state.ws_data} _this={this} />,
       'configuration':<Configuration item={this.props.item}/>,
       'modify':<Modify item={this.props.item} _this={this} status_update={this.props.status_update}/>
@@ -945,8 +1034,12 @@ class Base_version extends Component {
   }
 
   restart(){
-    let data_ws={'host':this.props.item['host'],'cmd':this.props.item['service_restart'],'app':'start','path':this.props.item['path_log'],ip:this.props.item['ip']}
-    OPEN.service_execute(this,this.callback,data_ws)
+    //let data_ws={'host':this.props.item['host'],'cmd':this.props.item['service_restart'],'app':'start','path':this.props.item['path_log'],ip:this.props.item['ip']}
+    //OPEN.service_execute(this,this.callback,data_ws)
+   // console.log(this.refs.refsrestart)
+   // console.log(this.props.item)
+    this.refs.refsrestart.setState({visible:true,item:this.props.item})
+
   }
 
   callback(_this,data){
@@ -996,6 +1089,7 @@ class Base_version extends Component {
   }
 
   render() {
+  //  console.log(this.props.item['host_ip'])
     const menu = (
     <Menu onClick={::this.handleMenuClick}>
       <Menu.Item key="modify" >编辑</Menu.Item>
@@ -1007,9 +1101,10 @@ class Base_version extends Component {
       {/*<Menu.Item key="2">编辑</Menu.Item>*/}
       <Menu.Item key="configuration">配置文件</Menu.Item>
       <Menu.Item key="execute1">
-        <Popconfirm title='确认重启？' onConfirm={::this.restart} okText="Yes" cancelText="No">
+        {/*<Popconfirm title='确认重启？' onConfirm={::this.restart} okText="Yes" cancelText="No">
           <a href="#">重启服务</a>
-        </Popconfirm>
+        </Popconfirm>*/}
+        <Restartservice restart={::this.restart} ref="refsrestart"/>
       </Menu.Item>
       <Menu.Item key="version">版本发布</Menu.Item>
     </Menu>

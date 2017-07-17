@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '7n27ukmro69%k5hs5$2zau2mgg*+djr3m*c57r+rxg$+b!cfwm'
 
-allow_ip='192.168.2.57'
+allow_ip='xx'
 
 Automation_path=os.path.join(BASE_DIR,'Automation','ansible')
 ANSABLE_CNF = os.path.join(BASE_DIR,'Automation','ansible','ansible.cfg')
@@ -31,6 +31,8 @@ ANSABLE_CNF = os.path.join(BASE_DIR,'Automation','ansible','ansible.cfg')
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+AUTHKEYS='8-1ns9ZhjvIAN3C[Rq(gwFd!c'
 
 
 # Application definition
@@ -82,7 +84,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Management.wsgi.application'
-LOG_BASE_DIR=os.path.join(BASE_DIR.rstrip("Management"), "log")
+#LOG_BASE_DIR=os.path.join(BASE_DIR.rstrip("Management"), "log")
+LOG_BASE_DIR=os.path.join(BASE_DIR,"log")
 
 LOGGING = {
     'version': 1,
@@ -184,28 +187,51 @@ DATABASES = {
   #  }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmdb',
+        'NAME': 'cmdb1',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '11',
+        'HOST': '192.168.2.230',
         'PORT': 3306,
     }
 }
 
 ZABBIX={
     "default":{
-        "URL":"http://1111/api_jsonrpc.php",
-        "USER":"11",
-        "PASSWORD":"11",
+        "URL":"http://xxx/api_jsonrpc.php",
+        "USER":"",
+        "PASSWORD":"",
         "TIMEOUT":2
     }
 }
+
 MONGODB={
     "default":{
-        'HOST' : '1',
-        'PORT' : 1
+        'HOST' : '192.168.2.230',
+        'PORT' : 27017,
+        'USER': '',
+        'PASSWORD':'',
     }
 }
+
+RABBITMQ={
+    "default":{
+        'HOST' : 'xx',
+        'PORT' :'xx',
+        'USER':'xx',
+        'PASSWORD':'xx',
+    }
+}
+
+REDIS={
+    'default':{
+        'HOST': '127.0.0.1',
+        'PORT': '6379',
+        'DB':5,
+        'USER': '',
+        'PASSWORD': '',
+    }
+}
+
 
 ZABBIX_TOKEN=''
 
@@ -220,7 +246,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

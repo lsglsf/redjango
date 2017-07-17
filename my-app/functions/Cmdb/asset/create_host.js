@@ -10,9 +10,9 @@ import message from 'bfd/message'
 import Transfer from 'bfd/Transfer'
 import xhr from 'bfd/xhr'
 import { MultipleSelect, Option as Options } from 'bfd/MultipleSelect'
-import { Switch, Icon } from 'antd';
+import { Switch, Icon ,Button as Buttons} from 'antd';
 import OPEN from '../../data_request/request.js'
-
+import {notification,Spin  } from 'antd';
 
 class Delete_asset extends Component{
   constructor(props) {
@@ -117,6 +117,7 @@ class Create_asset extends Component{
       hosts_status: false,
       hosts_data: '',
       template_data: '',
+      loading:false,
     }
   }
 
@@ -154,6 +155,33 @@ class Create_asset extends Component{
   handleclose(){
     this.props.modal.close()
 
+  }
+
+  connecttest(){
+    this.setState({loading:true})
+    let formData = this.state.formData
+    let status = true
+   // console.log(formData)
+    let data={}
+    data['ip']=formData['ip'] ? formData['ip'] :  status = false
+    data['port']=formData['port'] ? formData['port'] : status = false
+    data['username']=formData['username'] ? formData['username'] : status = false
+    data['password']=formData['password'] ?formData['password'] : status = false
+   // console.log(status,"status")
+    if (status){
+      OPEN.connect_test(this,data,(_this,data)=>{
+        if (data['status']){
+            message.success(data['msg'])
+        }else{
+          message.danger(data['msg'])
+        }
+        this.setState({loading:false}) 
+
+      })}else{
+        //console.log('test_host')
+        this.setState({loading:false})
+        message.danger('请输入完整')
+      }
   }
 
   handselect(values){
@@ -222,7 +250,7 @@ class Create_asset extends Component{
           <FormInput />
         </FormItem>
         <FormItem label="密码" required name="password" help="">
-          <FormInput type='password'/>
+          <FormInput type='password'/> <Buttons onClick={::this.connecttest}  loading={this.state.loading} >测试SSH</Buttons>
         </FormItem>
         {/*<FormItem label="所属主机组" name="group">
           <FormSelect>
@@ -334,6 +362,7 @@ class CreateModal extends Component {
       <div style={{'marginBottom':'15px'}}>
         <Button onClick={::this.handleOpen.bind(this,'create')} >添加主机</Button>
         <Button onClick={::this.handleOpen.bind(this,'detele')} >删除所选</Button>
+        <Button onClick={::this.props.handletest} >终端连接</Button>
         <Modal ref="modal" className="create_cmdb_group">
           <ModalHeader className="create_cmdb_group" >
             <h6>{this.state.title}</h6>
